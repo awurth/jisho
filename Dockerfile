@@ -2,11 +2,19 @@
 
 # Versions
 FROM dunglas/frankenphp:1-php8.3 AS frankenphp_upstream
+FROM node:20 AS node_upstream
 
 # The different stages of this Dockerfile are meant to be built into separate images
 # https://docs.docker.com/develop/develop-images/multistage-build/#stop-at-a-specific-build-stage
 # https://docs.docker.com/compose/compose-file/#target
 
+# Base NodeJS image
+FROM node_upstream AS node_base
+WORKDIR /app
+
+COPY --link --chmod=755 docker/node/docker-entrypoint.sh /usr/local/bin/docker-entrypoint
+
+ENTRYPOINT ["docker-entrypoint"]
 
 # Base FrankenPHP image
 FROM frankenphp_upstream AS frankenphp_base

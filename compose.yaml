@@ -49,6 +49,14 @@ services:
       # - ./docker/db/data:/var/lib/postgresql/data:rw
 ###< doctrine/doctrine-bundle ###
 
+  node:
+    build:
+      context: .
+      target: node_base
+    image: ${IMAGES_PREFIX:-}app-node
+    volumes:
+      - ./app/:/app
+
 volumes:
   caddy_data:
   caddy_config:
