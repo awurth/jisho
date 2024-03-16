@@ -40,7 +40,7 @@ clean: ## Down the containers with associated volumes
 	@$(DOCKER_COMPOSE) down --remove-orphans --volumes
 
 logs: ## Show live logs
-	@$(DOCKER_COMPOSE) logs --tail=0 --follow
+	@$(DOCKER_COMPOSE) logs --follow
 
 sh: ## Connect to the PHP FPM container
 	@$(PHP_CONT) sh
