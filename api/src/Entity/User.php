@@ -28,6 +28,9 @@ class User implements UserInterface
     #[ORM\Column]
     private array $roles = [];
 
+    #[ORM\Column]
+    private ?string $name = null;
+
     #[ORM\Column(nullable: true)]
     private ?string $avatarUrl = null;
 
@@ -41,11 +44,9 @@ class User implements UserInterface
         return $this->email;
     }
 
-    public function setEmail(string $email): static
+    public function setEmail(string $email): void
     {
         $this->email = $email;
-
-        return $this;
     }
 
     /**
@@ -75,11 +76,9 @@ class User implements UserInterface
     /**
      * @param list<string> $roles
      */
-    public function setRoles(array $roles): static
+    public function setRoles(array $roles): void
     {
         $this->roles = $roles;
-
-        return $this;
     }
 
     /**
@@ -95,10 +94,18 @@ class User implements UserInterface
         return $this->avatarUrl;
     }
 
-    public function setAvatarUrl(?string $avatarUrl): static
+    public function setAvatarUrl(?string $avatarUrl): void
     {
         $this->avatarUrl = $avatarUrl;
+    }
 
-        return $this;
+    public function getName(): ?string
+    {
+        return $this->name;
+    }
+
+    public function setName(?string $name): void
+    {
+        $this->name = $name;
     }
 }

@@ -12,9 +12,7 @@ use KnpU\OAuth2ClientBundle\Client\Provider\GoogleClient;
 use KnpU\OAuth2ClientBundle\Security\Authenticator\OAuth2Authenticator;
 use League\OAuth2\Client\Provider\GoogleUser;
 use Override;
-use Symfony\Component\DependencyInjection\Attribute\Autowire;
 use Symfony\Component\HttpFoundation\JsonResponse;
-use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
@@ -29,8 +27,6 @@ final class GoogleAuthenticator extends OAuth2Authenticator
         private readonly EntityManagerInterface $entityManager,
         private readonly ClientRegistry $clientRegistry,
         private readonly UserRepository $userRepository,
-        #[Autowire(env: 'APP_ENV')]
-        private readonly string $env,
     ) {
     }
 
@@ -57,12 +53,10 @@ final class GoogleAuthenticator extends OAuth2Authenticator
                 if (!$user instanceof User) {
                     $user = new User();
                     $user->setEmail((string) $googleUser->getEmail());
-                    $user->setAvatarUrl($googleUser->getAvatar());
                 }
 
-                if ($user->getAvatarUrl() !== $googleUser->getAvatar()) {
-                    $user->setAvatarUrl($googleUser->getAvatar());
-                }
+                $user->setName($googleUser->getName());
+                $user->setAvatarUrl($googleUser->getAvatar());
 
                 $this->entityManager->persist($user);
                 $this->entityManager->flush();
@@ -75,10 +69,6 @@ final class GoogleAuthenticator extends OAuth2Authenticator
     #[Override]
     public function onAuthenticationSuccess(Request $request, TokenInterface $token, string $firewallName): ?Response
     {
-        if ('dev' === $this->env) {
-            return new RedirectResponse('/api');
-        }
-
         return new JsonResponse([
             'message' => 'Authentication successful',
         ]);
