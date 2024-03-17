@@ -19,7 +19,7 @@ return static function (RectorConfig $rectorConfig): void {
         LevelSetList::UP_TO_PHP_83,
         SetList::CODE_QUALITY,
         SetList::TYPE_DECLARATION,
-        DoctrineSetList::DOCTRINE_ORM_213,
+        DoctrineSetList::DOCTRINE_ORM_214,
         PHPUnitSetList::PHPUNIT_100,
         SymfonySetList::SYMFONY_64,
     ]);
