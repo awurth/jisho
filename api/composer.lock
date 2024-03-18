@@ -7544,16 +7544,16 @@
         },
         {
             "name": "phpstan/phpstan",
-            "version": "1.10.62",
+            "version": "1.10.63",
             "source": {
                 "type": "git",
                 "url": "https://github.com/phpstan/phpstan.git",
-                "reference": "cd5c8a1660ed3540b211407c77abf4af193a6af9"
+                "reference": "ad12836d9ca227301f5fb9960979574ed8628339"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phpstan/phpstan/zipball/cd5c8a1660ed3540b211407c77abf4af193a6af9",
-                "reference": "cd5c8a1660ed3540b211407c77abf4af193a6af9",
+                "url": "https://api.github.com/repos/phpstan/phpstan/zipball/ad12836d9ca227301f5fb9960979574ed8628339",
+                "reference": "ad12836d9ca227301f5fb9960979574ed8628339",
                 "shasum": ""
             },
             "require": {
@@ -7602,7 +7602,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2024-03-13T12:27:20+00:00"
+            "time": "2024-03-18T16:53:53+00:00"
         },
         {
             "name": "phpstan/phpstan-deprecation-rules",
@@ -9571,12 +9571,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/maker-bundle.git",
-                "reference": "33cb7668d3ecb1238bcc9953de842e38f2b2c1c9"
+                "reference": "f4f5eb1cc8d5897fc500115b98b8a4bb1318da93"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/maker-bundle/zipball/33cb7668d3ecb1238bcc9953de842e38f2b2c1c9",
-                "reference": "33cb7668d3ecb1238bcc9953de842e38f2b2c1c9",
+                "url": "https://api.github.com/repos/symfony/maker-bundle/zipball/f4f5eb1cc8d5897fc500115b98b8a4bb1318da93",
+                "reference": "f4f5eb1cc8d5897fc500115b98b8a4bb1318da93",
                 "shasum": ""
             },
             "require": {
@@ -9656,7 +9656,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2024-03-16T23:19:43+00:00"
+            "time": "2024-03-18T02:10:25+00:00"
         },
         {
             "name": "symfony/options-resolver",
