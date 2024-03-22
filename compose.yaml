@@ -65,7 +65,7 @@ services:
       - .docker/nginx/certs:/certs
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.node.rule=Host(`jish.io`) && !PathPrefix(`/api`)"
+      - "traefik.http.routers.node.rule=Host(`jish.io`) && !PathPrefix(`/api/`)"
       - "traefik.http.routers.node.entrypoints=websecure"
       - "traefik.http.routers.node.tls=true"
       - "traefik.http.routers.node.service=node"
