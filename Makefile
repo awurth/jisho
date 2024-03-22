@@ -1,149 +1,75 @@
-# Executables (local)
-DOCKER_COMPOSE = docker compose
-DOCKER_COMPOSE_EXEC = $(DOCKER_COMPOSE) exec
+include Makefile.common.mk
+include Makefile.database.mk
+include Makefile.testing.mk
+include Makefile.tools.mk
+include Makefile.frontend.mk
 
-# Docker containers
-PHP_CONT = $(DOCKER_COMPOSE_EXEC) php
+#################################
+Docker:
 
-# Executables
-PHP      = $(PHP_CONT) php
-COMPOSER = $(PHP_CONT) composer
-SYMFONY  = $(PHP) bin/console
+#################################
 
-# Misc
-.DEFAULT_GOAL := help
-.PHONY: help
+.PHONY: up down clean pull build
 
-## —— 🎵 🐳 The Symfony-docker Makefile 🐳 🎵 ——————————————————————————————————
-help: ## Outputs this help screen
-	@grep -E '(^[a-zA-Z0-9_-]+:.*?##.*$$)|(^##)' $(MAKEFILE_LIST) | awk 'BEGIN {FS = ":.*?## "}{printf "\033[32m%-30s\033[0m %s\n", $$1, $$2}' | sed -e 's/\[32m##/[33m/'
+## Build the containers
+build: .docker compose.yaml pull
+	@$(DOCKER_COMPOSE) build
+	@echo "${GREEN}Images built${GREEN}"
 
-## —— Docker 🐳 ————————————————————————————————————————————————————————————————
+## Up the containers (along with the WebEdito project)
+up: .docker compose.yaml
+	@$(DOCKER_COMPOSE) up -d --force-recreate --remove-orphans
+	@echo "${GREEN}Project started${GREEN}"
 
-.PHONY: start stop build up down clean logs sh install install-prod install-test
-
-start: build up install ## Build and start the containers
-
-stop: ## Stop the containers
-	@$(DOCKER_COMPOSE) stop
-
-build: ## Builds the Docker images
-	@$(DOCKER_COMPOSE) build --no-cache
-
-up: ## Start the docker hub in detached mode (no logs)
-	@$(DOCKER_COMPOSE) up --pull always --detach
-
-down: ## Down the containers
+## Down the containers (along with the WebEdito project)
+down: .docker compose.yaml
 	@$(DOCKER_COMPOSE) down --remove-orphans
+	@echo "${GREEN}Project stopped${GREEN}"
 
-clean: ## Down the containers with associated volumes
+## Down the containers with associated volumes
+clean: .docker compose.yaml
 	@$(DOCKER_COMPOSE) down --remove-orphans --volumes
+	@echo "${GREEN}Project stopped and volumes removed${GREEN}"
 
-logs: ## Show live logs
-	@$(DOCKER_COMPOSE) logs --follow
+## Pull the images
+pull: .docker compose.yaml
+	$(DOCKER_COMPOSE) pull
+	@echo "${GREEN}Images pulled${GREEN}"
 
-sh: ## Connect to the PHP FPM container
-	@$(PHP_CONT) sh
+#################################
+Build:
 
-install: vendor db-update db-fixtures ## Installs the project for dev environment
+#################################
 
-install-prod: vendor-prod db-update ## Installs the project for the production environment
+.PHONY: start vendor
 
-install-test: vendor db-create-test db-update-test ## Installs the project for the test environment
+## Start the project
+start: up vendor
+	@echo "${GREEN}Project started${GREEN}"
 
-## —— Composer 🧙 ——————————————————————————————————————————————————————————————
+## Install the dependencies
+vendor: api/composer.json api/composer.lock
+	$(DOCKER_COMPOSE_EXEC_COMPOSER) install
 
-.PHONY: vendor vendor-prod vendor-update
+## Audit the composer dependencies
+audit: api/composer.json api/composer.lock
+	$(DOCKER_COMPOSE_EXEC_COMPOSER) audit
 
-vendor: ## Install vendors for the dev environment
-	@$(COMPOSER) install
+#################################
+Common:
 
-vendor-prod: ## Install vendors according to the current composer.lock file
-	@$(COMPOSER) install --optimize-autoloader --prefer-dist --no-dev --no-progress --no-scripts --no-interaction
+#################################
 
-vendor-update: ## Install vendors for the dev environment
-	@$(COMPOSER) update
+.PHONY: env-dev env-test
 
-## —— Symfony 🎵 ———————————————————————————————————————————————————————————————
+## Switch the current environment to dev
+env-dev: compose.yaml
+	@echo "Switching to ${YELLOW}dev${RESET}"
+	@$(DOCKER_COMPOSE_EXEC_PHP) bash -c 'grep APP_ENV= .env.local 1>/dev/null 2>&1 || echo -e "\nAPP_ENV=dev" >> .env.local'
+	@$(DOCKER_COMPOSE_EXEC_PHP) sed -i 's/APP_ENV=.*/APP_ENV=dev/g' .env.local
 
-.PHONY: sf cc dump
-
-sf: ## List all Symfony commands or pass the parameter "c=" to run a given command, example: make sf c=about
-	@$(eval c ?=)
-	@$(SYMFONY) $(c)
-
-cc: ## Clear the cache
-	@$(SYMFONY) cache:clear
-
-dump: ## Start a dump server that collects and displays dumps in a single place
-	@$(SYMFONY) server:dump
-
-## —— Database —————————————————————————————————————————————————————————————————
-
-.PHONY: db-create db-create-test db-drop db-drop-test db-sql db-sql-test db-update db-update-test db-fixtures db-validate db-fixtures-test db-validate-test
-
-db-create: ## Creates the configured database
-	@$(SYMFONY) doctrine:database:create --if-not-exists
-
-db-create-test: ## Creates the configured database in the test environment
-	@$(SYMFONY) -e test doctrine:database:create --if-not-exists
-
-db-drop: ## Drops the configured database
-	@$(SYMFONY) doctrine:database:drop --force --if-exists
-
-db-drop-test: ## Drops the configured database in the test environment
-	@$(SYMFONY) -e test doctrine:database:drop --force --if-exists
-
-db-sql: ## Dump the SQL needed to update the database schema to match the current mapping metadata
-	@$(SYMFONY) doctrine:schema:update --dump-sql --complete
-
-db-sql-test: ## Dump the SQL needed to update the database schema to match the current mapping metadata in the test environment
-	@$(SYMFONY) -e test doctrine:schema:update --dump-sql --complete
-
-db-update: ## Execute the SQL needed to update the database schema to match the current mapping metadata
-	@$(SYMFONY) doctrine:schema:update --force --complete
-
-db-update-test: ## Execute the SQL needed to update the database schema to match the current mapping metadata in the test environment
-	@$(SYMFONY) -e test doctrine:schema:update --force --complete
-
-db-fixtures: ## Load data fixtures
-	@$(SYMFONY) doctrine:fixtures:load -n
-
-db-fixtures-test: ## Load data fixtures in the test environment
-	@$(SYMFONY) -e test doctrine:fixtures:load -n
-
-db-validate: ## Validate the database schema
-	@$(SYMFONY) doctrine:schema:validate
-
-db-validate-test: ## Validate the database schema in the test environment
-	@$(SYMFONY) -e test doctrine:schema:validate
-
-## —— Tests ————————————————————————————————————————————————————————————————————
-
-.PHONY: test phpunit
-
-test: phpunit ## Run tests
-
-phpunit: ## Run PHPUnit
-	@$(PHP) bin/phpunit
-
-## —— Quality tools ————————————————————————————————————————————————————————————
-
-.PHONY: cs php-cs-fixer php-cs-fixer-dry phpstan rector rector-dry
-
-cs: php-cs-fixer phpstan rector ## Runs all linters
-
-php-cs-fixer: ## Runs PHP CS Fixer
-	@$(PHP) vendor/bin/php-cs-fixer fix
-
-php-cs-fixer-dry: ## Runs PHP CS Fixer using dry mode
-	@$(PHP) vendor/bin/php-cs-fixer fix --dry-run
-
-phpstan: ## Runs PHPStan
-	@$(PHP) vendor/bin/phpstan
-
-rector: ## Runs Rector
-	@$(PHP) vendor/bin/rector process
-
-rector-dry: ## Runs Rector using dry mode
-	@$(PHP) vendor/bin/rector process --dry-run
+## Switch the current environment to test
+env-test: compose.yaml
+	@echo "Switching to ${YELLOW}test${RESET}"
+	@$(DOCKER_COMPOSE_EXEC_PHP) bash -c 'grep APP_ENV= .env.local 1>/dev/null 2>&1 || echo -e "\nAPP_ENV=test" >> .env.local'
+	@$(DOCKER_COMPOSE_EXEC_PHP) sed -i 's/APP_ENV=.*/APP_ENV=test/g' .env.local

@@ -1,0 +1,33 @@
+services:
+  php:
+    volumes:
+      - php:/srv/app
+      - ~/.ssh:/var/www/.ssh:ro
+      - ~/.composer:/var/www/.composer
+      - .docker/php/conf.d/app.dev.ini:/usr/local/etc/php/conf.d/app.dev.ini:ro
+    # extra_hosts:
+      # Ensure that host.docker.internal is correctly defined on Linux
+      # - host.docker.internal:host-gateway
+    tty: true
+
+  database:
+    ports:
+      - "5432:5432"
+
+  node:
+    ports:
+      - "5173:5173"
+
+volumes:
+  php:
+
+x-mutagen:
+  sync:
+    defaults:
+      permissions:
+        defaultDirectoryMode: 0777
+        defaultFileMode: 0644
+    php:
+      alpha: "./api"
+      beta: "volume://php"
+      mode: "two-way-resolved"

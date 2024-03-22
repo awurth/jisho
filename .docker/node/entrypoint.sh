@@ -1,8 +1,8 @@
 #!/usr/bin/env bash
 set -eo pipefail
 
-uid=$(stat -c %u /app)
-gid=$(stat -c %g /app)
+uid=$(stat -c %u /project)
+gid=$(stat -c %g /project)
 
 sed -ie "s/$(id -u node):$(id -g node)/$uid:$gid/g" /etc/passwd
 
