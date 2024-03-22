@@ -13,7 +13,7 @@ use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInt
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 #[AsController]
-#[Route('/api/me', name: 'api_me', methods: ['GET'])]
+#[Route('/me', name: 'api_me', methods: ['GET'])]
 #[IsGranted('ROLE_USER')]
 final readonly class MeAction
 {

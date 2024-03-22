@@ -13,6 +13,7 @@ use KnpU\OAuth2ClientBundle\Security\Authenticator\OAuth2Authenticator;
 use League\OAuth2\Client\Provider\GoogleUser;
 use Override;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
@@ -69,9 +70,7 @@ final class GoogleAuthenticator extends OAuth2Authenticator
     #[Override]
     public function onAuthenticationSuccess(Request $request, TokenInterface $token, string $firewallName): ?Response
     {
-        return new JsonResponse([
-            'message' => 'Authentication successful',
-        ]);
+        return new RedirectResponse('/');
     }
 
     #[Override]

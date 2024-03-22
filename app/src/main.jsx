@@ -2,13 +2,13 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import {createBrowserRouter, redirect, RouterProvider} from 'react-router-dom';
 import axios from 'axios';
-import Root from './routes/root';
+import Root from './pages/root';
+import Login from './pages/login';
 import Error from './error';
-import Login from './routes/login';
 import './index.css';
 
 const mustBeLoggedIn = () => {
-  axios.get('https://localhost/api/me');
+  axios.get('https://jish.io/api/me');
   return redirect('/login');
 };
 
