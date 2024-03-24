@@ -5,7 +5,7 @@ export default function Root() {
   return (
     <>
       <Header></Header>
-      <main>
+      <main className="container mx-auto">
         <Outlet/>
       </main>
     </>
