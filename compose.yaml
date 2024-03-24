@@ -34,7 +34,7 @@ services:
     hostname: jish.io
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.nginx.rule=Host(`jish.io`) && PathPrefix(`/api`)"
+      - "traefik.http.routers.nginx.rule=Host(`jish.io`) && PathPrefix(`/api`, `/bundles`)"
       - "traefik.http.routers.nginx.entrypoints=websecure"
       - "traefik.http.routers.nginx.tls=true"
       - "traefik.http.routers.nginx.service=nginx"
@@ -65,7 +65,7 @@ services:
       - .docker/nginx/certs:/certs
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.node.rule=Host(`jish.io`) && !PathPrefix(`/api/`)"
+      - "traefik.http.routers.node.rule=Host(`jish.io`)"
       - "traefik.http.routers.node.entrypoints=websecure"
       - "traefik.http.routers.node.tls=true"
       - "traefik.http.routers.node.service=node"
