@@ -22,13 +22,13 @@ export default function Dictionaries() {
   return (
     <>
       <h1 className="text-2xl">Dictionnaires</h1>
-      <ul>
+      <ul className="flex">
         {dictionaries.map(({id, name}) => (
           <li key={id}
-              className="border-2 rounded"
+              className="flex justify-center items-center w-48 h-48 m-2 border-2 rounded-lg cursor-pointer"
               onClick={() => onDictionaryClick({id, name})}>{name}</li>
         ))}
-        <li className="border-2 rounded">Nouveau</li>
+        <li className="flex justify-center items-center w-48 h-48 m-2 border-2 rounded-lg cursor-pointer">Nouveau</li>
       </ul>
     </>
   );
