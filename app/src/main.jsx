@@ -3,7 +3,7 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import {RouterProvider} from 'react-router-dom';
 import {router} from './routes.jsx';
-import './index.css';
+import './index.scss';
 import {useUserStore} from './stores/user.js';
 
 axios.interceptors.response.use(function (response) {
