@@ -1,0 +1,66 @@
+[
+  {
+    "japanese": {
+      "kana": "たべます",
+      "romaji": "tabemasu"
+    },
+    "meanings": ["manger"],
+    "tags": ["verbe"]
+  },
+  {
+    "japanese": {
+      "kana": "のみます",
+      "romaji": "nomimasu"
+    },
+    "meanings": ["boire"],
+    "tags": ["verbe"]
+  },
+  {
+    "japanese": {
+      "kana": "いきます",
+      "romaji": "ikimasu"
+    },
+    "meanings": ["aller"],
+    "tags": ["verbe"]
+  },
+  {
+    "japanese": {
+      "kana": "おきます",
+      "romaji": "okimasu"
+    },
+    "meanings": ["se lever"],
+    "tags": ["verbe"]
+  },
+  {
+    "japanese": {
+      "kana": "はなします",
+      "romaji": "hanashimasu"
+    },
+    "meanings": ["parler", "dire"],
+    "tags": ["verbe"]
+  },
+  {
+    "japanese": {
+      "kana": "きれい",
+      "romaji": "kirei"
+    },
+    "meanings": ["beau", "propre"],
+    "tags": ["adjectif"]
+  },
+  {
+    "japanese": {
+      "kana": "べんごし",
+      "romaji": "bengoshi"
+    },
+    "meanings": ["avocat"],
+    "tags": ["métier"]
+  },
+  {
+    "japanese": {
+      "kana": "げつようび",
+      "romaji": "getsuyoubi"
+    },
+    "meanings": ["lundi"],
+    "tags": ["temps", "jour-semaine"]
+  }
+]
