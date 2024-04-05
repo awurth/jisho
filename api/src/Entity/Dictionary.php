@@ -25,6 +25,11 @@ use Symfony\Component\Uid\Uuid;
 )]
 class Dictionary
 {
+    #[Id]
+    #[Column(type: 'uuid')]
+    #[Groups(['dictionary:read'])]
+    private Uuid $id;
+
     #[Column(length: 255)]
     #[Groups(['dictionary:read'])]
     public ?string $name = null;
@@ -33,11 +38,6 @@ class Dictionary
     #[ORM\JoinColumn(nullable: false)]
     #[Blameable(on: 'create')]
     public ?User $owner = null;
-
-    #[Id]
-    #[Column(type: 'uuid')]
-    #[Groups(['dictionary:read'])]
-    private Uuid $id;
 
     public function __construct()
     {

@@ -13,15 +13,15 @@ use Symfony\Component\Uid\Uuid;
 #[Entity(repositoryClass: TagRepository::class)]
 class Tag
 {
+    #[Id]
+    #[Column(type: 'uuid')]
+    private Uuid $id;
+
     #[Column(length: 255, unique: true)]
     public ?string $name = null;
 
     #[Column(length: 6, nullable: true)]
     public ?string $color = null;
-
-    #[Id]
-    #[Column(type: 'uuid')]
-    private Uuid $id;
 
     public function __construct()
     {

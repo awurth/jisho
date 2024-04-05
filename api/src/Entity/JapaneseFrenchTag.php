@@ -17,6 +17,10 @@ use Symfony\Component\Uid\Uuid;
 #[UniqueConstraint(fields: ['japaneseFrenchAssociation', 'tag'])]
 class JapaneseFrenchTag
 {
+    #[Id]
+    #[Column(type: 'uuid')]
+    private Uuid $id;
+
     #[ManyToOne(inversedBy: 'tags')]
     #[JoinColumn(nullable: false)]
     public ?JapaneseFrenchAssociation $japaneseFrenchAssociation = null;
@@ -24,10 +28,6 @@ class JapaneseFrenchTag
     #[ManyToOne]
     #[JoinColumn(nullable: false)]
     public ?Tag $tag = null;
-
-    #[Id]
-    #[Column(type: 'uuid')]
-    private Uuid $id;
 
     public function __construct()
     {

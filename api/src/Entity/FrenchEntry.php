@@ -15,16 +15,16 @@ use Symfony\Component\Uid\Uuid;
 #[Entity(repositoryClass: FrenchEntryRepository::class)]
 class FrenchEntry
 {
+    #[Id]
+    #[Column(type: 'uuid')]
+    private Uuid $id;
+
     #[ManyToOne]
     #[JoinColumn(nullable: false)]
     public ?Dictionary $dictionary = null;
 
     #[Column(length: 255)]
     public ?string $value = null;
-
-    #[Id]
-    #[Column(type: 'uuid')]
-    private Uuid $id;
 
     public function __construct()
     {
