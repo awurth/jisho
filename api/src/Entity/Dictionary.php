@@ -8,8 +8,11 @@ use ApiPlatform\Metadata\ApiResource;
 use ApiPlatform\Metadata\GetCollection;
 use App\Repository\DictionaryRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\ORM\Mapping\Column;
+use Doctrine\ORM\Mapping\Id;
 use Gedmo\Mapping\Annotation\Blameable;
 use Symfony\Component\Serializer\Attribute\Groups;
+use Symfony\Component\Uid\Uuid;
 
 #[ORM\Entity(repositoryClass: DictionaryRepository::class)]
 #[ApiResource]
@@ -22,43 +25,27 @@ use Symfony\Component\Serializer\Attribute\Groups;
 )]
 class Dictionary
 {
-    #[ORM\Id]
-    #[ORM\GeneratedValue]
-    #[ORM\Column]
+    #[Column(length: 255)]
     #[Groups(['dictionary:read'])]
-    private ?int $id = null;
-
-    #[ORM\Column(length: 255)]
-    #[Groups(['dictionary:read'])]
-    private ?string $name = null;
+    public ?string $name = null;
 
     #[ORM\ManyToOne]
     #[ORM\JoinColumn(nullable: false)]
     #[Blameable(on: 'create')]
-    private ?User $owner = null;
+    public ?User $owner = null;
 
-    public function getId(): ?int
+    #[Id]
+    #[Column(type: 'uuid')]
+    #[Groups(['dictionary:read'])]
+    private Uuid $id;
+
+    public function __construct()
+    {
+        $this->id = Uuid::v4();
+    }
+
+    public function getId(): Uuid
     {
         return $this->id;
-    }
-
-    public function getName(): ?string
-    {
-        return $this->name;
-    }
-
-    public function setName(string $name): void
-    {
-        $this->name = $name;
-    }
-
-    public function getOwner(): ?User
-    {
-        return $this->owner;
-    }
-
-    public function setOwner(?User $owner): void
-    {
-        $this->owner = $owner;
     }
 }

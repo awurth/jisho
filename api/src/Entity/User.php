@@ -6,35 +6,42 @@ namespace App\Entity;
 
 use App\Repository\UserRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\ORM\Mapping\Column;
+use Doctrine\ORM\Mapping\Id;
 use Override;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Uid\Uuid;
 use function array_unique;
 
 #[ORM\Entity(repositoryClass: UserRepository::class)]
 #[ORM\Table(name: '`user`')]
 class User implements UserInterface
 {
-    #[ORM\Id]
-    #[ORM\GeneratedValue]
-    #[ORM\Column]
-    private ?int $id = null;
+    #[Id]
+    #[Column(type: 'uuid')]
+    private Uuid $id;
 
-    #[ORM\Column(length: 180, unique: true)]
+    #[Column(length: 180, unique: true)]
     private ?string $email = null;
 
     /**
      * @var list<string>
      */
-    #[ORM\Column]
+    #[Column]
     private array $roles = [];
 
-    #[ORM\Column]
+    #[Column]
     private ?string $name = null;
 
-    #[ORM\Column(nullable: true)]
+    #[Column(nullable: true)]
     private ?string $avatarUrl = null;
 
-    public function getId(): ?int
+    public function __construct()
+    {
+        $this->id = Uuid::v4();
+    }
+
+    public function getId(): Uuid
     {
         return $this->id;
     }

@@ -22,8 +22,8 @@ final readonly class UserRegistrationListener
         }
 
         $dictionary = new Dictionary();
-        $dictionary->setName('Japonais');
-        $dictionary->setOwner($entity);
+        $dictionary->name = 'Japonais';
+        $dictionary->owner = $entity;
 
         $event->getObjectManager()->persist($dictionary);
     }
