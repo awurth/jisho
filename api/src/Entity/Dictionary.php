@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Entity;
 
 use ApiPlatform\Metadata\ApiResource;
+use ApiPlatform\Metadata\Get;
 use ApiPlatform\Metadata\GetCollection;
 use App\Repository\DictionaryRepository;
 use Doctrine\ORM\Mapping as ORM;
@@ -15,13 +16,23 @@ use Symfony\Component\Serializer\Attribute\Groups;
 use Symfony\Component\Uid\Uuid;
 
 #[ORM\Entity(repositoryClass: DictionaryRepository::class)]
-#[ApiResource]
-#[GetCollection(
-    normalizationContext: [
-        'groups' => ['dictionary:read'],
-        'openapi_definition_name' => 'Collection-Read',
+#[ApiResource(
+    operations: [
+        new GetCollection(
+            normalizationContext: [
+                'groups' => ['dictionary:read'],
+                'openapi_definition_name' => 'Collection-Read',
+            ],
+            security: "is_granted('DICTIONARY_CREATE')",
+        ),
+        new Get(
+            normalizationContext: [
+                'groups' => ['dictionary:read'],
+                'openapi_definition_name' => 'Item-Read',
+            ],
+            security: "is_granted('DICTIONARY_VIEW', object)",
+        ),
     ],
-    security: "is_granted('ROLE_USER')",
 )]
 class Dictionary
 {
