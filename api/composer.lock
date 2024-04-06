@@ -8568,21 +8568,21 @@
         },
         {
             "name": "phpstan/phpstan-strict-rules",
-            "version": "1.5.2",
+            "version": "1.5.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/phpstan/phpstan-strict-rules.git",
-                "reference": "7a50e9662ee9f3942e4aaaf3d603653f60282542"
+                "reference": "568210bd301f94a0d4b1e5a0808c374c1b9cf11b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phpstan/phpstan-strict-rules/zipball/7a50e9662ee9f3942e4aaaf3d603653f60282542",
-                "reference": "7a50e9662ee9f3942e4aaaf3d603653f60282542",
+                "url": "https://api.github.com/repos/phpstan/phpstan-strict-rules/zipball/568210bd301f94a0d4b1e5a0808c374c1b9cf11b",
+                "reference": "568210bd301f94a0d4b1e5a0808c374c1b9cf11b",
                 "shasum": ""
             },
             "require": {
                 "php": "^7.2 || ^8.0",
-                "phpstan/phpstan": "^1.10.34"
+                "phpstan/phpstan": "^1.10.60"
             },
             "require-dev": {
                 "nikic/php-parser": "^4.13.0",
@@ -8611,9 +8611,9 @@
             "description": "Extra strict and opinionated rules for PHPStan",
             "support": {
                 "issues": "https://github.com/phpstan/phpstan-strict-rules/issues",
-                "source": "https://github.com/phpstan/phpstan-strict-rules/tree/1.5.2"
+                "source": "https://github.com/phpstan/phpstan-strict-rules/tree/1.5.3"
             },
-            "time": "2023-10-30T14:35:06+00:00"
+            "time": "2024-04-06T07:43:25+00:00"
         },
         {
             "name": "phpstan/phpstan-symfony",
@@ -10361,12 +10361,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/maker-bundle.git",
-                "reference": "f7ee2503fbea634f2e8c30170a8ad8bd0e3d378f"
+                "reference": "30cdf17f8a9eb602bf0cecf8484e0b7671ae7a1b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/maker-bundle/zipball/f7ee2503fbea634f2e8c30170a8ad8bd0e3d378f",
-                "reference": "f7ee2503fbea634f2e8c30170a8ad8bd0e3d378f",
+                "url": "https://api.github.com/repos/symfony/maker-bundle/zipball/30cdf17f8a9eb602bf0cecf8484e0b7671ae7a1b",
+                "reference": "30cdf17f8a9eb602bf0cecf8484e0b7671ae7a1b",
                 "shasum": ""
             },
             "require": {
@@ -10446,7 +10446,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2024-04-05T15:13:05+00:00"
+            "time": "2024-04-05T17:54:34+00:00"
         },
         {
             "name": "symfony/options-resolver",
