@@ -53,4 +53,15 @@ final class DictionaryTest extends ApiTestCase
             ]
         ]);
     }
+
+    public function testGetItemWithInvalidId(): void
+    {
+        $dictionary = DictionaryFactory::createOne();
+
+        $client = self::createClient();
+        $client->loginUser($dictionary->owner);
+        $client->request('GET', '/api/dictionaries/1');
+
+        self::assertResponseStatusCodeSame(404);
+    }
 }
