@@ -14,3 +14,8 @@ create-database: api/config/packages/doctrine.yaml drop-database
 drop-database: api/config/packages/doctrine.yaml
 	@$(DOCKER_COMPOSE_EXEC_PHP) bin/console doctrine:database:drop --if-exists --force
 	@echo "${GREEN}Database dropped${GREEN}"
+
+## Create the database schema
+create-database-schema: api/config/packages/doctrine.yaml create-database
+	@$(DOCKER_COMPOSE_EXEC_PHP) bin/console doctrine:schema:create
+	@echo "${GREEN}Database schema created${GREEN}"
