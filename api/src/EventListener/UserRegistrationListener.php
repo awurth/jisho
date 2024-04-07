@@ -5,26 +5,23 @@ declare(strict_types=1);
 namespace App\EventListener;
 
 use App\Entity\Dictionary;
-use App\Entity\User;
-use Doctrine\Bundle\DoctrineBundle\Attribute\AsDoctrineListener;
-use Doctrine\ORM\Event\PrePersistEventArgs;
-use Doctrine\ORM\Events;
+use App\Event\UserRegisteredEvent;
+use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\EventDispatcher\Attribute\AsEventListener;
 
-#[AsDoctrineListener(event: Events::prePersist)]
 final readonly class UserRegistrationListener
 {
-    public function prePersist(PrePersistEventArgs $event): void
+    public function __construct(private EntityManagerInterface $entityManager)
     {
-        $entity = $event->getObject();
+    }
 
-        if (!$entity instanceof User) {
-            return;
-        }
-
+    #[AsEventListener]
+    public function onUserRegistered(UserRegisteredEvent $event): void
+    {
         $dictionary = new Dictionary();
         $dictionary->name = 'Japonais';
-        $dictionary->owner = $entity;
+        $dictionary->owner = $event->getUser();
 
-        $event->getObjectManager()->persist($dictionary);
+        $this->entityManager->persist($dictionary);
     }
 }

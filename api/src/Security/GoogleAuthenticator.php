@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Security;
 
 use App\Entity\User;
+use App\Event\UserRegisteredEvent;
 use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use KnpU\OAuth2ClientBundle\Client\ClientRegistry;
@@ -21,11 +22,13 @@ use Symfony\Component\Security\Core\Exception\AuthenticationException;
 use Symfony\Component\Security\Http\Authenticator\Passport\Badge\UserBadge;
 use Symfony\Component\Security\Http\Authenticator\Passport\Passport;
 use Symfony\Component\Security\Http\Authenticator\Passport\SelfValidatingPassport;
+use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
 
 final class GoogleAuthenticator extends OAuth2Authenticator
 {
     public function __construct(
         private readonly EntityManagerInterface $entityManager,
+        private readonly EventDispatcherInterface $eventDispatcher,
         private readonly ClientRegistry $clientRegistry,
         private readonly UserRepository $userRepository,
     ) {
@@ -58,6 +61,8 @@ final class GoogleAuthenticator extends OAuth2Authenticator
 
                 $user->setName($googleUser->getName());
                 $user->setAvatarUrl($googleUser->getAvatar());
+
+                $this->eventDispatcher->dispatch(new UserRegisteredEvent($user));
 
                 $this->entityManager->persist($user);
                 $this->entityManager->flush();
