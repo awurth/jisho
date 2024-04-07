@@ -1,7 +1,7 @@
 #!/bin/sh
 
-uid=$(stat -c %u /srv/app)
-gid=$(stat -c %g /srv/app)
+uid=$(stat -c %u /srv/api)
+gid=$(stat -c %g /srv/api)
 
 if [ "$(id -u)" -eq 0 ] && [ "$(id -g)" -eq 0 ]; then
     if [ $# -eq 0 ]; then

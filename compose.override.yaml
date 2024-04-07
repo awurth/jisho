@@ -1,7 +1,7 @@
 services:
   php:
     volumes:
-      - php:/srv/app
+      - php:/srv
       - ~/.ssh:/var/www/.ssh:ro
       - ~/.composer:/var/www/.composer
       - .docker/php/conf.d/app.dev.ini:/usr/local/etc/php/conf.d/app.dev.ini:ro
@@ -24,6 +24,6 @@ x-mutagen:
         defaultDirectoryMode: 0777
         defaultFileMode: 0644
     php:
-      alpha: "./api"
+      alpha: "."
       beta: "volume://php"
       mode: "two-way-resolved"

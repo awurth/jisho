@@ -10,8 +10,8 @@
 *.sh text eol=lf
 *.yaml text eol=lf
 *.yml text eol=lf
-bin/console text eol=lf
-composer.lock text eol=lf merge=ours
+api/bin/console text eol=lf
+api/composer.lock text eol=lf merge=ours
 
 *.ico binary
 *.png binary
