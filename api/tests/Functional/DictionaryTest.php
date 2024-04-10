@@ -50,7 +50,7 @@ final class DictionaryTest extends ApiTestCase
             [
                 'id' => (string) $dictionary->getId(),
                 'name' => $dictionary->name,
-            ]
+            ],
         ]);
     }
 

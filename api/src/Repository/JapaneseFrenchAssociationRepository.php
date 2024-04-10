@@ -8,6 +8,7 @@ use App\Entity\JapaneseFrenchAssociation;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\QueryBuilder;
 use Doctrine\Persistence\ManagerRegistry;
+use Symfony\Component\Uid\Uuid;
 
 /**
  * @extends ServiceEntityRepository<JapaneseFrenchAssociation>
@@ -24,13 +25,25 @@ final class JapaneseFrenchAssociationRepository extends ServiceEntityRepository
         parent::__construct($registry, JapaneseFrenchAssociation::class);
     }
 
-    public function findByDictionaryQueryBuilder(string $dictionaryId): QueryBuilder
+    public function findByDictionaryQueryBuilder(Uuid $dictionaryId): QueryBuilder
     {
         return $this->createQueryBuilder(alias: 'a')
             ->innerJoin(join: 'a.japanese', alias: 'j')
             ->innerJoin(join: 'a.french', alias: 'f')
             ->where('j.dictionary = :dictionaryId')
             ->setParameter(key: 'dictionaryId', value: $dictionaryId)
+        ;
+    }
+
+    public function findByJapanese(Uuid $japaneseId): array
+    {
+        return $this->createQueryBuilder(alias: 'a')
+            ->innerJoin(join: 'a.japanese', alias: 'j')
+            ->innerJoin(join: 'a.french', alias: 'f')
+            ->where('j.id = :japaneseId')
+            ->setParameter(key: 'japaneseId', value: $japaneseId)
+            ->getQuery()
+            ->getResult()
         ;
     }
 }

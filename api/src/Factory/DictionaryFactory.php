@@ -6,6 +6,7 @@ namespace App\Factory;
 
 use App\Entity\Dictionary;
 use App\Repository\DictionaryRepository;
+use Override;
 use Zenstruck\Foundry\ModelFactory;
 use Zenstruck\Foundry\Proxy;
 use Zenstruck\Foundry\RepositoryProxy;
@@ -50,6 +51,7 @@ final class DictionaryFactory extends ModelFactory
     /**
      * @see https://symfony.com/bundles/ZenstruckFoundryBundle/current/index.html#model-factories
      */
+    #[Override]
     protected function getDefaults(): array
     {
         return [
@@ -61,6 +63,7 @@ final class DictionaryFactory extends ModelFactory
     /**
      * @see https://symfony.com/bundles/ZenstruckFoundryBundle/current/index.html#initialization
      */
+    #[Override]
     protected function initialize(): self
     {
         return $this
@@ -68,6 +71,7 @@ final class DictionaryFactory extends ModelFactory
         ;
     }
 
+    #[Override]
     protected static function getClass(): string
     {
         return Dictionary::class;
