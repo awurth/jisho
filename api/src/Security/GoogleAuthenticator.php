@@ -54,7 +54,10 @@ final class GoogleAuthenticator extends OAuth2Authenticator
 
                 $user = $this->userRepository->findOneBy(['email' => $googleUser->getEmail()]);
 
+                $new = false;
+
                 if (!$user instanceof User) {
+                    $new = true;
                     $user = new User();
                     $user->setEmail((string) $googleUser->getEmail());
                 }
@@ -62,7 +65,9 @@ final class GoogleAuthenticator extends OAuth2Authenticator
                 $user->setName($googleUser->getName());
                 $user->setAvatarUrl($googleUser->getAvatar());
 
-                $this->eventDispatcher->dispatch(new UserRegisteredEvent($user));
+                if ($new) {
+                    $this->eventDispatcher->dispatch(new UserRegisteredEvent($user));
+                }
 
                 $this->entityManager->persist($user);
                 $this->entityManager->flush();
