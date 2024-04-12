@@ -12,9 +12,18 @@ use App\Factory\UserFactory;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
 use Override;
+use Symfony\Component\DependencyInjection\Attribute\Autowire;
+use function array_map;
+use function explode;
 
 final class AppFixtures extends Fixture
 {
+    public function __construct(
+        #[Autowire(param: 'kernel.project_dir')]
+        private readonly string $projectDir,
+    ) {
+    }
+
     #[Override]
     public function load(ObjectManager $manager): void
     {
@@ -26,48 +35,78 @@ final class AppFixtures extends Fixture
         $dictionary->owner = $user->object();
         $dictionary->name = 'Japonais';
 
-        $nihon = new JapaneseEntry();
-        $nihon->dictionary = $dictionary;
-        $nihon->value = '日本語';
+        $this->createEntries($manager, $dictionary);
 
-        $japonais = new FrenchEntry();
-        $japonais->dictionary = $dictionary;
-        $japonais->value = 'Japonais';
-
-        $japon = new FrenchEntry();
-        $japon->dictionary = $dictionary;
-        $japon->value = 'Japon';
-
-        $nihonJaponais = new JapaneseFrenchAssociation();
-        $nihonJaponais->japanese = $nihon;
-        $nihonJaponais->french = $japonais;
-
-        $nihonJapon = new JapaneseFrenchAssociation();
-        $nihonJapon->japanese = $nihon;
-        $nihonJapon->french = $japon;
-
-        $kazoku = new JapaneseEntry();
-        $kazoku->dictionary = $dictionary;
-        $kazoku->value = 'かぞく';
-
-        $famille = new FrenchEntry();
-        $famille->dictionary = $dictionary;
-        $famille->value = 'Famille';
-
-        $kazokuFamille = new JapaneseFrenchAssociation();
-        $kazokuFamille->japanese = $kazoku;
-        $kazokuFamille->french = $famille;
+        // $nihon = new JapaneseEntry();
+        // $nihon->dictionary = $dictionary;
+        // $nihon->value = '日本語';
+        //
+        // $japonais = new FrenchEntry();
+        // $japonais->dictionary = $dictionary;
+        // $japonais->value = 'Japonais';
+        //
+        // $japon = new FrenchEntry();
+        // $japon->dictionary = $dictionary;
+        // $japon->value = 'Japon';
+        //
+        // $nihonJaponais = new JapaneseFrenchAssociation();
+        // $nihonJaponais->japanese = $nihon;
+        // $nihonJaponais->french = $japonais;
+        //
+        // $nihonJapon = new JapaneseFrenchAssociation();
+        // $nihonJapon->japanese = $nihon;
+        // $nihonJapon->french = $japon;
+        //
+        // $kazoku = new JapaneseEntry();
+        // $kazoku->dictionary = $dictionary;
+        // $kazoku->value = 'かぞく';
+        //
+        // $famille = new FrenchEntry();
+        // $famille->dictionary = $dictionary;
+        // $famille->value = 'Famille';
+        //
+        // $kazokuFamille = new JapaneseFrenchAssociation();
+        // $kazokuFamille->japanese = $kazoku;
+        // $kazokuFamille->french = $famille;
 
         $manager->persist($dictionary);
-        $manager->persist($nihon);
-        $manager->persist($japon);
-        $manager->persist($japonais);
-        $manager->persist($nihonJaponais);
-        $manager->persist($nihonJapon);
-        $manager->persist($kazoku);
-        $manager->persist($famille);
-        $manager->persist($kazokuFamille);
+        // $manager->persist($nihon);
+        // $manager->persist($japon);
+        // $manager->persist($japonais);
+        // $manager->persist($nihonJaponais);
+        // $manager->persist($nihonJapon);
+        // $manager->persist($kazoku);
+        // $manager->persist($famille);
+        // $manager->persist($kazokuFamille);
 
         $manager->flush();
+    }
+
+    private function createEntries(ObjectManager $manager, Dictionary $dictionary): void
+    {
+        $entries = require $this->projectDir.'/entries.php';
+
+        foreach ($entries as [$japanese, $french]) {
+            $frenchWords = array_map('trim', explode(',', $french));
+
+            $japaneseEntry = new JapaneseEntry();
+            $japaneseEntry->dictionary = $dictionary;
+            $japaneseEntry->value = $japanese;
+
+            $manager->persist($japaneseEntry);
+
+            foreach ($frenchWords as $frenchWord) {
+                $frenchEntry = new FrenchEntry();
+                $frenchEntry->dictionary = $dictionary;
+                $frenchEntry->value = $frenchWord;
+
+                $japaneseFrenchAssociation = new JapaneseFrenchAssociation();
+                $japaneseFrenchAssociation->japanese = $japaneseEntry;
+                $japaneseFrenchAssociation->french = $frenchEntry;
+
+                $manager->persist($frenchEntry);
+                $manager->persist($japaneseFrenchAssociation);
+            }
+        }
     }
 }
