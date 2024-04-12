@@ -7,13 +7,13 @@ namespace App\State;
 use ApiPlatform\Metadata\CollectionOperationInterface;
 use ApiPlatform\Metadata\Operation;
 use ApiPlatform\State\ProviderInterface;
-use App\ApiResource\Association;
+use App\ApiResource\Entry;
 use App\Repository\JapaneseFrenchAssociationRepository;
 use Override;
 use function array_key_exists;
 use function array_values;
 
-final readonly class AssociationProvider implements ProviderInterface
+final readonly class EntryProvider implements ProviderInterface
 {
     public function __construct(
         private JapaneseFrenchAssociationRepository $japaneseFrenchAssociationRepository,
@@ -36,33 +36,33 @@ final readonly class AssociationProvider implements ProviderInterface
 
         $entities = $queryBuilder->getQuery()->getResult();
 
-        $associations = [];
+        $entries = [];
         foreach ($entities as $entity) {
-            if (!array_key_exists($entity->japanese->value, $associations)) {
-                $associations[$entity->japanese->value] = new Association();
-                $associations[$entity->japanese->value]->id = $entity->japanese->getId();
-                $associations[$entity->japanese->value]->dictionary = $entity->japanese->dictionary;
-                $associations[$entity->japanese->value]->japanese = $entity->japanese->value;
+            if (!array_key_exists($entity->japanese->value, $entries)) {
+                $entries[$entity->japanese->value] = new Entry();
+                $entries[$entity->japanese->value]->id = $entity->japanese->getId();
+                $entries[$entity->japanese->value]->dictionary = $entity->japanese->dictionary;
+                $entries[$entity->japanese->value]->japanese = $entity->japanese->value;
             }
 
-            $associations[$entity->japanese->value]->french[] = $entity->french->value;
+            $entries[$entity->japanese->value]->french[] = $entity->french->value;
         }
 
-        return array_values($associations);
+        return array_values($entries);
     }
 
-    private function provideItem(Operation $operation, array $uriVariables, array $context): ?Association
+    private function provideItem(Operation $operation, array $uriVariables, array $context): ?Entry
     {
         $entities = $this->japaneseFrenchAssociationRepository->findByJapanese($uriVariables['id']);
 
-        $association = new Association();
+        $entry = new Entry();
         foreach ($entities as $entity) {
-            $association->id = $entity->japanese->getId();
-            $association->dictionary = $entity->japanese->dictionary;
-            $association->japanese = $entity->japanese->value;
-            $association->french[] = $entity->french->value;
+            $entry->id = $entity->japanese->getId();
+            $entry->dictionary = $entity->japanese->dictionary;
+            $entry->japanese = $entity->japanese->value;
+            $entry->french[] = $entity->french->value;
         }
 
-        return $association;
+        return $entry;
     }
 }

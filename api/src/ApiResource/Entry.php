@@ -10,31 +10,31 @@ use ApiPlatform\Metadata\Get;
 use ApiPlatform\Metadata\GetCollection;
 use ApiPlatform\Metadata\Link;
 use App\Entity\Dictionary;
-use App\State\AssociationProvider;
+use App\State\EntryProvider;
 use Symfony\Component\Uid\Uuid;
 
 #[ApiResource(
-    uriTemplate: '/dictionaries/{dictionaryId}/associations',
+    uriTemplate: '/dictionaries/{dictionaryId}/entries',
     operations: [
         new GetCollection(),
     ],
     uriVariables: ['dictionaryId' => new Link(fromClass: Dictionary::class)],
     security: 'is_granted("ROLE_USER")',
-    provider: AssociationProvider::class,
+    provider: EntryProvider::class,
 )]
 #[ApiResource(
-    uriTemplate: '/dictionaries/{dictionaryId}/associations/{id}',
+    uriTemplate: '/dictionaries/{dictionaryId}/entries/{id}',
     operations: [
         new Get(),
     ],
     uriVariables: [
         'dictionaryId' => new Link(fromClass: Dictionary::class),
-        'id' => new Link(fromClass: Association::class),
+        'id' => new Link(fromClass: Entry::class),
     ],
     security: 'is_granted("ROLE_USER")',
-    provider: AssociationProvider::class,
+    provider: EntryProvider::class,
 )]
-final class Association
+final class Entry
 {
     #[ApiProperty(identifier: true)]
     public Uuid $id;
