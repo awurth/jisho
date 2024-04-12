@@ -14,6 +14,7 @@ export default function AddEntryForm({onAdd, ...props}) {
 
   useEffect(() => {
     bind(japaneseRef.current);
+    japaneseRef.current.focus();
   }, []);
 
   const onAddClick = () => {
