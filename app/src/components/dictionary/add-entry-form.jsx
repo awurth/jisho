@@ -1,7 +1,7 @@
 import {faArrowRightArrowLeft} from '@fortawesome/free-solid-svg-icons';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 import {useEffect, useRef, useState} from 'react';
-import {bind, toRomaji} from 'wanakana';
+import {bind} from 'wanakana';
 import Button from '../forms/button.jsx';
 import Input from '../forms/input.jsx';
 import existingTags from '../../data/tags.json';
@@ -20,13 +20,14 @@ export default function AddEntryForm({onAdd, ...props}) {
     const kana = japaneseRef.current.value;
 
     onAdd && onAdd({
-      japanese: {
-        kana,
-        romaji: toRomaji(kana),
-      },
-      meanings: french.split(', '),
+      japanese: kana,
+      french: french.split(', '),
       tags: tags.map((tag) => tag.value),
     });
+
+    japaneseRef.current.value = '';
+    setFrench('');
+    setTags([]);
   };
 
   return (

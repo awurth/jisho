@@ -16,8 +16,8 @@ export default function Dictionary() {
 
   const onAdd = (entry) => {
     setEntries([
-      ...entries,
       entry,
+      ...entries,
     ]);
   };
 
