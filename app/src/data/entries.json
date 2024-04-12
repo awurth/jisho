@@ -4,7 +4,7 @@
       "kana": "たべます",
       "romaji": "tabemasu"
     },
-    "meanings": ["manger"],
+    "french": ["manger"],
     "tags": ["verbe"]
   },
   {
@@ -12,7 +12,7 @@
       "kana": "のみます",
       "romaji": "nomimasu"
     },
-    "meanings": ["boire"],
+    "french": ["boire"],
     "tags": ["verbe"]
   },
   {
@@ -20,7 +20,7 @@
       "kana": "いきます",
       "romaji": "ikimasu"
     },
-    "meanings": ["aller"],
+    "french": ["aller"],
     "tags": ["verbe"]
   },
   {
@@ -28,7 +28,7 @@
       "kana": "おきます",
       "romaji": "okimasu"
     },
-    "meanings": ["se lever"],
+    "french": ["se lever"],
     "tags": ["verbe"]
   },
   {
@@ -36,7 +36,7 @@
       "kana": "はなします",
       "romaji": "hanashimasu"
     },
-    "meanings": ["parler", "dire"],
+    "french": ["parler", "dire"],
     "tags": ["verbe"]
   },
   {
@@ -44,7 +44,7 @@
       "kana": "きれい",
       "romaji": "kirei"
     },
-    "meanings": ["beau", "propre"],
+    "french": ["beau", "propre"],
     "tags": ["adjectif"]
   },
   {
@@ -52,7 +52,7 @@
       "kana": "べんごし",
       "romaji": "bengoshi"
     },
-    "meanings": ["avocat"],
+    "french": ["avocat"],
     "tags": ["métier"]
   },
   {
@@ -60,7 +60,7 @@
       "kana": "げつようび",
       "romaji": "getsuyoubi"
     },
-    "meanings": ["lundi"],
+    "french": ["lundi"],
     "tags": ["temps", "jour-semaine"]
   }
 ]
