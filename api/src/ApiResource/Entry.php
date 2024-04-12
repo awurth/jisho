@@ -47,4 +47,9 @@ final class Entry
      * @var string[]
      */
     public array $french = [];
+
+    /**
+     * @var string[]
+     */
+    public array $tags = [];
 }
