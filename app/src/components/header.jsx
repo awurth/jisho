@@ -31,7 +31,7 @@ export default function Header() {
           </div>
           <ul className={clsx('absolute top-0 right-0 mt-11 bg-white rounded-lg shadow-lg p-2', {hidden: !dropdownOpen})}>
             <li className="cursor-pointer p-2 mb-1 rounded hover:bg-gray-100">
-              <NavLink to="dictionaries" onClick={() => setDropdownOpen(false)}>Dictionaries</NavLink>
+              <NavLink to="dictionaries" onClick={() => setDropdownOpen(false)}>Mes dictionnaires</NavLink>
             </li>
             <li className="cursor-pointer p-2 rounded hover:bg-gray-100">
               <Link to="/logout">Déconnexion</Link>
