@@ -21,15 +21,14 @@ class FrenchEntry
     #[Column(type: 'uuid')]
     private Uuid $id;
 
-    #[ManyToOne]
-    #[JoinColumn(nullable: false)]
-    public ?Dictionary $dictionary = null;
+    public function __construct(
+        #[ManyToOne]
+        #[JoinColumn(nullable: false)]
+        public Dictionary $dictionary,
 
-    #[Column(length: 255)]
-    public ?string $value = null;
-
-    public function __construct()
-    {
+        #[Column(length: 255)]
+        public string $value,
+    ) {
         $this->id = Uuid::v4();
     }
 

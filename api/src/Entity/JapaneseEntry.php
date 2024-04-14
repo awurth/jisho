@@ -5,11 +5,14 @@ declare(strict_types=1);
 namespace App\Entity;
 
 use App\Repository\FrenchEntryRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping\Column;
 use Doctrine\ORM\Mapping\Entity;
 use Doctrine\ORM\Mapping\Id;
 use Doctrine\ORM\Mapping\JoinColumn;
 use Doctrine\ORM\Mapping\ManyToOne;
+use Doctrine\ORM\Mapping\OneToMany;
 use Doctrine\ORM\Mapping\UniqueConstraint;
 use Symfony\Component\Uid\Uuid;
 
@@ -21,15 +24,20 @@ class JapaneseEntry
     #[Column(type: 'uuid')]
     private Uuid $id;
 
-    #[ManyToOne]
-    #[JoinColumn(nullable: false)]
-    public ?Dictionary $dictionary = null;
+    /**
+     * @param Collection<int, JapaneseFrenchAssociation> $associations
+     */
+    public function __construct(
+        #[ManyToOne]
+        #[JoinColumn(nullable: false)]
+        public Dictionary $dictionary,
 
-    #[Column(length: 255)]
-    public ?string $value = null;
+        #[Column(length: 255)]
+        public string $value,
 
-    public function __construct()
-    {
+        #[OneToMany(targetEntity: JapaneseFrenchAssociation::class, mappedBy: 'japanese')]
+        public Collection $associations = new ArrayCollection(),
+    ) {
         $this->id = Uuid::v4();
     }
 

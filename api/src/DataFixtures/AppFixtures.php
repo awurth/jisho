@@ -87,22 +87,15 @@ final class AppFixtures extends Fixture
         $entries = require $this->projectDir.'/entries.php';
 
         foreach ($entries as [$japanese, $french]) {
-            $frenchWords = array_map('trim', explode(',', $french));
+            $frenchWords = array_map('trim', explode(',', (string) $french));
 
-            $japaneseEntry = new JapaneseEntry();
-            $japaneseEntry->dictionary = $dictionary;
-            $japaneseEntry->value = $japanese;
+            $japaneseEntry = new JapaneseEntry($dictionary, $japanese);
 
             $manager->persist($japaneseEntry);
 
             foreach ($frenchWords as $frenchWord) {
-                $frenchEntry = new FrenchEntry();
-                $frenchEntry->dictionary = $dictionary;
-                $frenchEntry->value = $frenchWord;
-
-                $japaneseFrenchAssociation = new JapaneseFrenchAssociation();
-                $japaneseFrenchAssociation->japanese = $japaneseEntry;
-                $japaneseFrenchAssociation->french = $frenchEntry;
+                $frenchEntry = new FrenchEntry($dictionary, $frenchWord);
+                $japaneseFrenchAssociation = new JapaneseFrenchAssociation($japaneseEntry, $frenchEntry);
 
                 $manager->persist($frenchEntry);
                 $manager->persist($japaneseFrenchAssociation);

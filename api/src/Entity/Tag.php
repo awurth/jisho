@@ -17,14 +17,13 @@ class Tag
     #[Column(type: 'uuid')]
     private Uuid $id;
 
-    #[Column(length: 255, unique: true)]
-    public ?string $name = null;
+    public function __construct(
+        #[Column(length: 255, unique: true)]
+        public string $name,
 
-    #[Column(length: 6, nullable: true)]
-    public ?string $color = null;
-
-    public function __construct()
-    {
+        #[Column(length: 6, nullable: true)]
+        public ?string $color = null,
+    ) {
         $this->id = Uuid::v4();
     }
 

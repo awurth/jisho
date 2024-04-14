@@ -21,16 +21,15 @@ class JapaneseFrenchAssociation
     #[Column(type: 'uuid')]
     private Uuid $id;
 
-    #[ManyToOne]
-    #[JoinColumn(nullable: false)]
-    public ?JapaneseEntry $japanese = null;
+    public function __construct(
+        #[ManyToOne(inversedBy: 'associations')]
+        #[JoinColumn(nullable: false)]
+        public JapaneseEntry $japanese,
 
-    #[ManyToOne]
-    #[JoinColumn(nullable: false)]
-    public ?FrenchEntry $french = null;
-
-    public function __construct()
-    {
+        #[ManyToOne]
+        #[JoinColumn(nullable: false)]
+        public FrenchEntry $french,
+    ) {
         $this->id = Uuid::v4();
     }
 
