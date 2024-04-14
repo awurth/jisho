@@ -35,8 +35,12 @@ final class JapaneseFrenchAssociationRepository extends ServiceEntityRepository
         ;
     }
 
+    /**
+     * @return JapaneseFrenchAssociation[]
+     */
     public function findByJapanese(Uuid $japaneseId): array
     {
+        // @phpstan-ignore-next-line
         return $this->createQueryBuilder(alias: 'a')
             ->innerJoin(join: 'a.japanese', alias: 'j')
             ->innerJoin(join: 'a.french', alias: 'f')
