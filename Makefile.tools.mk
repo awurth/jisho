@@ -24,3 +24,6 @@ php-cs-fixer: api/.php-cs-fixer.dist.php
 ## Execute PHPStan
 phpstan: api/phpstan.dist.neon
 	$(DOCKER_COMPOSE_EXEC_PHP) vendor/bin/phpstan
+
+## Execute all linters
+lint: php-cs-fixer phpstan rector
