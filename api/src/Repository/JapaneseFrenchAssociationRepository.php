@@ -30,6 +30,8 @@ final class JapaneseFrenchAssociationRepository extends ServiceEntityRepository
         return $this->createQueryBuilder(alias: 'a')
             ->innerJoin(join: 'a.japaneseEntry', alias: 'j')
             ->innerJoin(join: 'a.frenchEntry', alias: 'f')
+            ->leftJoin(join: 'j.tags', alias: 'jt')
+            ->leftJoin(join: 'jt.tag', alias: 't')
             ->where('j.dictionary = :dictionaryId')
             ->setParameter(key: 'dictionaryId', value: $dictionaryId)
         ;

@@ -7,14 +7,20 @@ namespace App\DataFixtures;
 use App\Entity\Dictionary;
 use App\Entity\FrenchEntry;
 use App\Entity\JapaneseEntry;
+use App\Entity\JapaneseEntryTag;
 use App\Entity\JapaneseFrenchAssociation;
+use App\Entity\Tag;
 use App\Factory\UserFactory;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
 use Override;
 use Symfony\Component\DependencyInjection\Attribute\Autowire;
+use function array_column;
+use function array_key_exists;
 use function array_map;
 use function explode;
+use function Functional\flat_map;
+use function Functional\unique;
 
 final class AppFixtures extends Fixture
 {
@@ -37,47 +43,7 @@ final class AppFixtures extends Fixture
 
         $this->createEntries($manager, $dictionary);
 
-        // $nihon = new JapaneseEntry();
-        // $nihon->dictionary = $dictionary;
-        // $nihon->value = '日本語';
-        //
-        // $japonais = new FrenchEntry();
-        // $japonais->dictionary = $dictionary;
-        // $japonais->value = 'Japonais';
-        //
-        // $japon = new FrenchEntry();
-        // $japon->dictionary = $dictionary;
-        // $japon->value = 'Japon';
-        //
-        // $nihonJaponais = new JapaneseFrenchAssociation();
-        // $nihonJaponais->japanese = $nihon;
-        // $nihonJaponais->french = $japonais;
-        //
-        // $nihonJapon = new JapaneseFrenchAssociation();
-        // $nihonJapon->japanese = $nihon;
-        // $nihonJapon->french = $japon;
-        //
-        // $kazoku = new JapaneseEntry();
-        // $kazoku->dictionary = $dictionary;
-        // $kazoku->value = 'かぞく';
-        //
-        // $famille = new FrenchEntry();
-        // $famille->dictionary = $dictionary;
-        // $famille->value = 'Famille';
-        //
-        // $kazokuFamille = new JapaneseFrenchAssociation();
-        // $kazokuFamille->japanese = $kazoku;
-        // $kazokuFamille->french = $famille;
-
         $manager->persist($dictionary);
-        // $manager->persist($nihon);
-        // $manager->persist($japon);
-        // $manager->persist($japonais);
-        // $manager->persist($nihonJaponais);
-        // $manager->persist($nihonJapon);
-        // $manager->persist($kazoku);
-        // $manager->persist($famille);
-        // $manager->persist($kazokuFamille);
 
         $manager->flush();
     }
@@ -86,8 +52,23 @@ final class AppFixtures extends Fixture
     {
         $entries = require $this->projectDir.'/entries.php';
 
-        foreach ($entries as [$japanese, $french]) {
-            $frenchWords = array_map('trim', explode(',', (string) $french));
+        $allTagsNames = array_column($entries, 2);
+        $allTagsNames = flat_map($allTagsNames, static fn (string $value): array => array_map(trim(...), explode(',', $value)));
+        $allTagsNames = unique($allTagsNames);
+
+        $allTags = [];
+        foreach ($allTagsNames as $name) {
+            $allTags[$name] = new Tag($name);
+
+            $manager->persist($allTags[$name]);
+        }
+
+        foreach ($entries as $entry) {
+            $japanese = $entry[0];
+            $french = $entry[1];
+            $tags = array_key_exists(2, $entry) ? array_map(trim(...), explode(',', $entry[2])) : [];
+
+            $frenchWords = array_map(trim(...), explode(',', (string) $french));
 
             $japaneseEntry = new JapaneseEntry($dictionary, $japanese);
 
@@ -99,6 +80,12 @@ final class AppFixtures extends Fixture
 
                 $manager->persist($frenchEntry);
                 $manager->persist($japaneseFrenchAssociation);
+            }
+
+            foreach ($tags as $name) {
+                $japaneseEntryTag = new JapaneseEntryTag($japaneseEntry, $allTags[$name]);
+
+                $manager->persist($japaneseEntryTag);
             }
         }
     }

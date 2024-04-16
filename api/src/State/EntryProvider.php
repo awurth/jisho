@@ -9,10 +9,12 @@ use ApiPlatform\Metadata\Operation;
 use ApiPlatform\Metadata\Post;
 use ApiPlatform\State\ProviderInterface;
 use App\ApiResource\Entry;
+use App\Entity\JapaneseEntryTag;
 use App\Repository\DictionaryRepository;
 use App\Repository\JapaneseFrenchAssociationRepository;
 use Override;
 use function array_key_exists;
+use function array_map;
 use function array_values;
 
 final readonly class EntryProvider implements ProviderInterface
@@ -46,6 +48,7 @@ final readonly class EntryProvider implements ProviderInterface
                 $entries[$entity->japaneseEntry->value]->id = $entity->japaneseEntry->getId();
                 $entries[$entity->japaneseEntry->value]->dictionary = $entity->japaneseEntry->dictionary;
                 $entries[$entity->japaneseEntry->value]->japanese = $entity->japaneseEntry->value;
+                $entries[$entity->japaneseEntry->value]->tags = array_map(static fn (JapaneseEntryTag $tag): string => $tag->tag->name, $entity->japaneseEntry->tags->toArray());
             }
 
             $entries[$entity->japaneseEntry->value]->french[] = $entity->frenchEntry->value;
