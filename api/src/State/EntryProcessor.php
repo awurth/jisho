@@ -10,6 +10,7 @@ use App\ApiResource\Entry;
 use App\Entity\FrenchEntry;
 use App\Entity\JapaneseEntry;
 use App\Entity\JapaneseFrenchAssociation;
+use App\Entity\Tag;
 use App\Repository\FrenchEntryRepository;
 use App\Repository\JapaneseEntryRepository;
 use App\Repository\TagRepository;
@@ -43,6 +44,18 @@ final readonly class EntryProcessor implements ProcessorInterface
             $this->entityManager->persist($japaneseEntry);
         }
 
+        $this->mergeAssociations($japaneseEntry, $data);
+        $this->mergeTags($japaneseEntry, $data);
+
+        $this->entityManager->flush();
+
+        $data->id = $japaneseEntry->getId();
+
+        return $data;
+    }
+
+    private function mergeAssociations(JapaneseEntry $japaneseEntry, Entry $data): void
+    {
         foreach ($japaneseEntry->associations as $association) {
             if (!in_array($association->frenchEntry->value, $data->french, true)) {
                 $japaneseEntry->associations->removeElement($association);
@@ -63,16 +76,27 @@ final readonly class EntryProcessor implements ProcessorInterface
             $this->entityManager->persist($frenchEntry);
             $this->entityManager->persist($association);
         }
-
-        $this->entityManager->flush();
-
-        $data->id = $japaneseEntry->getId();
-
-        return $data;
     }
 
-    private function mergeAssociations(): void
+    private function mergeTags(JapaneseEntry $japaneseEntry, Entry $data): void
     {
+        foreach ($japaneseEntry->tags as $tag) {
+            if (!in_array($tag->name, $data->tags, true)) {
+                $japaneseEntry->tags->removeElement($tag);
+                $this->entityManager->remove($tag);
+            }
+        }
 
+        $existingTags = $this->tagRepository->findBy(['name' => $data->tags]);
+        $existingTagsNames = array_map(static fn (Tag $tag): string => $tag->name, $existingTags);
+
+        $tagsToCreate = array_diff($data->tags, $existingTagsNames);
+
+        foreach ($tagsToCreate as $tag) {
+            $tagEntity = new Tag($tag);
+            $japaneseEntry->tags->add($tagEntity);
+
+            $this->entityManager->persist($tagEntity);
+        }
     }
 }

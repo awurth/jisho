@@ -6,8 +6,10 @@ namespace App\State;
 
 use ApiPlatform\Metadata\CollectionOperationInterface;
 use ApiPlatform\Metadata\Operation;
+use ApiPlatform\Metadata\Post;
 use ApiPlatform\State\ProviderInterface;
 use App\ApiResource\Entry;
+use App\Repository\DictionaryRepository;
 use App\Repository\JapaneseFrenchAssociationRepository;
 use Override;
 use function array_key_exists;
@@ -16,6 +18,7 @@ use function array_values;
 final readonly class EntryProvider implements ProviderInterface
 {
     public function __construct(
+        private DictionaryRepository $dictionaryRepository,
         private JapaneseFrenchAssociationRepository $japaneseFrenchAssociationRepository,
     ) {
     }
@@ -38,14 +41,14 @@ final readonly class EntryProvider implements ProviderInterface
 
         $entries = [];
         foreach ($entities as $entity) {
-            if (!array_key_exists($entity->japanese->value, $entries)) {
-                $entries[$entity->japanese->value] = new Entry();
-                $entries[$entity->japanese->value]->id = $entity->japanese->getId();
-                $entries[$entity->japanese->value]->dictionary = $entity->japanese->dictionary;
-                $entries[$entity->japanese->value]->japanese = $entity->japanese->value;
+            if (!array_key_exists($entity->japaneseEntry->value, $entries)) {
+                $entries[$entity->japaneseEntry->value] = new Entry();
+                $entries[$entity->japaneseEntry->value]->id = $entity->japaneseEntry->getId();
+                $entries[$entity->japaneseEntry->value]->dictionary = $entity->japaneseEntry->dictionary;
+                $entries[$entity->japaneseEntry->value]->japanese = $entity->japaneseEntry->value;
             }
 
-            $entries[$entity->japanese->value]->french[] = $entity->french->value;
+            $entries[$entity->japaneseEntry->value]->french[] = $entity->frenchEntry->value;
         }
 
         return array_values($entries);
@@ -53,14 +56,23 @@ final readonly class EntryProvider implements ProviderInterface
 
     private function provideItem(Operation $operation, array $uriVariables, array $context): ?Entry
     {
+        if ($operation instanceof Post) {
+            $dictionary = $this->dictionaryRepository->find($uriVariables['dictionaryId']);
+
+            $entry = new Entry();
+            $entry->dictionary = $dictionary;
+
+            return $entry;
+        }
+
         $entities = $this->japaneseFrenchAssociationRepository->findByJapanese($uriVariables['id']);
 
         $entry = new Entry();
         foreach ($entities as $entity) {
-            $entry->id = $entity->japanese->getId();
-            $entry->dictionary = $entity->japanese->dictionary;
-            $entry->japanese = $entity->japanese->value;
-            $entry->french[] = $entity->french->value;
+            $entry->id = $entity->japaneseEntry->getId();
+            $entry->dictionary = $entity->japaneseEntry->dictionary;
+            $entry->japanese = $entity->japaneseEntry->value;
+            $entry->french[] = $entity->frenchEntry->value;
         }
 
         return $entry;

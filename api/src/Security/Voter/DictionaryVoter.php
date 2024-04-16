@@ -20,6 +20,7 @@ final class DictionaryVoter extends Voter
     public const string CREATE = 'DICTIONARY_CREATE';
     public const string EDIT = 'DICTIONARY_EDIT';
     public const string DELETE = 'DICTIONARY_DELETE';
+    public const string CREATE_ENTRY = 'CREATE_DICTIONARY_ENTRY';
 
     #[Override]
     protected function supports(string $attribute, mixed $subject): bool
@@ -28,7 +29,7 @@ final class DictionaryVoter extends Voter
             return true;
         }
 
-        return in_array($attribute, [self::VIEW, self::EDIT, self::DELETE], true)
+        return in_array($attribute, [self::VIEW, self::EDIT, self::DELETE, self::CREATE_ENTRY], true)
             && $subject instanceof Dictionary;
     }
 
