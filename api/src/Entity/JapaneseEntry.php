@@ -26,7 +26,7 @@ class JapaneseEntry
 
     /**
      * @param Collection<int, JapaneseFrenchAssociation> $associations
-     * @param Collection<int, JapaneseEntryTag> $tags
+     * @param Collection<int, JapaneseEntryTag>          $tags
      */
     public function __construct(
         #[ManyToOne]
