@@ -26,6 +26,7 @@ class JapaneseEntry
 
     /**
      * @param Collection<int, JapaneseFrenchAssociation> $associations
+     * @param Collection<int, JapaneseEntryTag> $tags
      */
     public function __construct(
         #[ManyToOne]
@@ -35,8 +36,11 @@ class JapaneseEntry
         #[Column(length: 255)]
         public string $value,
 
-        #[OneToMany(targetEntity: JapaneseFrenchAssociation::class, mappedBy: 'japanese')]
+        #[OneToMany(targetEntity: JapaneseFrenchAssociation::class, mappedBy: 'japaneseEntry')]
         public Collection $associations = new ArrayCollection(),
+
+        #[OneToMany(targetEntity: JapaneseEntryTag::class, mappedBy: 'japaneseEntry')]
+        public Collection $tags = new ArrayCollection(),
     ) {
         $this->id = Uuid::v4();
     }

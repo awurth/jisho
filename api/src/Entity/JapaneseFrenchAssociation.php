@@ -14,7 +14,7 @@ use Doctrine\ORM\Mapping\UniqueConstraint;
 use Symfony\Component\Uid\Uuid;
 
 #[Entity(repositoryClass: JapaneseFrenchAssociationRepository::class)]
-#[UniqueConstraint(fields: ['japanese', 'french'])]
+#[UniqueConstraint(fields: ['japaneseEntry', 'frenchEntry'])]
 class JapaneseFrenchAssociation
 {
     #[Id]
@@ -24,11 +24,11 @@ class JapaneseFrenchAssociation
     public function __construct(
         #[ManyToOne(inversedBy: 'associations')]
         #[JoinColumn(nullable: false)]
-        public JapaneseEntry $japanese,
+        public JapaneseEntry $japaneseEntry,
 
         #[ManyToOne]
         #[JoinColumn(nullable: false)]
-        public FrenchEntry $french,
+        public FrenchEntry $frenchEntry,
     ) {
         $this->id = Uuid::v4();
     }

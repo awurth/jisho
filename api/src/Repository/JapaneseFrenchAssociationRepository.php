@@ -28,8 +28,8 @@ final class JapaneseFrenchAssociationRepository extends ServiceEntityRepository
     public function findByDictionaryQueryBuilder(Uuid $dictionaryId): QueryBuilder
     {
         return $this->createQueryBuilder(alias: 'a')
-            ->innerJoin(join: 'a.japanese', alias: 'j')
-            ->innerJoin(join: 'a.french', alias: 'f')
+            ->innerJoin(join: 'a.japaneseEntry', alias: 'j')
+            ->innerJoin(join: 'a.frenchEntry', alias: 'f')
             ->where('j.dictionary = :dictionaryId')
             ->setParameter(key: 'dictionaryId', value: $dictionaryId)
         ;
@@ -42,8 +42,8 @@ final class JapaneseFrenchAssociationRepository extends ServiceEntityRepository
     {
         // @phpstan-ignore-next-line
         return $this->createQueryBuilder(alias: 'a')
-            ->innerJoin(join: 'a.japanese', alias: 'j')
-            ->innerJoin(join: 'a.french', alias: 'f')
+            ->innerJoin(join: 'a.japaneseEntry', alias: 'j')
+            ->innerJoin(join: 'a.frenchEntry', alias: 'f')
             ->where('j.id = :japaneseId')
             ->setParameter(key: 'japaneseId', value: $japaneseId)
             ->getQuery()
