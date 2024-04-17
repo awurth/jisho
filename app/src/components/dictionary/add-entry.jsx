@@ -11,7 +11,7 @@ export default function AddEntry({onAdd, ...props}) {
   return (
     <div {...props}
          className={clsx('add-entry', props.className ?? '')}>
-      <p className={clsx('text-gray-400 py-2 px-4 cursor-text', {'hidden': newEntryFormVisible})}
+      <p className={clsx('text-gray-400 py-2 px-4 cursor-text', {hidden: newEntryFormVisible})}
          onClick={() => setNewEntryFormVisible(!newEntryFormVisible)}>
         Ajouter un mot...
       </p>

@@ -25,7 +25,7 @@ export default function Dictionary() {
     <>
       <h1 className="text-sm text-primary-400 pl-4">{dictionary.name}</h1>
       <AddEntry className="my-3 ml-3" onAdd={onAdd}/>
-      <div className="grid grid-cols-4 gap-3">
+      <div className="grid grid-cols-3 gap-3">
         {entries.map((entry) => (
           <Entry key={entry.japanese} entry={entry}/>
         ))}
