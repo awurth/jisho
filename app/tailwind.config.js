@@ -11,6 +11,7 @@ export default {
     colors: {
       ...colors,
       primary: colors.indigo,
+      illustration: "#ffcfc1"
     }
   },
   plugins: [],
