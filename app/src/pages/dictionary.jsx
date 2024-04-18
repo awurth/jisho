@@ -8,17 +8,17 @@ export default function Dictionary() {
   const dictionary = useDictionaryStore((state) => state.activeDictionary);
   const [entries, setEntries] = useState([]);
 
+  const [hasNewEntries, setHasNewEntries] = useState(false);
+
   useEffect(() => {
     axios.get(`/api/dictionaries/${dictionary.id}/entries`).then(({data}) => {
       setEntries(data);
     });
-  }, []);
+    setHasNewEntries(false);
+  }, [hasNewEntries]);
 
   const onAdd = (entry) => {
-    setEntries([
-      entry,
-      ...entries,
-    ]);
+    setHasNewEntries(true);
   };
 
   return (

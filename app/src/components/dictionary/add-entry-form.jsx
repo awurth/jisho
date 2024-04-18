@@ -1,7 +1,9 @@
 import {faArrowRightArrowLeft} from '@fortawesome/free-solid-svg-icons';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
+import axios from 'axios';
 import {useEffect, useRef, useState} from 'react';
 import {bind, isKana} from 'wanakana';
+import {useDictionaryStore} from '../../stores/dictionary.js';
 import Button from '../forms/button.jsx';
 import Input from '../forms/input.jsx';
 import existingTags from '../../data/tags.json';
@@ -9,6 +11,7 @@ import Tags from '../forms/tags.jsx';
 import Textarea from '../forms/textarea.jsx';
 
 export default function AddEntryForm({onAdd, ...props}) {
+  const dictionary = useDictionaryStore((state) => state.activeDictionary);
   const japaneseRef = useRef(null);
   const [french, setFrench] = useState('');
   const [tags, setTags] = useState([]);
@@ -59,20 +62,24 @@ export default function AddEntryForm({onAdd, ...props}) {
   const submit = () => {
     const kana = japaneseRef.current.value;
 
-    onAdd && onAdd({
+    const data = {
       japanese: kana,
       french: french.split(', '),
       tags: tags.map((tag) => tag.value),
+    };
+
+    axios.post(`/api/dictionaries/${dictionary.id}/entries`, data).then((response) => {
+      japaneseRef.current.value = '';
+      setJapaneseError(null);
+
+      setFrench('');
+      setFrenchError(null);
+
+      setTags([]);
+      setNotes('');
+
+      onAdd(data);
     });
-
-    japaneseRef.current.value = '';
-    setJapaneseError(null);
-
-    setFrench('');
-    setFrenchError(null);
-
-    setTags([]);
-    setNotes('');
   };
 
   return (
