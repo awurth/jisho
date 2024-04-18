@@ -9,6 +9,7 @@ use ApiPlatform\State\ProcessorInterface;
 use App\ApiResource\Entry;
 use App\Entity\FrenchEntry;
 use App\Entity\JapaneseEntry;
+use App\Entity\JapaneseEntryTag;
 use App\Entity\JapaneseFrenchAssociation;
 use App\Entity\Tag;
 use App\Repository\FrenchEntryRepository;
@@ -94,9 +95,11 @@ final readonly class EntryProcessor implements ProcessorInterface
 
         foreach ($tagsToCreate as $tag) {
             $tagEntity = new Tag($tag);
-            $japaneseEntry->tags->add($tagEntity);
+            $association = new JapaneseEntryTag($japaneseEntry, $tagEntity);
+            $japaneseEntry->tags->add($association);
 
             $this->entityManager->persist($tagEntity);
+            $this->entityManager->persist($association);
         }
     }
 }
