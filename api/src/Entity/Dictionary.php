@@ -23,7 +23,7 @@ use Symfony\Component\Uid\Uuid;
                 'groups' => ['dictionary:read'],
                 'openapi_definition_name' => 'Collection-Read',
             ],
-            security: "is_granted('DICTIONARY_CREATE')",
+            security: "is_granted('ROLE_USER')",
         ),
         new Get(
             normalizationContext: [

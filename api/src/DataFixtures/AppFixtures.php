@@ -58,7 +58,7 @@ final class AppFixtures extends Fixture
 
         $allTags = [];
         foreach ($allTagsNames as $name) {
-            $allTags[$name] = new Tag($name);
+            $allTags[$name] = new Tag($dictionary, $name);
 
             $manager->persist($allTags[$name]);
         }

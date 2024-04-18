@@ -94,7 +94,7 @@ final readonly class EntryProcessor implements ProcessorInterface
         $tagsToCreate = array_diff($data->tags, $existingTagsNames);
 
         foreach ($tagsToCreate as $tag) {
-            $tagEntity = new Tag($tag);
+            $tagEntity = new Tag($data->dictionary, $tag);
             $association = new JapaneseEntryTag($japaneseEntry, $tagEntity);
             $japaneseEntry->tags->add($association);
 
