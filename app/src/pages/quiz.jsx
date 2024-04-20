@@ -1,4 +1,5 @@
 import axios from 'axios';
+import clsx from 'clsx';
 import {useEffect, useRef, useState} from 'react';
 import {useSearchParams} from 'react-router-dom';
 import Button from '../components/forms/button.jsx';
@@ -26,6 +27,7 @@ export default function Quiz() {
   const [currentEntryIndex, setCurrentEntryIndex] = useState(null);
   const [points, setPoints] = useState(0);
   const [answer, setAnswer] = useState('');
+  const [skipped, setSkipped] = useState(false);
 
   const tags = searchParams.get('tags')?.split(',').filter(Boolean);
 
@@ -41,6 +43,17 @@ export default function Quiz() {
       setEntries(entries);
     });
   }, []);
+
+  useEffect(() => {
+    let timeoutId;
+    if (skipped) {
+      timeoutId = setTimeout(skip, 500);
+    }
+
+    answerRef.current.focus();
+
+    return () => clearTimeout(timeoutId);
+  }, [skipped]);
 
   const onKeyUp = (e) => {
     if (e.code !== 'Enter') {
@@ -59,9 +72,9 @@ export default function Quiz() {
   };
 
   const skip = () => {
+    setSkipped(false);
     setCurrentEntryIndex(currentEntryIndex + 1);
     setAnswer('');
-    answerRef.current.focus();
   };
 
   return (
@@ -69,7 +82,7 @@ export default function Quiz() {
       <p className="text-sm text-primary-400 pl-4 mb-3">{dictionary.name}</p>
       <h1 className="text-xl font-semibold mb-2">Quiz {!!tags.length && `"${tags.join(', ')}"`}</h1>
       {!!entries.length && <div className="flex flex-col items-center">
-        <span>{currentEntryIndex + 1}/{entries.length}</span>
+        <span className="font-bold">{Math.min(currentEntryIndex + 1, entries.length)}/{entries.length}</span>
         <Timer className="font-bold text-2xl" running={currentEntryIndex !== entries.length}/>
       </div>}
       {!!entries.length && currentEntryIndex === entries.length && <p className="grow flex justify-center items-center font-bold text-4xl mb-32">Terminé ! {points} points / {entries.length}</p>}
@@ -78,10 +91,14 @@ export default function Quiz() {
           <p className="text-4xl mb-32">{entries[currentEntryIndex]?.japanese}</p>
         </div>
         <div className="flex items-center p-5">
-          <div className="mb-32 grow flex">
-            <Input ref={answerRef} className="px-5 w-full h-20 text-4xl mr-1" value={answer} onChange={(e) => setAnswer(e.target.value)} onKeyUp={onKeyUp} autoFocus/>
-            <Button className="px-5" onClick={() => skip()}>Passer</Button>
+          <div className={clsx('mb-32 grow flex', {hidden: skipped})}>
+            <Input ref={answerRef} className="px-5 w-full h-20 text-4xl mr-1" value={answer}
+                   onChange={(e) => setAnswer(e.target.value)} onKeyUp={onKeyUp} autoFocus/>
+            <Button className="px-5" onClick={() => setSkipped(true)}>Passer</Button>
           </div>
+          {skipped && <div className="mb-32 grow flex">
+            <p className="text-4xl">{entries[currentEntryIndex]?.french}</p>
+          </div>}
         </div>
       </div>}
     </div>
