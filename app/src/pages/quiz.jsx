@@ -66,7 +66,7 @@ export default function Quiz() {
   return (
     <div className="flex flex-col h-full">
       <p className="text-sm text-primary-400 pl-4 mb-3">{dictionary.name}</p>
-      <h1 className="text-xl font-semibold mb-2">Quiz "{tags.join(', ')}"</h1>
+      <h1 className="text-xl font-semibold mb-2">Quiz {!!tags.length && `"${tags.join(', ')}`}</h1>
       {currentEntryIndex === entries.length && <p className="grow flex justify-center items-center font-bold text-4xl mb-32">Terminé ! {points} points / {entries.length}</p>}
       {currentEntryIndex !== entries.length && <div className="grow grid grid-cols-2">
         <div className="flex items-center justify-center p-5">
