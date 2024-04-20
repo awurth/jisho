@@ -3,6 +3,7 @@ import {useEffect, useRef, useState} from 'react';
 import {useSearchParams} from 'react-router-dom';
 import Button from '../components/forms/button.jsx';
 import Input from '../components/forms/input.jsx';
+import Timer from '../components/quiz/timer.jsx';
 import {useDictionaryStore} from '../stores/dictionary.js';
 
 function shuffle(array) {
@@ -36,8 +37,8 @@ export default function Quiz() {
 
       const entries = tags.length > 0 ? data.filter((entry) => tags.some((tag) => entry.tags.includes(tag))) : data;
       shuffle(entries);
-      setEntries(entries);
       setCurrentEntryIndex(0);
+      setEntries(entries);
     });
   }, []);
 
@@ -66,9 +67,13 @@ export default function Quiz() {
   return (
     <div className="flex flex-col h-full">
       <p className="text-sm text-primary-400 pl-4 mb-3">{dictionary.name}</p>
-      <h1 className="text-xl font-semibold mb-2">Quiz {!!tags.length && `"${tags.join(', ')}`}</h1>
-      {currentEntryIndex === entries.length && <p className="grow flex justify-center items-center font-bold text-4xl mb-32">Terminé ! {points} points / {entries.length}</p>}
-      {currentEntryIndex !== entries.length && <div className="grow grid grid-cols-2">
+      <h1 className="text-xl font-semibold mb-2">Quiz {!!tags.length && `"${tags.join(', ')}"`}</h1>
+      {!!entries.length && <div className="flex flex-col items-center">
+        <span>{currentEntryIndex + 1}/{entries.length}</span>
+        <Timer className="font-bold text-2xl" running={currentEntryIndex !== entries.length}/>
+      </div>}
+      {!!entries.length && currentEntryIndex === entries.length && <p className="grow flex justify-center items-center font-bold text-4xl mb-32">Terminé ! {points} points / {entries.length}</p>}
+      {!!entries.length && currentEntryIndex !== entries.length && <div className="grow grid grid-cols-2">
         <div className="flex items-center justify-center p-5">
           <p className="text-4xl mb-32">{entries[currentEntryIndex]?.japanese}</p>
         </div>

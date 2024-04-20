@@ -22,6 +22,7 @@
     "react-dom": "^18.2.0",
     "react-router-dom": "^6.22.3",
     "react-select": "^5.8.0",
+    "react-timer-hook": "^3.0.7",
     "sort-by": "^1.2.0",
     "wanakana": "^5.3.1",
     "zustand": "^4.5.2"
