@@ -50,7 +50,7 @@ export default function Quiz() {
       timeoutId = setTimeout(skip, 500);
     }
 
-    answerRef.current.focus();
+    answerRef.current?.focus();
 
     return () => clearTimeout(timeoutId);
   }, [skipped]);
@@ -62,7 +62,10 @@ export default function Quiz() {
 
     const entry = entries[currentEntryIndex];
 
-    if (!entry.french.includes(e.target.value)) {
+    const french = entry.french.map((string) => string.toLowerCase().normalize('NFD').replace(/\p{Diacritic}/gu, ''));
+    const japanese = e.target.value.toLowerCase().normalize('NFD').replace(/\p{Diacritic}/gu, '');
+
+    if (!french.includes(japanese)) {
       return;
     }
 
