@@ -20,7 +20,7 @@ export default function Header() {
           <span className="ml-3 text-xl">Jish.io</span>
         </Link>
         <nav className="ml-auto flex flex-wrap items-center text-base justify-center">
-          <a href="" className="bg-primary-400 hover:bg-primary-500 rounded-lg text-white px-5 py-2 mr-5">Quiz</a>
+          <NavLink to="/new-quiz" className="bg-primary-400 hover:bg-primary-500 rounded-lg text-white px-5 py-2 mr-5">Quiz</NavLink>
         </nav>
         <div className="dropdown relative">
           <div className="flex items-center cursor-pointer" onClick={() => setDropdownOpen(!dropdownOpen)}>

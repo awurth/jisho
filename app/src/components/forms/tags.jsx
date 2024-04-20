@@ -1,7 +1,7 @@
 import clsx from 'clsx';
 import CreatableSelect from 'react-select/creatable';
 
-export default function Tags({options, ...props}) {
+export default function Tags({options = [], ...props}) {
   return (
     <CreatableSelect
       options={options.map((tag) => ({label: tag, value: tag}))}

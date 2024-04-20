@@ -6,6 +6,8 @@ import Dictionaries from './pages/dictionaries.jsx';
 import Dictionary from './pages/dictionary.jsx';
 import Login from './pages/login.jsx';
 import Logout from './pages/logout.jsx';
+import QuizForm from './pages/quiz-form.jsx';
+import Quiz from './pages/quiz.jsx';
 import Root from './pages/root.jsx';
 import {useDictionaryStore} from './stores/dictionary.js';
 import {useUserStore} from './stores/user.js';
@@ -54,6 +56,16 @@ export const router = createBrowserRouter([
       {
         path: 'dictionaries',
         element: <Dictionaries/>,
+      },
+      {
+        path: 'new-quiz',
+        loader: mustHaveActiveDictionary,
+        element: <QuizForm/>,
+      },
+      {
+        path: 'quiz',
+        loader: mustHaveActiveDictionary,
+        element: <Quiz/>,
       },
     ],
   },
