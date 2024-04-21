@@ -1,28 +1,4 @@
 services:
-  traefik:
-    image: traefik:v2.11
-    ports:
-      - '80:80'
-      - '443:443'
-      - '8080:8080'
-    command:
-      - '--api.insecure=true'
-      - '--serverstransport.insecureskipverify=true'
-      - '--providers.docker=true'
-      - '--providers.docker.exposedbydefault=false'
-      - '--entrypoints.web.address=:80'
-      - '--entrypoints.websecure.address=:443'
-      - '--entryPoints.websecure.proxyProtocol.insecure'
-      - '--entrypoints.web.http.redirections.entryPoint.to=websecure'
-      - '--entrypoints.web.http.redirections.entryPoint.scheme=https'
-      - '--entrypoints.web.http.redirections.entrypoint.priority=1000'
-      - '--providers.file.filename=/etc/traefik/traefik_certs.yml'
-    volumes:
-      - .docker/nginx/certs:/certs
-      - .docker/traefik/certs.yml:/etc/traefik/traefik_certs.yml
-      - /var/run/docker.sock:/var/run/docker.sock
-    restart: unless-stopped
-
   nginx:
     build: .docker/nginx
     volumes:
@@ -32,14 +8,6 @@ services:
       - .docker/nginx/certs:/etc/nginx/certs
     depends_on: [ php ]
     hostname: jish.io
-    labels:
-      - "traefik.enable=true"
-      - "traefik.http.routers.nginx.rule=Host(`jish.io`) && PathPrefix(`/api`, `/bundles`, `/_wdt`, `/_profiler`, `/favicon.ico`)"
-      - "traefik.http.routers.nginx.entrypoints=websecure"
-      - "traefik.http.routers.nginx.tls=true"
-      - "traefik.http.routers.nginx.service=nginx"
-      - "traefik.http.services.nginx.loadbalancer.server.port=443"
-      - "traefik.http.services.nginx.loadbalancer.server.scheme=https"
 
   php:
     build: .docker/php
@@ -63,14 +31,6 @@ services:
     volumes:
       - ./app/:/project
       - .docker/nginx/certs:/certs
-    labels:
-      - "traefik.enable=true"
-      - "traefik.http.routers.node.rule=Host(`jish.io`)"
-      - "traefik.http.routers.node.entrypoints=websecure"
-      - "traefik.http.routers.node.tls=true"
-      - "traefik.http.routers.node.service=node"
-      - "traefik.http.services.node.loadbalancer.server.port=5173"
-      - "traefik.http.services.node.loadbalancer.server.scheme=https"
 
 volumes:
   database_data:
