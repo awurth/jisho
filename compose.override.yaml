@@ -26,12 +26,13 @@ services:
   nginx:
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.nginx.rule=Host(`jish.io`) && PathPrefix(`/api`, `/bundles`, `/_wdt`, `/_profiler`, `/favicon.ico`)"
+      - "traefik.http.routers.nginx.rule=Host(`jisho.docker`) && PathPrefix(`/api`, `/bundles`, `/_wdt`, `/_profiler`, `/favicon.ico`)"
       - "traefik.http.routers.nginx.entrypoints=websecure"
       - "traefik.http.routers.nginx.tls=true"
       - "traefik.http.routers.nginx.service=nginx"
       - "traefik.http.services.nginx.loadbalancer.server.port=443"
       - "traefik.http.services.nginx.loadbalancer.server.scheme=https"
+    hostname: jisho.docker
 
   php:
     volumes:
@@ -51,7 +52,7 @@ services:
   node:
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.node.rule=Host(`jish.io`)"
+      - "traefik.http.routers.node.rule=Host(`jisho.docker`)"
       - "traefik.http.routers.node.entrypoints=websecure"
       - "traefik.http.routers.node.tls=true"
       - "traefik.http.routers.node.service=node"

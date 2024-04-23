@@ -17,7 +17,7 @@ export default function Header() {
       <div className="container mx-auto flex flex-wrap px-5 py-3 items-center">
         <Link to="/" className="flex title-font font-medium items-center text-gray-600 mb-0 select-none">
           <FontAwesomeIcon icon={faBookAtlas} className="w-6 h-6 text-white p-2 bg-primary-400 rounded-full"/>
-          <span className="ml-3 text-xl">Jish.io</span>
+          <span className="ml-3 text-xl">Jisho.fr</span>
         </Link>
         <nav className="ml-auto flex flex-wrap items-center text-base justify-center">
           <NavLink to="/new-quiz" className="bg-primary-400 hover:bg-primary-500 rounded-lg text-white px-5 py-2 mr-5">Quiz</NavLink>

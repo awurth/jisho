@@ -7,7 +7,6 @@ services:
       - .docker/nginx/conf.d:/etc/nginx/conf.d
       - .docker/nginx/certs:/etc/nginx/certs
     depends_on: [ php ]
-    hostname: jish.io
 
   php:
     build: .docker/php
