@@ -1,4 +1,4 @@
 tls:
   certificates:
-    - certFile: /certs/jisho.docker.pem
-      keyFile: /certs/jisho.docker-key.pem
+    - certFile: /certs/ssl.pem
+      keyFile: /certs/ssl-key.pem

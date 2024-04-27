@@ -24,6 +24,8 @@ services:
     restart: unless-stopped
 
   nginx:
+    volumes:
+      - .docker/nginx/certs:/etc/nginx/certs
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.nginx.rule=Host(`jisho.docker`) && PathPrefix(`/api`, `/bundles`, `/_wdt`, `/_profiler`, `/favicon.ico`)"

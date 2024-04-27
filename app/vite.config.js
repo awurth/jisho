@@ -8,8 +8,8 @@ export default defineConfig({
   server: {
     host: 'jisho.docker',
     https: {
-      key: fs.readFileSync('/certs/jisho.docker-key.pem'),
-      cert: fs.readFileSync('/certs/jisho.docker.pem'),
+      key: fs.readFileSync('/certs/ssl-key.pem'),
+      cert: fs.readFileSync('/certs/ssl.pem'),
     },
   },
 })
