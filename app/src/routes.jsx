@@ -3,7 +3,6 @@ import React from 'react';
 import {createBrowserRouter, redirect} from 'react-router-dom';
 import Error from './error.jsx';
 import Account from './pages/account.jsx';
-import Dictionaries from './pages/dictionaries.jsx';
 import Dictionary from './pages/dictionary.jsx';
 import Login from './pages/login.jsx';
 import QuizForm from './pages/quiz-form.jsx';
@@ -16,19 +15,17 @@ const mustBeLoggedIn = async () => {
   try {
     const user = await axios.get('/api/me');
     useUserStore.setState({user: user.data});
+
+    if (!useDictionaryStore.getState().activeDictionary) {
+      const dictionaries = await axios.get('/api/dictionaries');
+      useDictionaryStore.setState({activeDictionary: dictionaries.data[0]});
+    }
+
     return null;
   } catch (error) {
     useUserStore.setState({user: null});
     return redirect('/login');
   }
-};
-
-const mustHaveActiveDictionary = () => {
-  if (!useDictionaryStore.getState().activeDictionary) {
-    return redirect('/dictionaries');
-  }
-
-  return null;
 };
 
 export const router = createBrowserRouter([
@@ -40,7 +37,6 @@ export const router = createBrowserRouter([
     children: [
       {
         index: true,
-        loader: mustHaveActiveDictionary,
         element: <Dictionary/>,
       },
       {
@@ -48,17 +44,11 @@ export const router = createBrowserRouter([
         element: <Account/>,
       },
       {
-        path: 'dictionaries',
-        element: <Dictionaries/>,
-      },
-      {
         path: 'new-quiz',
-        loader: mustHaveActiveDictionary,
         element: <QuizForm/>,
       },
       {
         path: 'quiz',
-        loader: mustHaveActiveDictionary,
         element: <Quiz/>,
       },
     ],

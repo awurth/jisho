@@ -4,7 +4,7 @@ import Tag from './tag.jsx';
 
 export default function Entry({entry, ...props}) {
   return (
-    <div className={clsx('border-2 hover:border-primary-400 rounded-md px-3 py-2 flex flex-col', props.className ?? '')}>
+    <div className={clsx('shadow rounded-md px-3 py-2 flex flex-col', props.className ?? '')}>
       <div className="flex mb-1">
         <div className="left mr-3">
           <div className="text-xl font-bold">{entry.japanese}</div>

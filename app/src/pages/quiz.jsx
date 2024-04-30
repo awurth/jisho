@@ -81,22 +81,20 @@ export default function Quiz() {
   };
 
   return (
-    <div className="flex flex-col h-full">
-      <p className="text-sm text-primary-400 pl-4 mb-3">{dictionary.name}</p>
+    <>
       <h1 className="text-xl font-semibold mb-2">Quiz {!!tags.length && `"${tags.join(', ')}"`}</h1>
       {!!entries.length && <div className="flex flex-col items-center">
         <span className="font-bold">{Math.min(currentEntryIndex + 1, entries.length)}/{entries.length}</span>
         <Timer className="font-bold text-2xl" running={currentEntryIndex !== entries.length}/>
       </div>}
       {!!entries.length && currentEntryIndex === entries.length && <p className="grow flex justify-center items-center font-bold text-4xl mb-32">Terminé ! {points} points / {entries.length}</p>}
-      {!!entries.length && currentEntryIndex !== entries.length && <div className="grow grid grid-cols-2">
+      {!!entries.length && currentEntryIndex !== entries.length && <div className="grow flex flex-col">
         <div className="flex items-center justify-center p-5">
-          <p className="text-4xl mb-32">{entries[currentEntryIndex]?.japanese}</p>
+          <p className="text-4xl my-16">{entries[currentEntryIndex]?.japanese}</p>
         </div>
         <div className="flex items-center p-5">
-          <div className={clsx('mb-32 grow flex', {hidden: skipped})}>
-            <Input ref={answerRef} className="px-5 w-full h-20 text-4xl mr-1" value={answer}
-                   onChange={(e) => setAnswer(e.target.value)} onKeyUp={onKeyUp} autoFocus/>
+          <div className={clsx('my-16 grow flex', {hidden: skipped})}>
+            <Input ref={answerRef} className="px-5 w-full h-20 text-4xl mr-1" value={answer} onChange={(e) => setAnswer(e.target.value)} onKeyUp={onKeyUp} autoFocus/>
             <Button className="px-5" onClick={() => setSkipped(true)}>Passer</Button>
           </div>
           {skipped && <div className="mb-32 grow flex">
@@ -104,6 +102,6 @@ export default function Quiz() {
           </div>}
         </div>
       </div>}
-    </div>
+    </>
   );
 }
