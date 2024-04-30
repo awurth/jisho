@@ -2,25 +2,15 @@ import axios from 'axios';
 import React from 'react';
 import {createBrowserRouter, redirect} from 'react-router-dom';
 import Error from './error.jsx';
+import Account from './pages/account.jsx';
 import Dictionaries from './pages/dictionaries.jsx';
 import Dictionary from './pages/dictionary.jsx';
 import Login from './pages/login.jsx';
-import Logout from './pages/logout.jsx';
 import QuizForm from './pages/quiz-form.jsx';
 import Quiz from './pages/quiz.jsx';
 import Root from './pages/root.jsx';
 import {useDictionaryStore} from './stores/dictionary.js';
 import {useUserStore} from './stores/user.js';
-
-const logout = async () => {
-  try {
-    await axios.get('/api/logout');
-  } catch {
-  }
-
-  useUserStore.setState({user: null});
-  return redirect('/');
-};
 
 const mustBeLoggedIn = async () => {
   try {
@@ -54,6 +44,10 @@ export const router = createBrowserRouter([
         element: <Dictionary/>,
       },
       {
+        path: 'account',
+        element: <Account/>,
+      },
+      {
         path: 'dictionaries',
         element: <Dictionaries/>,
       },
@@ -72,10 +66,5 @@ export const router = createBrowserRouter([
   {
     path: '/login',
     element: <Login/>,
-  },
-  {
-    path: '/logout',
-    loader: logout,
-    element: <Logout/>,
   },
 ]);

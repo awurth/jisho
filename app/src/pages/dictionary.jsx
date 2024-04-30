@@ -23,11 +23,11 @@ export default function Dictionary() {
 
   return (
     <>
-      <h1 className="text-sm text-primary-400 pl-4">{dictionary.name}</h1>
-      <AddEntry className="my-3 ml-3" onAdd={onAdd}/>
-      <div className="grid grid-cols-3 gap-3">
+      {/*<AddEntry onAdd={onAdd}/>*/}
+      {/*<h1 className="text-xl font-semibold px-4">Dictionnaire</h1>*/}
+      <div className="flex flex-col">
         {entries.map((entry) => (
-          <Entry key={entry.japanese} entry={entry}/>
+          <Entry key={entry.japanese} entry={entry} className="mb-4"/>
         ))}
       </div>
     </>
