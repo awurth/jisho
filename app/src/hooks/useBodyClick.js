@@ -1,8 +1,8 @@
 import {useEffect} from 'react';
 
-export default function useBodyClick(containerSelector, callback) {
+export default function useBodyClick(containerSelectors, callback) {
   const onBodyClick = (event) => {
-    if (!event.target.closest(containerSelector)) {
+    if (containerSelectors.every((selector) => !event.target.closest(selector))) {
       callback(event);
     }
   };

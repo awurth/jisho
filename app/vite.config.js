@@ -6,7 +6,7 @@ import fs from 'fs';
 export default defineConfig({
   plugins: [react()],
   server: {
-    host: 'jisho.docker',
+    host: 'jisho.local.fr',
     https: {
       key: fs.readFileSync('/certs/ssl-key.pem'),
       cert: fs.readFileSync('/certs/ssl.pem'),

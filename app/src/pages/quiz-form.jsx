@@ -21,7 +21,6 @@ export default function QuizForm() {
     const params = {
       tags: tags.map((tag) => tag.value).join(','),
     };
-    // navigate('/quiz', {state: new URLSearchParams(params)});
     navigate({
       pathname: '/quiz',
       search: new URLSearchParams(params).toString(),
@@ -30,7 +29,6 @@ export default function QuizForm() {
 
   return (
     <>
-      <p className="text-sm text-primary-400 pl-4 mb-3">{dictionary.name}</p>
       <h1 className="text-xl font-semibold mb-2">Nouveau quiz</h1>
       <label className="font-semibold">Tags</label>
       <Tags options={existingTags.map((tag) => tag.name)} value={tags} onChange={setTags} className="mt-1 mb-2"/>

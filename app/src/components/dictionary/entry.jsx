@@ -1,9 +1,10 @@
+import clsx from 'clsx';
 import {toRomaji} from 'wanakana';
 import Tag from './tag.jsx';
 
-export default function Entry({entry}) {
+export default function Entry({entry, ...props}) {
   return (
-    <div className="border-2 border-transparent hover:border-gray-50 rounded-md px-3 py-2 cursor-text">
+    <div className={clsx('shadow rounded-md px-3 py-2 flex flex-col', props.className ?? '')}>
       <div className="flex mb-1">
         <div className="left mr-3">
           <div className="text-xl font-bold">{entry.japanese}</div>

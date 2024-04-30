@@ -1,43 +1,29 @@
-import {faBookAtlas} from '@fortawesome/free-solid-svg-icons';
+import {faBookOpen} from '@fortawesome/free-solid-svg-icons';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
-import clsx from 'clsx';
-import {useState} from 'react';
-import {Link, NavLink} from 'react-router-dom';
-import useBodyClick from '../hooks/useBodyClick.js';
+import {Link} from 'react-router-dom';
+import {useDictionaryStore} from '../stores/dictionary.js';
 import {useUserStore} from '../stores/user.js';
+import DictionaryDropdown from './dictionary-dropdown.jsx';
 
 export default function Header() {
   const {name, avatarUrl} = useUserStore((state) => state.user);
-  const [dropdownOpen, setDropdownOpen] = useState(false);
-
-  useBodyClick('.dropdown', () => setDropdownOpen(false));
+  const dictionary = useDictionaryStore((state) => state.activeDictionary);
 
   return (
-    <header className="text-gray-600">
-      <div className="container mx-auto flex flex-wrap px-5 py-3 items-center">
-        <Link to="/" className="flex title-font font-medium items-center text-gray-600 mb-0 select-none">
-          <FontAwesomeIcon icon={faBookAtlas} className="w-6 h-6 text-white p-2 bg-primary-400 rounded-full"/>
-          <span className="ml-3 text-xl">Jisho.fr</span>
+    <header>
+      <div className="container mx-auto flex px-5 py-3 justify-between items-center">
+        <DictionaryDropdown/>
+        {/*<div className="flex flex-col">*/}
+        {/*  <span className="text-white font-semibold">{name}-さん</span>*/}
+        {/*  <span className="text-white font-bold text-xs">おはようございます！</span>*/}
+        {/*  {dictionary && <div className="text-white text-sm">*/}
+        {/*    <FontAwesomeIcon icon={faBookOpen} className="mr-1"/>*/}
+        {/*    <span>{dictionary.name}</span>*/}
+        {/*  </div>}*/}
+        {/*</div>*/}
+        <Link to="/account" className="rounded-full">
+          <img alt="avatar" className="border-4 border-primary-700 w-12 h-12 object-cover object-center rounded-full shadow-md inline-block" src={avatarUrl}/>
         </Link>
-        <nav className="ml-auto flex flex-wrap items-center text-base justify-center">
-          <NavLink to="/new-quiz" className="bg-primary-400 hover:bg-primary-500 rounded-lg text-white px-5 py-2 mr-5">Quiz</NavLink>
-        </nav>
-        <div className="dropdown relative">
-          <div className="flex items-center cursor-pointer" onClick={() => setDropdownOpen(!dropdownOpen)}>
-            <span className="mr-2">{name}</span>
-            <img alt="avatar"
-                 className="w-10 h-10 object-cover object-center rounded-full shadow-md inline-block"
-                 src={avatarUrl}/>
-          </div>
-          <ul className={clsx('absolute top-0 right-0 mt-11 bg-white rounded-lg shadow-lg p-2', {hidden: !dropdownOpen})}>
-            <li className="cursor-pointer p-2 mb-1 rounded hover:bg-gray-100">
-              <NavLink to="dictionaries" onClick={() => setDropdownOpen(false)}>Mes dictionnaires</NavLink>
-            </li>
-            <li className="cursor-pointer p-2 rounded hover:bg-gray-100">
-              <Link to="/logout">Déconnexion</Link>
-            </li>
-          </ul>
-        </div>
       </div>
     </header>
   );
