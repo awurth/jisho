@@ -1,14 +1,15 @@
-import {create} from 'zustand';
-import {persist} from 'zustand/middleware';
+import { create } from "zustand";
+import { persist } from "zustand/middleware";
 
 export const useDictionaryStore = create(
   persist(
     (set) => ({
       activeDictionary: null,
-      setActiveDictionary: (dictionary) => set(() => ({activeDictionary: dictionary})),
+      setActiveDictionary: (dictionary) =>
+        set(() => ({ activeDictionary: dictionary })),
     }),
     {
-      name: 'dictionary',
-    }
+      name: "dictionary",
+    },
   ),
 );

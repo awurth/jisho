@@ -1,6 +1,6 @@
-import {create} from 'zustand';
-import {persist} from 'zustand/middleware';
-import {useDictionaryStore} from './dictionary.js';
+import { create } from "zustand";
+import { persist } from "zustand/middleware";
+import { useDictionaryStore } from "./dictionary.js";
 
 export const useUserStore = create(
   persist(
@@ -8,13 +8,13 @@ export const useUserStore = create(
       user: null,
     }),
     {
-      name: 'user',
-    }
+      name: "user",
+    },
   ),
 );
 
-useUserStore.subscribe(({user}) => {
+useUserStore.subscribe(({ user }) => {
   if (!user) {
-    useDictionaryStore.setState({activeDictionary: null});
+    useDictionaryStore.setState({ activeDictionary: null });
   }
 });

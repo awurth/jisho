@@ -1,28 +1,31 @@
-import {faArrowRightArrowLeft, faArrowsUpDown} from '@fortawesome/free-solid-svg-icons';
-import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
-import axios from 'axios';
-import clsx from 'clsx';
-import {useEffect, useRef, useState} from 'react';
-import {bind, isKana} from 'wanakana';
-import {useDictionaryStore} from '../../stores/dictionary.js';
-import Button from '../button.jsx';
-import Input from '../forms/input.jsx';
-import existingTags from '../../data/tags.json';
-import Tags from '../forms/tags.jsx';
-import Textarea from '../forms/textarea.jsx';
+import {
+  faArrowRightArrowLeft,
+  faArrowsUpDown,
+} from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import axios from "axios";
+import clsx from "clsx";
+import { useEffect, useRef, useState } from "react";
+import { bind, isKana } from "wanakana";
+import { useDictionaryStore } from "../../stores/dictionary.js";
+import Button from "../button.jsx";
+import Input from "../forms/input.jsx";
+import existingTags from "../../data/tags.json";
+import Tags from "../forms/tags.jsx";
+import Textarea from "../forms/textarea.jsx";
 
-export default function AddEntry({onAdd, ...props}) {
+export default function AddEntry({ onAdd, ...props }) {
   const dictionary = useDictionaryStore((state) => state.activeDictionary);
   const japaneseRef = useRef(null);
-  const [french, setFrench] = useState('');
+  const [french, setFrench] = useState("");
   const [tags, setTags] = useState([]);
-  const [notes, setNotes] = useState('');
+  const [notes, setNotes] = useState("");
 
   const [japaneseError, setJapaneseError] = useState(null);
   const [frenchError, setFrenchError] = useState(null);
 
   const onKeyUp = (e) => {
-    if (e.code === 'Enter' && !e.shiftKey) {
+    if (e.code === "Enter" && !e.shiftKey) {
       validate() && submit();
     }
   };
@@ -30,7 +33,7 @@ export default function AddEntry({onAdd, ...props}) {
   const validateJapanese = () => {
     const japanese = japaneseRef.current.value;
     if (japanese.length === 0 || !isKana(japanese)) {
-      setJapaneseError('Seuls les hiragana et les katakana sont acceptés');
+      setJapaneseError("Seuls les hiragana et les katakana sont acceptés");
       return false;
     }
 
@@ -40,7 +43,7 @@ export default function AddEntry({onAdd, ...props}) {
 
   const validateFrench = () => {
     if (french.length === 0) {
-      setFrenchError('Veuillez renseigner au moins un mot');
+      setFrenchError("Veuillez renseigner au moins un mot");
       return false;
     }
 
@@ -65,45 +68,69 @@ export default function AddEntry({onAdd, ...props}) {
 
     const data = {
       japanese: kana,
-      french: french.split(', '),
+      french: french.split(", "),
       tags: tags.map((tag) => tag.value),
     };
 
-    axios.post(`/api/dictionaries/${dictionary.id}/entries`, data).then((response) => {
-      japaneseRef.current.value = '';
-      setJapaneseError(null);
+    axios
+      .post(`/api/dictionaries/${dictionary.id}/entries`, data)
+      .then((response) => {
+        japaneseRef.current.value = "";
+        setJapaneseError(null);
 
-      setFrench('');
-      setFrenchError(null);
+        setFrench("");
+        setFrenchError(null);
 
-      setTags([]);
-      setNotes('');
+        setTags([]);
+        setNotes("");
 
-      onAdd(data);
-    });
+        onAdd(data);
+      });
   };
 
   return (
-    <div {...props} className={clsx('border-2 border-b-4 border-dark-900 p-4 rounded-xl flex flex-col', props.className ?? '')}>
+    <div
+      {...props}
+      className={clsx(
+        "border-2 border-b-4 border-dark-900 p-4 rounded-xl flex flex-col",
+        props.className ?? "",
+      )}
+    >
       <p className="mb-3 text-gray-300 text-sm font-semibold">Nouveau mot</p>
-      <Input type="text"
-             placeholder="gohan"
-             className="w-full mb-4"
-             ref={japaneseRef}
-             onKeyUp={onKeyUp}
-             error={japaneseError}
+      <Input
+        type="text"
+        placeholder="gohan"
+        className="w-full mb-4"
+        ref={japaneseRef}
+        onKeyUp={onKeyUp}
+        error={japaneseError}
       />
-      <FontAwesomeIcon icon={faArrowsUpDown} className="text-gray-400 mb-4"/>
-      <Input type="text"
-             placeholder="riz, repas"
-             className="w-full mb-4"
-             value={french}
-             onKeyUp={onKeyUp}
-             onChange={(e) => setFrench(e.target.value)}
-             error={frenchError}/>
-      <Tags options={existingTags} value={tags} onChange={setTags} className="mb-4"/>
-      <Textarea className="w-full mb-4" placeholder="Notes" onChange={(e) => setNotes(e.target.value)} onKeyUp={onKeyUp} value={notes}/>
-      <Button onClick={submit} className="py-2 w-full">Ajouter</Button>
+      <FontAwesomeIcon icon={faArrowsUpDown} className="text-gray-400 mb-4" />
+      <Input
+        type="text"
+        placeholder="riz, repas"
+        className="w-full mb-4"
+        value={french}
+        onKeyUp={onKeyUp}
+        onChange={(e) => setFrench(e.target.value)}
+        error={frenchError}
+      />
+      <Tags
+        options={existingTags}
+        value={tags}
+        onChange={setTags}
+        className="mb-4"
+      />
+      <Textarea
+        className="w-full mb-4"
+        placeholder="Notes"
+        onChange={(e) => setNotes(e.target.value)}
+        onKeyUp={onKeyUp}
+        value={notes}
+      />
+      <Button onClick={submit} className="py-2 w-full">
+        Ajouter
+      </Button>
     </div>
   );
 }

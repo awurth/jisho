@@ -3,7 +3,7 @@ Tools:
 
 #################################
 
-.PHONY: rector rector-dry php-cs-fixer phpstan
+.PHONY: rector rector-dry php-cs-fixer php-cs-fixer-dry phpstan prettier lint
 
 ## Execute Rector in dry-run mode
 rector-dry: api/rector.php
@@ -25,5 +25,9 @@ php-cs-fixer: api/.php-cs-fixer.dist.php
 phpstan: api/phpstan.dist.neon
 	$(DOCKER_COMPOSE_EXEC_PHP) vendor/bin/phpstan
 
+## Execute Prettier
+prettier: app/.prettierignore
+	$(DOCKER_COMPOSE_EXEC_YARN) prettier . --write
+
 ## Execute all linters
-lint: php-cs-fixer phpstan rector
+lint: php-cs-fixer prettier phpstan rector

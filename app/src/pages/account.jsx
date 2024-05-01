@@ -1,7 +1,7 @@
-import axios from 'axios';
-import {useEffect, useState} from 'react';
-import {useNavigate} from 'react-router-dom';
-import Button from '../components/button.jsx';
+import axios from "axios";
+import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import Button from "../components/button.jsx";
 
 export default function Account() {
   const [logoutClicked, setLogoutClicked] = useState(false);
@@ -12,14 +12,16 @@ export default function Account() {
       return;
     }
 
-    axios.get('/api/logout').finally(() => {
-      navigate('/login');
+    axios.get("/api/logout").finally(() => {
+      navigate("/login");
     });
   }, [logoutClicked]);
 
   return (
     <>
-      <Button className="w-full py-4" onClick={() => setLogoutClicked(true)}>Déconnexion</Button>
+      <Button className="w-full py-4" onClick={() => setLogoutClicked(true)}>
+        Déconnexion
+      </Button>
     </>
   );
 }
