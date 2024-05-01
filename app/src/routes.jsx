@@ -8,6 +8,7 @@ import Login from './pages/login.jsx';
 import QuizForm from './pages/quiz-form.jsx';
 import Quiz from './pages/quiz.jsx';
 import Root from './pages/root.jsx';
+import Search from './pages/search.jsx';
 import {useDictionaryStore} from './stores/dictionary.js';
 import {useUserStore} from './stores/user.js';
 
@@ -42,6 +43,10 @@ export const router = createBrowserRouter([
       {
         path: 'account',
         element: <Account/>,
+      },
+      {
+        path: 'search',
+        element: <Search/>,
       },
       {
         path: 'new-quiz',

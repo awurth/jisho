@@ -2,7 +2,7 @@ import axios from 'axios';
 import clsx from 'clsx';
 import {useEffect, useRef, useState} from 'react';
 import {useSearchParams} from 'react-router-dom';
-import Button from '../components/forms/button.jsx';
+import Button from '../components/button.jsx';
 import Input from '../components/forms/input.jsx';
 import Timer from '../components/quiz/timer.jsx';
 import {useDictionaryStore} from '../stores/dictionary.js';
@@ -82,15 +82,15 @@ export default function Quiz() {
 
   return (
     <>
-      <h1 className="text-xl font-semibold mb-2">Quiz {!!tags.length && `"${tags.join(', ')}"`}</h1>
+      <h1 className="text-xl text-white font-semibold mb-2">Quiz {!!tags.length && `"${tags.join(', ')}"`}</h1>
       {!!entries.length && <div className="flex flex-col items-center">
-        <span className="font-bold">{Math.min(currentEntryIndex + 1, entries.length)}/{entries.length}</span>
-        <Timer className="font-bold text-2xl" running={currentEntryIndex !== entries.length}/>
+        <span className="font-bold text-white">{Math.min(currentEntryIndex + 1, entries.length)}/{entries.length}</span>
+        <Timer className="font-bold text-2xl text-white" running={currentEntryIndex !== entries.length}/>
       </div>}
-      {!!entries.length && currentEntryIndex === entries.length && <p className="grow flex justify-center items-center font-bold text-4xl mb-32">Terminé ! {points} points / {entries.length}</p>}
+      {!!entries.length && currentEntryIndex === entries.length && <p className="grow flex justify-center items-center font-bold text-4xl text-white mb-32">Terminé ! {points} points / {entries.length}</p>}
       {!!entries.length && currentEntryIndex !== entries.length && <div className="grow flex flex-col">
         <div className="flex items-center justify-center p-5">
-          <p className="text-4xl my-16">{entries[currentEntryIndex]?.japanese}</p>
+          <p className="text-4xl text-white my-16">{entries[currentEntryIndex]?.japanese}</p>
         </div>
         <div className="flex items-center p-5">
           <div className={clsx('my-16 grow flex', {hidden: skipped})}>
@@ -98,7 +98,7 @@ export default function Quiz() {
             <Button className="px-5" onClick={() => setSkipped(true)}>Passer</Button>
           </div>
           {skipped && <div className="mb-32 grow flex">
-            <p className="text-4xl">{entries[currentEntryIndex]?.french}</p>
+            <p className="text-4xl text-white">{entries[currentEntryIndex]?.french}</p>
           </div>}
         </div>
       </div>}

@@ -1,7 +1,7 @@
 import axios from 'axios';
 import {useEffect, useState} from 'react';
 import {useNavigate} from 'react-router-dom';
-import Button from '../components/forms/button.jsx';
+import Button from '../components/button.jsx';
 
 export default function Account() {
   const [logoutClicked, setLogoutClicked] = useState(false);
@@ -19,7 +19,7 @@ export default function Account() {
 
   return (
     <>
-      <Button className="w-full py-3" onClick={() => setLogoutClicked(true)}>Déconnexion</Button>
+      <Button className="w-full py-4" onClick={() => setLogoutClicked(true)}>Déconnexion</Button>
     </>
   );
 }

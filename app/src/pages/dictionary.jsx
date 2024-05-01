@@ -30,7 +30,7 @@ export default function Dictionary() {
 
   return (
     <>
-      <AddEntry onAdd={onAdd} className={clsx({'add-entry mb-3': true, hidden: !entryFormVisible})}/>
+      <AddEntry onAdd={onAdd} className={clsx({'add-entry mb-4': true, hidden: !entryFormVisible})}/>
       <div className="flex flex-col">
         {entries.map((entry) => (
           <Entry key={entry.japanese} entry={entry} className="mb-4"/>

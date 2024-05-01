@@ -1,7 +1,7 @@
 import axios from 'axios';
 import {useEffect, useState} from 'react';
 import {useNavigate} from 'react-router-dom';
-import Button from '../components/forms/button.jsx';
+import Button from '../components/button.jsx';
 import Tags from '../components/forms/tags.jsx';
 import {useDictionaryStore} from '../stores/dictionary.js';
 
@@ -29,10 +29,12 @@ export default function QuizForm() {
 
   return (
     <>
-      <h1 className="text-xl font-semibold mb-2">Nouveau quiz</h1>
-      <label className="font-semibold">Tags</label>
+      <h1 className="text-xl text-white font-semibold mb-2">Nouveau quiz</h1>
+      <label className="text-white font-semibold">Tags</label>
       <Tags options={existingTags.map((tag) => tag.name)} value={tags} onChange={setTags} className="mt-1 mb-2"/>
-      <Button onClick={onPlayClick}>Jouer</Button>
+      <div className="px-8">
+        <Button onClick={onPlayClick} className="py-2 w-full">Jouer</Button>
+      </div>
     </>
   );
 }

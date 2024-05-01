@@ -1,10 +1,11 @@
 import {faArrowRightArrowLeft, faArrowsUpDown} from '@fortawesome/free-solid-svg-icons';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 import axios from 'axios';
+import clsx from 'clsx';
 import {useEffect, useRef, useState} from 'react';
 import {bind, isKana} from 'wanakana';
 import {useDictionaryStore} from '../../stores/dictionary.js';
-import Button from '../forms/button.jsx';
+import Button from '../button.jsx';
 import Input from '../forms/input.jsx';
 import existingTags from '../../data/tags.json';
 import Tags from '../forms/tags.jsx';
@@ -83,27 +84,28 @@ export default function AddEntry({onAdd, ...props}) {
   };
 
   return (
-    <div {...props}>
-      <div className="flex flex-col mb-2">
-        <Input type="text"
-               placeholder="gohan"
-               className="w-full mb-2"
-               ref={japaneseRef}
-               onKeyUp={onKeyUp}
-               error={japaneseError}
-        />
-        <FontAwesomeIcon icon={faArrowsUpDown} className="text-gray-500 mb-2"/>
-        <Input type="text"
-               placeholder="riz, repas"
-               className="w-full"
-               value={french}
-               onKeyUp={onKeyUp}
-               onChange={(e) => setFrench(e.target.value)}
-               error={frenchError}/>
+    <div {...props} className={clsx('border-2 border-b-4 border-dark-900 p-4 rounded-xl flex flex-col', props.className ?? '')}>
+      <p className="mb-3 text-gray-300 text-sm font-semibold">Nouveau mot</p>
+      <Input type="text"
+             placeholder="gohan"
+             className="w-full mb-4"
+             ref={japaneseRef}
+             onKeyUp={onKeyUp}
+             error={japaneseError}
+      />
+      <FontAwesomeIcon icon={faArrowsUpDown} className="text-gray-400 mb-4"/>
+      <Input type="text"
+             placeholder="riz, repas"
+             className="w-full mb-4"
+             value={french}
+             onKeyUp={onKeyUp}
+             onChange={(e) => setFrench(e.target.value)}
+             error={frenchError}/>
+      <Tags options={existingTags} value={tags} onChange={setTags} className="mb-4"/>
+      <Textarea className="w-full mb-4" placeholder="Notes" onChange={(e) => setNotes(e.target.value)} onKeyUp={onKeyUp} value={notes}/>
+      <div className="px-8">
+        <Button onClick={submit} className="py-2 w-full">Ajouter</Button>
       </div>
-      <Tags options={existingTags} value={tags} onChange={setTags} className="mb-2"/>
-      <Textarea className="w-full" placeholder="Notes" onChange={(e) => setNotes(e.target.value)} onKeyUp={onKeyUp} value={notes}/>
-      <Button onClick={submit}>Ajouter</Button>
     </div>
   );
 }

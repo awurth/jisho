@@ -13,8 +13,8 @@ export default function Tags({options = [], ...props}) {
       classNames={{
         control: ({isFocused}) =>
           clsx(
-            'border shadow rounded-xl caret-primary-400 px-1 py-2 text-sm',
-            {'border-primary-400': isFocused, 'hover:border-gray-300': !isFocused},
+            'bg-dark-950 border-2 border-dark-900 rounded-xl caret-primary-400 px-1 py-2 text-sm',
+            {'border-dark-600': isFocused, 'hover:border-dark-800': !isFocused},
           ),
         placeholder: () => 'text-gray-400',
         menuList: () => 'bg-white rounded-lg shadow-lg p-1 mt-1',
