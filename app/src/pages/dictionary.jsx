@@ -1,6 +1,6 @@
-import axios from "axios";
+import { useQuery } from "@tanstack/react-query";
 import clsx from "clsx";
-import { useEffect, useState } from "react";
+import { getEntries } from "../api/dictionary.js";
 import AddEntry from "../components/dictionary/add-entry.jsx";
 import Entry from "../components/dictionary/entry.jsx";
 import useBodyClick from "../hooks/useBodyClick.js";
@@ -11,29 +11,19 @@ export default function Dictionary() {
   const dictionary = useDictionaryStore((state) => state.activeDictionary);
   const entryFormVisible = useEntryFormStore((state) => state.visible);
   const setEntryFormVisible = useEntryFormStore((state) => state.setVisible);
-  const [entries, setEntries] = useState([]);
 
   useBodyClick([".add-entry", ".add-entry-button"], () =>
     setEntryFormVisible(false),
   );
 
-  const [hasNewEntries, setHasNewEntries] = useState(false);
-
-  useEffect(() => {
-    axios.get(`/api/dictionaries/${dictionary.id}/entries`).then(({ data }) => {
-      setEntries(data);
-    });
-    setHasNewEntries(false);
-  }, [hasNewEntries]);
-
-  const onAdd = () => {
-    setHasNewEntries(true);
-  };
+  const { data: entries = [] } = useQuery({
+    queryKey: ["entries", dictionary.id],
+    queryFn: () => getEntries(dictionary.id),
+  });
 
   return (
     <>
       <AddEntry
-        onAdd={onAdd}
         className={clsx({ "add-entry mb-4": true, hidden: !entryFormVisible })}
       />
       <div className="flex flex-col">

@@ -1,6 +1,7 @@
-import axios from "axios";
-import { useEffect, useState } from "react";
+import { useQuery } from "@tanstack/react-query";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { getTags } from "../api/dictionary.js";
 import Button from "../components/button.jsx";
 import Tags from "../components/forms/tags.jsx";
 import { useDictionaryStore } from "../stores/dictionary.js";
@@ -8,14 +9,12 @@ import { useDictionaryStore } from "../stores/dictionary.js";
 export default function QuizForm() {
   const navigate = useNavigate();
   const dictionary = useDictionaryStore((state) => state.activeDictionary);
-  const [existingTags, setExistingTags] = useState([]);
   const [tags, setTags] = useState([]);
 
-  useEffect(() => {
-    axios.get(`/api/dictionaries/${dictionary.id}/tags`).then(({ data }) => {
-      setExistingTags(data);
-    });
-  }, []);
+  const { data: existingTags = [] } = useQuery({
+    queryKey: ["tags", dictionary.id],
+    queryFn: () => getTags(dictionary.id),
+  });
 
   const onPlayClick = () => {
     const params = {

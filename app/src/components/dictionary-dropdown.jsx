@@ -1,21 +1,19 @@
 import { faCaretDown, faPlus } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Menu } from "@headlessui/react";
-import axios from "axios";
-import { useEffect, useState } from "react";
+import { useQuery } from "@tanstack/react-query";
+import { getDictionaries } from "../api/dictionary.js";
 import { useDictionaryStore } from "../stores/dictionary.js";
 
 export default function DictionaryDropdown() {
-  const [dictionaries, setDictionaries] = useState([]);
   const setActiveDictionary = useDictionaryStore(
     (state) => state.setActiveDictionary,
   );
 
-  useEffect(() => {
-    axios.get("/api/dictionaries").then(({ data }) => {
-      setDictionaries(data);
-    });
-  }, []);
+  const { data: dictionaries = [] } = useQuery({
+    queryKey: ["dictionaries"],
+    queryFn: getDictionaries,
+  });
 
   const onDictionaryClick = (dictionary) => {
     setActiveDictionary(dictionary);
