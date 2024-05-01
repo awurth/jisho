@@ -32,9 +32,7 @@ export default function QuizForm() {
       <h1 className="text-xl text-white font-semibold mb-2">Nouveau quiz</h1>
       <label className="text-white font-semibold">Tags</label>
       <Tags options={existingTags.map((tag) => tag.name)} value={tags} onChange={setTags} className="mt-1 mb-2"/>
-      <div className="px-8">
-        <Button onClick={onPlayClick} className="py-2 w-full">Jouer</Button>
-      </div>
+      <Button onClick={onPlayClick} className="py-2 w-full">Jouer</Button>
     </>
   );
 }

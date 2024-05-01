@@ -103,9 +103,7 @@ export default function AddEntry({onAdd, ...props}) {
              error={frenchError}/>
       <Tags options={existingTags} value={tags} onChange={setTags} className="mb-4"/>
       <Textarea className="w-full mb-4" placeholder="Notes" onChange={(e) => setNotes(e.target.value)} onKeyUp={onKeyUp} value={notes}/>
-      <div className="px-8">
-        <Button onClick={submit} className="py-2 w-full">Ajouter</Button>
-      </div>
+      <Button onClick={submit} className="py-2 w-full">Ajouter</Button>
     </div>
   );
 }
