@@ -23,6 +23,7 @@ export default function TabBar() {
   const onAddButtonClick = () => {
     setEntryFormVisible(true);
     navigate("/");
+    window.scrollTo(0, 0);
   };
 
   return (

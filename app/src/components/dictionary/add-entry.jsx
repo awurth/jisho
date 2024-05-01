@@ -1,12 +1,10 @@
-import {
-  faArrowRightArrowLeft,
-  faArrowsUpDown,
-} from "@fortawesome/free-solid-svg-icons";
+import { faArrowsUpDown } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import axios from "axios";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import clsx from "clsx";
 import { useEffect, useRef, useState } from "react";
 import { bind, isKana } from "wanakana";
+import { postEntry } from "../../api/dictionary.js";
 import { useDictionaryStore } from "../../stores/dictionary.js";
 import Button from "../button.jsx";
 import Input from "../forms/input.jsx";
@@ -23,6 +21,23 @@ export default function AddEntry({ onAdd, ...props }) {
 
   const [japaneseError, setJapaneseError] = useState(null);
   const [frenchError, setFrenchError] = useState(null);
+
+  const queryClient = useQueryClient();
+  const mutation = useMutation({
+    mutationFn: (data) => postEntry(dictionary.id, data),
+    onSuccess: () => {
+      japaneseRef.current.value = "";
+      setJapaneseError(null);
+
+      setFrench("");
+      setFrenchError(null);
+
+      setTags([]);
+      setNotes("");
+
+      queryClient.invalidateQueries({ queryKey: ["entries"] });
+    },
+  });
 
   const onKeyUp = (e) => {
     if (e.code === "Enter" && !e.shiftKey) {
@@ -66,26 +81,11 @@ export default function AddEntry({ onAdd, ...props }) {
   const submit = () => {
     const kana = japaneseRef.current.value;
 
-    const data = {
+    mutation.mutate({
       japanese: kana,
       french: french.split(", "),
       tags: tags.map((tag) => tag.value),
-    };
-
-    axios
-      .post(`/api/dictionaries/${dictionary.id}/entries`, data)
-      .then((response) => {
-        japaneseRef.current.value = "";
-        setJapaneseError(null);
-
-        setFrench("");
-        setFrenchError(null);
-
-        setTags([]);
-        setNotes("");
-
-        onAdd(data);
-      });
+    });
   };
 
   return (
