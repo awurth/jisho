@@ -1,6 +1,7 @@
-import axios from "axios";
 import React from "react";
 import { createBrowserRouter, redirect } from "react-router-dom";
+import {getDictionaries} from './api/dictionary.js';
+import {getMe} from './api/user.js';
 import Error from "./error.jsx";
 import Account from "./pages/account.jsx";
 import Dictionary from "./pages/dictionary.jsx";
@@ -14,12 +15,12 @@ import { useUserStore } from "./stores/user.js";
 
 const mustBeLoggedIn = async () => {
   try {
-    const user = await axios.get("/api/me");
-    useUserStore.setState({ user: user.data });
+    const user = await getMe();
+    useUserStore.setState({ user });
 
     if (!useDictionaryStore.getState().activeDictionary) {
-      const dictionaries = await axios.get("/api/dictionaries");
-      useDictionaryStore.setState({ activeDictionary: dictionaries.data[0] });
+      const dictionaries = await getDictionaries();
+      useDictionaryStore.setState({ activeDictionary: dictionaries[0] });
     }
 
     return null;
