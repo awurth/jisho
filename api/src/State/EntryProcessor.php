@@ -40,7 +40,7 @@ final readonly class EntryProcessor implements ProcessorInterface
         $japaneseEntry = $this->japaneseEntryRepository->findOneBy(['value' => $data->japanese]);
 
         if (!$japaneseEntry instanceof JapaneseEntry) {
-            $japaneseEntry = new JapaneseEntry($data->dictionary, $data->japanese);
+            $japaneseEntry = new JapaneseEntry($data->dictionary, $data->japanese, $data->notes);
 
             $this->entityManager->persist($japaneseEntry);
         }

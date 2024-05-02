@@ -49,6 +49,7 @@ final readonly class EntryProvider implements ProviderInterface
                 $entries[$entity->japaneseEntry->value]->dictionary = $entity->japaneseEntry->dictionary;
                 $entries[$entity->japaneseEntry->value]->japanese = $entity->japaneseEntry->value;
                 $entries[$entity->japaneseEntry->value]->tags = array_map(static fn (JapaneseEntryTag $tag): string => $tag->tag->name, $entity->japaneseEntry->tags->toArray());
+                $entries[$entity->japaneseEntry->value]->notes = $entity->japaneseEntry->notes;
             }
 
             $entries[$entity->japaneseEntry->value]->french[] = $entity->frenchEntry->value;
@@ -75,6 +76,7 @@ final readonly class EntryProvider implements ProviderInterface
             $entry->id = $entity->japaneseEntry->getId();
             $entry->dictionary = $entity->japaneseEntry->dictionary;
             $entry->japanese = $entity->japaneseEntry->value;
+            $entry->notes = $entity->japaneseEntry->notes;
             $entry->french[] = $entity->frenchEntry->value;
         }
 

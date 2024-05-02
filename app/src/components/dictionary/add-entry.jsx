@@ -85,6 +85,7 @@ export default function AddEntry({ onAdd, ...props }) {
       japanese: kana,
       french: french.split(", "),
       tags: tags.map((tag) => tag.value),
+      notes,
     });
   };
 

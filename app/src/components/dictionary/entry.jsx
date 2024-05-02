@@ -20,6 +20,7 @@ export default function Entry({ entry, ...props }) {
           <Tag key={tag} name={tag} className="mr-1 mb-1" />
         ))}
       </div>
+      {!!entry.notes && <p className="text-xs text-gray-400">{entry.notes}</p>}
     </div>
   );
 }

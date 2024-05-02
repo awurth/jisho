@@ -7,6 +7,7 @@ namespace App\Entity;
 use App\Repository\FrenchEntryRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping\Column;
 use Doctrine\ORM\Mapping\Entity;
 use Doctrine\ORM\Mapping\Id;
@@ -35,6 +36,9 @@ class JapaneseEntry
 
         #[Column(length: 255)]
         public string $value,
+
+        #[Column(type: Types::TEXT, nullable: true)]
+        public ?string $notes = null,
 
         #[OneToMany(targetEntity: JapaneseFrenchAssociation::class, mappedBy: 'japaneseEntry')]
         public Collection $associations = new ArrayCollection(),

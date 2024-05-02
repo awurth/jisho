@@ -78,4 +78,7 @@ final class Entry
      */
     #[Groups(['entry:write'])]
     public array $tags = [];
+
+    #[Groups(['entry:write'])]
+    public ?string $notes = null;
 }

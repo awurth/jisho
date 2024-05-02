@@ -27,7 +27,7 @@ export default function TabBar() {
   };
 
   return (
-    <footer className="fixed bottom-0 left-0 right-0 bg-dark-950 border-l-2 border-r-2 border-t-2 border-dark-900 rounded-t-2xl">
+    <footer className="fixed bottom-0 left-0 right-0 bg-dark-950 border-l-1 border-r-1 border-t-2 border-dark-900 rounded-t-2xl">
       <ul className="grid grid-cols-5 text-center">
         <li>
           <NavLink to="/" className={itemClassName}>
