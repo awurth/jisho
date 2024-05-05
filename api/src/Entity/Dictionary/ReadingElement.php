@@ -17,28 +17,29 @@ class ReadingElement
     #[Column(type: 'uuid')]
     private Uuid $id;
 
-    public function __construct(
-        #[ManyToOne(inversedBy: 'readingElements')]
-        public Entry $entry,
+    #[ManyToOne(inversedBy: 'readingElements')]
+    public Entry $entry;
 
-        #[Column]
-        public string $kana,
+    #[Column]
+    public string $kana;
 
-        #[Column]
-        public string $romaji,
+    #[Column]
+    public string $romaji;
 
-        #[Column(nullable: true)]
-        public ?string $info,
+    #[Column(nullable: true)]
+    public ?string $info;
 
-        #[Column(nullable: true)]
-        public ?string $priority,
+    #[Column(nullable: true)]
+    public ?string $priority;
 
-        #[Column]
-        public bool $notTrueKanjiReading = false,
+    #[Column]
+    public bool $notTrueKanjiReading = false;
 
-        #[Column]
-        public array $kanjiElements = [],
-    ) {
+    #[Column]
+    public array $kanjiElements = [];
+
+    public function __construct()
+    {
         $this->id = Uuid::v4();
     }
 

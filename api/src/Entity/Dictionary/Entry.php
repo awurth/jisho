@@ -19,20 +19,24 @@ class Entry
     #[Column(type: 'uuid')]
     private Uuid $id;
 
-    public function __construct(
-        #[Column]
-        public int $sequenceId,
+    #[Column]
+    public int $sequenceId;
 
-        #[OneToMany(targetEntity: KanjiElement::class, mappedBy: 'entry', cascade: ['persist', 'remove'])]
-        public Collection $kanjiElements = new ArrayCollection(),
+    #[OneToMany(targetEntity: KanjiElement::class, mappedBy: 'entry', cascade: ['persist', 'remove'])]
+    public Collection $kanjiElements;
 
-        #[OneToMany(targetEntity: ReadingElement::class, mappedBy: 'entry', cascade: ['persist', 'remove'])]
-        public Collection $readingElements = new ArrayCollection(),
+    #[OneToMany(targetEntity: ReadingElement::class, mappedBy: 'entry', cascade: ['persist', 'remove'])]
+    public Collection $readingElements;
 
-        #[OneToMany(targetEntity: Sense::class, mappedBy: 'entry', cascade: ['persist', 'remove'])]
-        public Collection $senses = new ArrayCollection(),
-    ) {
+    #[OneToMany(targetEntity: Sense::class, mappedBy: 'entry', cascade: ['persist', 'remove'])]
+    public Collection $senses;
+
+    public function __construct()
+    {
         $this->id = Uuid::v4();
+        $this->kanjiElements = new ArrayCollection();
+        $this->readingElements = new ArrayCollection();
+        $this->senses = new ArrayCollection();
     }
 
     public function getId(): Uuid

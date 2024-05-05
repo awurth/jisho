@@ -10,7 +10,6 @@ use DOMNode;
 use Symfony\Component\DomCrawler\Crawler;
 use XMLReader;
 use function count;
-use function dd;
 use function Functional\filter;
 use function in_array;
 
@@ -18,9 +17,8 @@ final readonly class JMDictParser
 {
     public function __construct(
         private EntityManagerInterface $entityManager,
-        private EntryDataTransformer $entryDataTransformer
-    )
-    {
+        private EntryDataTransformer $entryDataTransformer,
+    ) {
     }
 
     public function parse(): void
@@ -34,21 +32,26 @@ final readonly class JMDictParser
         $counter = 0;
         while ('entry' === $xml->name) {
             $entry = $this->parseEntry($xml->readOuterXml());
-            $entry = $this->entryDataTransformer->transformToEntity($entry);
 
-            $this->entityManager->persist($entry);
+            if ([] !== $entry) {
+                $entry = $this->entryDataTransformer->transformToEntity($entry);
+                $this->entityManager->persist($entry);
+            }
 
             if ($counter > 500) {
                 $this->entityManager->flush();
                 $this->entityManager->clear();
                 $counter = 0;
             } else {
-                $counter++;
+                ++$counter;
             }
 
             $xml->next('entry');
             unset($entry);
         }
+
+        $this->entityManager->flush();
+        $this->entityManager->clear();
     }
 
     private function parseEntry(string $xml): array
