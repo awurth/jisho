@@ -7,7 +7,7 @@ namespace App\Entity;
 use ApiPlatform\Metadata\ApiResource;
 use ApiPlatform\Metadata\Get;
 use ApiPlatform\Metadata\GetCollection;
-use App\Repository\DictionaryRepository;
+use App\Repository\DeckRepository;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\ORM\Mapping\Column;
 use Doctrine\ORM\Mapping\Id;
@@ -15,34 +15,34 @@ use Gedmo\Mapping\Annotation\Blameable;
 use Symfony\Component\Serializer\Attribute\Groups;
 use Symfony\Component\Uid\Uuid;
 
-#[ORM\Entity(repositoryClass: DictionaryRepository::class)]
+#[ORM\Entity(repositoryClass: DeckRepository::class)]
 #[ApiResource(
     operations: [
         new GetCollection(
             normalizationContext: [
-                'groups' => ['dictionary:read'],
+                'groups' => ['deck:read'],
                 'openapi_definition_name' => 'Collection-Read',
             ],
             security: "is_granted('ROLE_USER')",
         ),
         new Get(
             normalizationContext: [
-                'groups' => ['dictionary:read'],
+                'groups' => ['deck:read'],
                 'openapi_definition_name' => 'Item-Read',
             ],
-            security: "is_granted('DICTIONARY_VIEW', object)",
+            security: "is_granted('DECK_VIEW', object)",
         ),
     ],
 )]
-class Dictionary
+class Deck
 {
     #[Id]
     #[Column(type: 'uuid')]
-    #[Groups(['dictionary:read'])]
+    #[Groups(['deck:read'])]
     private Uuid $id;
 
     #[Column(length: 255)]
-    #[Groups(['dictionary:read'])]
+    #[Groups(['deck:read'])]
     public ?string $name = null;
 
     #[ORM\ManyToOne]

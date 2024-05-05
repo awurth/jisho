@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Tests\Functional;
 
-use App\Factory\DictionaryFactory;
+use App\Factory\DeckFactory;
 use App\Factory\UserFactory;
 use Zenstruck\Foundry\Test\Factories;
 use Zenstruck\Foundry\Test\ResetDatabase;
@@ -36,7 +36,7 @@ final class DictionaryTest extends ApiTestCase
 
     public function testGetCollectionResult(): void
     {
-        $dictionary = DictionaryFactory::createOne();
+        $dictionary = DeckFactory::createOne();
 
         $client = self::createClient();
         $client->loginUser($dictionary->owner);
@@ -56,7 +56,7 @@ final class DictionaryTest extends ApiTestCase
 
     public function testGetItemWithInvalidId(): void
     {
-        $dictionary = DictionaryFactory::createOne();
+        $dictionary = DeckFactory::createOne();
 
         $client = self::createClient();
         $client->loginUser($dictionary->owner);

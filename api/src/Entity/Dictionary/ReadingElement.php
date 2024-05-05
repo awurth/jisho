@@ -27,10 +27,10 @@ class ReadingElement
     public string $romaji;
 
     #[Column(nullable: true)]
-    public ?string $info;
+    public ?string $info = null;
 
     #[Column(nullable: true)]
-    public ?string $priority;
+    public ?string $priority = null;
 
     #[Column]
     public bool $notTrueKanjiReading = false;

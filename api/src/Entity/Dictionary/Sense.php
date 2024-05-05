@@ -27,13 +27,13 @@ class Sense
     public array $partsOfSpeech;
 
     #[Column(nullable: true)]
-    public ?string $fieldOfApplication;
+    public ?string $fieldOfApplication = null;
 
     #[Column(nullable: true)]
-    public ?string $dialect;
+    public ?string $dialect = null;
 
     #[Column(nullable: true)]
-    public ?string $info;
+    public ?string $info = null;
 
     #[Column]
     public array $kanjiElements;

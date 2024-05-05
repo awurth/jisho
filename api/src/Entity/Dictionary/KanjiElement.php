@@ -24,10 +24,10 @@ class KanjiElement
     public string $value;
 
     #[Column(nullable: true)]
-    public ?string $info;
+    public ?string $info = null;
 
     #[Column(nullable: true)]
-    public ?string $priority;
+    public ?string $priority = null;
 
     public function __construct()
     {
