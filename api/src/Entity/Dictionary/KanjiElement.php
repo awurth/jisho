@@ -17,19 +17,20 @@ class KanjiElement
     #[Column(type: 'uuid')]
     private Uuid $id;
 
-    public function __construct(
-        #[ManyToOne(inversedBy: 'kanjiElements')]
-        public Entry $entry,
+    #[ManyToOne(inversedBy: 'kanjiElements')]
+    public Entry $entry;
 
-        #[Column]
-        public string $value,
+    #[Column]
+    public string $value;
 
-        #[Column(nullable: true)]
-        public ?string $info,
+    #[Column(nullable: true)]
+    public ?string $info;
 
-        #[Column(nullable: true)]
-        public ?string $priority,
-    ) {
+    #[Column(nullable: true)]
+    public ?string $priority;
+
+    public function __construct()
+    {
         $this->id = Uuid::v4();
     }
 

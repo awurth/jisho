@@ -17,16 +17,17 @@ class Translation
     #[Column(type: 'uuid')]
     private Uuid $id;
 
-    public function __construct(
-        #[ManyToOne(inversedBy: 'translations')]
-        public Sense $sense,
+    #[ManyToOne(inversedBy: 'translations')]
+    public Sense $sense;
 
-        #[Column]
-        public string $value,
+    #[Column]
+    public string $value;
 
-        #[Column]
-        public string $language = 'eng',
-    ) {
+    #[Column]
+    public string $language = 'eng';
+
+    public function __construct()
+    {
         $this->id = Uuid::v4();
     }
 

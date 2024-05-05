@@ -20,38 +20,40 @@ class Sense
     #[Column(type: 'uuid')]
     private Uuid $id;
 
-    public function __construct(
-        #[ManyToOne(inversedBy: 'senses')]
-        public Entry $entry,
+    #[ManyToOne(inversedBy: 'senses')]
+    public Entry $entry;
 
-        #[Column]
-        public array $partsOfSpeech,
+    #[Column]
+    public array $partsOfSpeech;
 
-        #[Column(nullable: true)]
-        public ?string $fieldOfApplication,
+    #[Column(nullable: true)]
+    public ?string $fieldOfApplication;
 
-        #[Column(nullable: true)]
-        public ?string $dialect,
+    #[Column(nullable: true)]
+    public ?string $dialect;
 
-        #[Column(nullable: true)]
-        public ?string $info,
+    #[Column(nullable: true)]
+    public ?string $info;
 
-        #[Column]
-        public array $kanjiElements,
+    #[Column]
+    public array $kanjiElements;
 
-        #[Column]
-        public array $readingElements,
+    #[Column]
+    public array $readingElements;
 
-        #[Column]
-        public array $referencedElements,
+    #[Column]
+    public array $referencedElements;
 
-        #[Column]
-        public array $antonyms,
+    #[Column]
+    public array $antonyms;
 
-        #[OneToMany(targetEntity: Translation::class, mappedBy: 'sense', cascade: ['persist', 'remove'])]
-        public Collection $translations = new ArrayCollection(),
-    ) {
+    #[OneToMany(targetEntity: Translation::class, mappedBy: 'sense', cascade: ['persist', 'remove'])]
+    public Collection $translations;
+
+    public function __construct()
+    {
         $this->id = Uuid::v4();
+        $this->translations = new ArrayCollection();
     }
 
     public function getId(): Uuid
