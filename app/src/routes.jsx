@@ -1,7 +1,7 @@
 import React from "react";
 import { createBrowserRouter, redirect } from "react-router-dom";
-import {getDictionaries} from './api/dictionary.js';
-import {getMe} from './api/user.js';
+import { getDictionaries } from "./api/dictionary.js";
+import { getMe } from "./api/user.js";
 import Error from "./error.jsx";
 import Account from "./pages/account.jsx";
 import Dictionary from "./pages/dictionary.jsx";
