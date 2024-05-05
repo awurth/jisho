@@ -7,14 +7,14 @@ namespace App\Doctrine\Extension;
 use ApiPlatform\Doctrine\Orm\Extension\QueryCollectionExtensionInterface;
 use ApiPlatform\Doctrine\Orm\Util\QueryNameGeneratorInterface;
 use ApiPlatform\Metadata\Operation;
-use App\Entity\Dictionary;
+use App\Entity\Deck;
 use App\Entity\User;
 use Doctrine\ORM\QueryBuilder;
 use Override;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use function sprintf;
 
-final readonly class DictionaryCollectionExtension implements QueryCollectionExtensionInterface
+final readonly class DeckCollectionExtension implements QueryCollectionExtensionInterface
 {
     public function __construct(
         private TokenStorageInterface $tokenStorage,
@@ -32,7 +32,7 @@ final readonly class DictionaryCollectionExtension implements QueryCollectionExt
         Operation $operation = null,
         array $context = [],
     ): void {
-        if (Dictionary::class !== $resourceClass) {
+        if (Deck::class !== $resourceClass) {
             return;
         }
 

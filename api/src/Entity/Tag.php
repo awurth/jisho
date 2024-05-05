@@ -19,13 +19,13 @@ use Symfony\Component\Serializer\Attribute\Groups;
 use Symfony\Component\Uid\Uuid;
 
 #[Entity(repositoryClass: TagRepository::class)]
-#[UniqueConstraint(fields: ['dictionary', 'name'])]
+#[UniqueConstraint(fields: ['deck', 'name'])]
 #[ApiResource(
     operations: [
         new GetCollection(
-            uriTemplate: '/dictionaries/{dictionaryId}/tags',
+            uriTemplate: '/decks/{deckId}/tags',
             uriVariables: [
-                'dictionaryId' => new Link(toProperty: 'dictionary', fromClass: Dictionary::class),
+                'deckId' => new Link(toProperty: 'deck', fromClass: Deck::class),
             ],
             normalizationContext: [
                 'groups' => ['tag:read'],
@@ -34,9 +34,9 @@ use Symfony\Component\Uid\Uuid;
             security: "is_granted('ROLE_USER')",
         ),
         // new Get(
-        //     uriTemplate: '/dictionaries/{dictionaryId}/tags/{id}',
+        //     uriTemplate: '/decks/{deckId}/tags/{id}',
         //     uriVariables: [
-        //         'dictionaryId' => new Link(toProperty: 'dictionary', fromClass: Dictionary::class),
+        //         'deckId' => new Link(toProperty: 'deck', fromClass: Deck::class),
         //         'id' => new Link(fromClass: Tag::class),
         //     ],
         //     normalizationContext: [
@@ -57,7 +57,7 @@ class Tag
     public function __construct(
         #[ManyToOne]
         #[JoinColumn(nullable: false)]
-        public Dictionary $dictionary,
+        public Deck $deck,
 
         #[Column(length: 255)]
         #[Groups(['tag:read'])]

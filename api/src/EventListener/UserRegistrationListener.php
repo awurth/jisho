@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\EventListener;
 
-use App\Entity\Dictionary;
+use App\Entity\Deck;
 use App\Event\UserRegisteredEvent;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\EventDispatcher\Attribute\AsEventListener;
@@ -18,10 +18,10 @@ final readonly class UserRegistrationListener
     #[AsEventListener]
     public function onUserRegistered(UserRegisteredEvent $event): void
     {
-        $dictionary = new Dictionary();
-        $dictionary->name = 'Japonais';
-        $dictionary->owner = $event->getUser();
+        $deck = new Deck();
+        $deck->name = 'Principal';
+        $deck->owner = $event->getUser();
 
-        $this->entityManager->persist($dictionary);
+        $this->entityManager->persist($deck);
     }
 }

@@ -35,6 +35,6 @@ final class TagVoter extends Voter
             return false;
         }
 
-        return $user === $subject->dictionary->owner;
+        return $user === $subject->deck->owner;
     }
 }
