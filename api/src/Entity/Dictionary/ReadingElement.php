@@ -4,13 +4,14 @@ declare(strict_types=1);
 
 namespace App\Entity\Dictionary;
 
+use App\Repository\Dictionary\ReadingElementRepository;
 use Doctrine\ORM\Mapping\Column;
 use Doctrine\ORM\Mapping\Entity;
 use Doctrine\ORM\Mapping\Id;
 use Doctrine\ORM\Mapping\ManyToOne;
 use Symfony\Component\Uid\Uuid;
 
-#[Entity]
+#[Entity(repositoryClass: ReadingElementRepository::class)]
 class ReadingElement
 {
     #[Id]

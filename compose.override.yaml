@@ -51,6 +51,10 @@ services:
     ports:
       - "5432:5432"
 
+  search:
+    ports:
+      - "7700:7700"
+
   node:
     labels:
       - "traefik.enable=true"
