@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Entity\Dictionary;
 
+use App\Repository\Dictionary\EntryRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping\Column;
@@ -12,14 +13,14 @@ use Doctrine\ORM\Mapping\Id;
 use Doctrine\ORM\Mapping\OneToMany;
 use Symfony\Component\Uid\Uuid;
 
-#[Entity]
+#[Entity(repositoryClass: EntryRepository::class)]
 class Entry
 {
     #[Id]
     #[Column(type: 'uuid')]
     private Uuid $id;
 
-    #[Column]
+    #[Column(unique: true)]
     public int $sequenceId;
 
     #[OneToMany(targetEntity: KanjiElement::class, mappedBy: 'entry', cascade: ['persist', 'remove'])]

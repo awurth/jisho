@@ -23,6 +23,14 @@ services:
     volumes:
       - database_data:/var/lib/postgresql/data:rw
 
+  search:
+    build: .docker/search
+    environment:
+      MEILI_MASTER_KEY: "${SEARCH_MASTER_KEY:-N2Q3YzE0MzgzMTY4ZjZlNDkxOTExNDQzNzZkYTk2MGI4NzI1MmQ4ZWQxZmJmYmE1M2Ql}"
+    volumes:
+      - search_data:/meili_data
+      - .docker/search/dumps:/meili_data/dumps
+
   node:
     build: .docker/node
     working_dir: /project
@@ -32,3 +40,4 @@ services:
 
 volumes:
   database_data:
+  search_data:
