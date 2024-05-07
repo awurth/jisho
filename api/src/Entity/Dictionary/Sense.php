@@ -34,6 +34,9 @@ class Sense
     public ?string $dialect = null;
 
     #[Column(nullable: true)]
+    public ?string $misc = null;
+
+    #[Column(nullable: true)]
     public ?string $info = null;
 
     #[Column]
