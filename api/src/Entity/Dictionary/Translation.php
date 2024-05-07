@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Entity\Dictionary;
 
 use App\Repository\Dictionary\TranslationRepository;
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping\Column;
 use Doctrine\ORM\Mapping\Entity;
 use Doctrine\ORM\Mapping\Id;
@@ -21,7 +22,7 @@ class Translation
     #[ManyToOne(inversedBy: 'translations')]
     public Sense $sense;
 
-    #[Column]
+    #[Column(type: Types::TEXT)]
     public string $value;
 
     #[Column]
