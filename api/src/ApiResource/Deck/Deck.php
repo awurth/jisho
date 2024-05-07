@@ -10,7 +10,7 @@ use ApiPlatform\Metadata\Get;
 use ApiPlatform\Metadata\Link;
 use ApiPlatform\Metadata\Patch;
 use ApiPlatform\Metadata\Post;
-use App\Entity\Deck as DeckEntity;
+use App\Entity\Deck\Deck as DeckEntity;
 use App\Entity\User;
 use App\State\Deck\DeckProcessor;
 use App\State\Deck\DeckProvider;
