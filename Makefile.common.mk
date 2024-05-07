@@ -1,8 +1,8 @@
 SHELL = /bin/sh
 
 DOCKER                              = docker
-DOCKER_COMPOSE                      = docker-compose
-DOCKER_COMPOSE_CI                   = docker-compose -f compose.yaml -f compose.ci.yaml
+DOCKER_COMPOSE                      = docker compose
+DOCKER_COMPOSE_CI                   = docker compose -f compose.yaml -f compose.ci.yaml
 DOCKER_COMPOSE_EXEC                 = $(DOCKER_COMPOSE) exec
 DOCKER_COMPOSE_EXEC_PHP             = $(DOCKER_COMPOSE_EXEC) php
 DOCKER_COMPOSE_EXEC_POSTGRES        = $(DOCKER_COMPOSE_EXEC) postgres
@@ -12,11 +12,6 @@ DOCKER_COMPOSE_EXEC_PHPUNIT         = $(DOCKER_COMPOSE_EXEC_PHP) bin/phpunit
 DOCKER_COMPOSE_EXEC_YARN            = $(DOCKER_COMPOSE_EXEC) node yarn
 
 MUTAGEN_COMPOSE_ENABLED             := $(shell which mutagen-compose)
-NEW_DOCKER_COMPOSE_ENABLED          := $(shell which docker compose)
-
-ifdef NEW_DOCKER_COMPOSE_ENABLED
-	DOCKER_COMPOSE = docker compose
-endif
 
 ifdef MUTAGEN_COMPOSE_ENABLED
 	DOCKER_COMPOSE = mutagen-compose
