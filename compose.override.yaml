@@ -47,7 +47,7 @@ services:
       # - host.docker.internal:host-gateway
     tty: true
 
-  database:
+  postgres:
     ports:
       - "5432:5432"
 
