@@ -14,19 +14,19 @@ use Doctrine\ORM\Mapping\UniqueConstraint;
 use Symfony\Component\Uid\Uuid;
 
 #[Entity(repositoryClass: DeckRepository::class)]
-#[UniqueConstraint(fields: ['name', 'owner'])]
+#[UniqueConstraint(fields: ['owner', 'name'])]
 class Deck
 {
     #[Id]
     #[Column(type: 'uuid')]
     private Uuid $id;
 
-    #[Column(length: 50)]
-    public ?string $name = null;
-
     #[ManyToOne]
     #[JoinColumn(nullable: false)]
-    public ?User $owner = null;
+    public User $owner;
+
+    #[Column(length: 50)]
+    public string $name;
 
     public function __construct()
     {
