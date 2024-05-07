@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Factory;
 
-use App\Entity\Deck;
+use App\Entity\Deck\Deck;
 use App\Repository\DeckRepository;
 use Override;
 use Zenstruck\Foundry\ModelFactory;

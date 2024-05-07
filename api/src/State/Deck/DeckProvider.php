@@ -8,7 +8,7 @@ use ApiPlatform\Metadata\CollectionOperationInterface;
 use ApiPlatform\Metadata\Operation;
 use ApiPlatform\State\ProviderInterface;
 use App\ApiResource\Deck\Deck;
-use App\Entity\Deck as DeckEntity;
+use App\Entity\Deck\Deck as DeckEntity;
 use App\Repository\DeckRepository;
 
 final readonly class DeckProvider implements ProviderInterface

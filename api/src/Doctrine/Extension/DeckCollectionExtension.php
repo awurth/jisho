@@ -7,7 +7,7 @@ namespace App\Doctrine\Extension;
 use ApiPlatform\Doctrine\Orm\Extension\QueryCollectionExtensionInterface;
 use ApiPlatform\Doctrine\Orm\Util\QueryNameGeneratorInterface;
 use ApiPlatform\Metadata\Operation;
-use App\Entity\Deck;
+use App\Entity\Deck\Deck;
 use App\Entity\User;
 use Doctrine\ORM\QueryBuilder;
 use Override;
