@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Security\Voter;
 
-use App\Entity\Deck;
+use App\ApiResource\Deck\Deck;
 use App\Entity\User;
 use Override;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;

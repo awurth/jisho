@@ -4,50 +4,28 @@ declare(strict_types=1);
 
 namespace App\Entity;
 
-use ApiPlatform\Metadata\ApiResource;
-use ApiPlatform\Metadata\Get;
-use ApiPlatform\Metadata\GetCollection;
 use App\Repository\DeckRepository;
-use Doctrine\ORM\Mapping as ORM;
 use Doctrine\ORM\Mapping\Column;
+use Doctrine\ORM\Mapping\Entity;
 use Doctrine\ORM\Mapping\Id;
-use Gedmo\Mapping\Annotation\Blameable;
-use Symfony\Component\Serializer\Attribute\Groups;
+use Doctrine\ORM\Mapping\JoinColumn;
+use Doctrine\ORM\Mapping\ManyToOne;
+use Doctrine\ORM\Mapping\UniqueConstraint;
 use Symfony\Component\Uid\Uuid;
 
-#[ORM\Entity(repositoryClass: DeckRepository::class)]
-#[ApiResource(
-    operations: [
-        new GetCollection(
-            normalizationContext: [
-                'groups' => ['deck:read'],
-                'openapi_definition_name' => 'Collection-Read',
-            ],
-            security: "is_granted('ROLE_USER')",
-        ),
-        new Get(
-            normalizationContext: [
-                'groups' => ['deck:read'],
-                'openapi_definition_name' => 'Item-Read',
-            ],
-            security: "is_granted('DECK_VIEW', object)",
-        ),
-    ],
-)]
+#[Entity(repositoryClass: DeckRepository::class)]
+#[UniqueConstraint(fields: ['name', 'owner'])]
 class Deck
 {
     #[Id]
     #[Column(type: 'uuid')]
-    #[Groups(['deck:read'])]
     private Uuid $id;
 
-    #[Column(length: 255)]
-    #[Groups(['deck:read'])]
+    #[Column(length: 50)]
     public ?string $name = null;
 
-    #[ORM\ManyToOne]
-    #[ORM\JoinColumn(nullable: false)]
-    #[Blameable(on: 'create')]
+    #[ManyToOne]
+    #[JoinColumn(nullable: false)]
     public ?User $owner = null;
 
     public function __construct()
