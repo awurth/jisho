@@ -15,15 +15,17 @@ use function in_array;
 
 final readonly class JMDictParser
 {
+    private const int BATCH_SIZE = 1000;
+
     public function __construct(
         private EntityManagerInterface $entityManager,
         private EntryDataTransformer $entryDataTransformer,
     ) {
     }
 
-    public function parse(): void
+    public function parse(string $file): void
     {
-        $xml = XMLReader::open('/srv/api/JMdict.xml');
+        $xml = XMLReader::open($file);
 
         do {
             $xml->read();
@@ -38,7 +40,7 @@ final readonly class JMDictParser
                 $this->entityManager->persist($entry);
             }
 
-            if ($counter > 500) {
+            if ($counter > self::BATCH_SIZE) {
                 $this->entityManager->flush();
                 $this->entityManager->clear();
                 $counter = 0;

@@ -23,7 +23,7 @@ final class ParseCommand extends Command
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        $this->parser->parse();
+        $this->parser->parse('/srv/api/data/JMdict.xml');
 
         return Command::SUCCESS;
     }
