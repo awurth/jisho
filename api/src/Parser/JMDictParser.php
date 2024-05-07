@@ -97,6 +97,7 @@ final readonly class JMDictParser
             $antonyms = $element->filter('ant')->each(static fn (Crawler $element): string => $element->text());
             $partsOfSpeech = $element->filter('pos')->each(static fn (Crawler $element): string => $element->text());
             $fieldOfApplication = $element->filter('field');
+            $misc = $element->filter('misc');
             $info = $element->filter('s_inf');
             $dialect = $element->filter('dial');
 
@@ -122,6 +123,7 @@ final readonly class JMDictParser
                 'antonyms' => $antonyms,
                 'partsOfSpeech' => $partsOfSpeech,
                 'fieldOfApplication' => $fieldOfApplication->count() > 0 ? $fieldOfApplication->text() : null,
+                'misc' => $misc->count() > 0 ? $misc->text() : null,
                 'info' => $info->count() > 0 ? $info->text() : null,
                 'dialect' => $dialect->count() > 0 ? $dialect->text() : null,
                 'translations' => $translations,
