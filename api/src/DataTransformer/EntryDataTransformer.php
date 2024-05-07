@@ -33,11 +33,11 @@ final readonly class EntryDataTransformer
             $element = new ReadingElement();
             $element->entry = $entry;
             $element->kana = $data['kana'];
-            $element->romaji = $readingElement['romaji'] ?? '';
-            $element->info = $readingElement['info'];
-            $element->priority = $readingElement['priority'];
-            $element->notTrueKanjiReading = $readingElement['nokanji'];
-            $element->kanjiElements = $readingElement['relatedKanjis'];
+            $element->romaji = $data['romaji'] ?? '';
+            $element->info = $data['info'];
+            $element->priority = $data['priority'];
+            $element->notTrueKanjiReading = $data['nokanji'];
+            $element->kanjiElements = $data['relatedKanjis'];
 
             return $element;
         });
