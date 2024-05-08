@@ -6,6 +6,7 @@ namespace App\Entity\Deck;
 
 use App\Entity\User;
 use App\Repository\DeckRepository;
+use DateTimeImmutable;
 use Doctrine\ORM\Mapping\Column;
 use Doctrine\ORM\Mapping\Entity;
 use Doctrine\ORM\Mapping\Id;
@@ -29,9 +30,13 @@ class Deck
     #[Column(length: 50)]
     public string $name;
 
+    #[Column(updatable: false)]
+    public DateTimeImmutable $createdAt;
+
     public function __construct()
     {
         $this->id = Uuid::v4();
+        $this->createdAt = new DateTimeImmutable();
     }
 
     public function getId(): Uuid

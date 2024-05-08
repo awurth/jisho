@@ -15,6 +15,7 @@ use App\Entity\Deck\Deck as DeckEntity;
 use App\Entity\User;
 use App\State\Deck\DeckProcessor;
 use App\State\Deck\DeckProvider;
+use DateTimeImmutable;
 use Symfony\Component\Serializer\Attribute\Groups;
 use Symfony\Component\Uid\Uuid;
 use Symfony\Component\Validator\Constraints\Length;
@@ -97,4 +98,7 @@ final class Deck
     #[NotBlank]
     #[Length(max: 50)]
     public string $name;
+
+    #[Groups(['deck:read'])]
+    public DateTimeImmutable $createdAt;
 }
