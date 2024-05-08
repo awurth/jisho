@@ -31,6 +31,7 @@ final readonly class DeckProvider implements ProviderInterface
                 $deck->id = $entity->getId();
                 $deck->owner = $entity->owner;
                 $deck->name = $entity->name;
+                $deck->createdAt = $entity->createdAt;
 
                 return $deck;
             });
@@ -47,6 +48,7 @@ final readonly class DeckProvider implements ProviderInterface
         $deck->id = $deckEntity->getId();
         $deck->owner = $deckEntity->owner;
         $deck->name = $deckEntity->name;
+        $deck->createdAt = $deckEntity->createdAt;
 
         return $deck;
     }

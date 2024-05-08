@@ -7,10 +7,12 @@ namespace App\State\Deck;
 use ApiPlatform\Metadata\DeleteOperationInterface;
 use ApiPlatform\Metadata\Operation;
 use ApiPlatform\Metadata\Patch;
+use ApiPlatform\Metadata\Post;
 use ApiPlatform\State\ProcessorInterface;
 use App\ApiResource\Deck\Deck;
 use App\Entity\Deck\Deck as DeckEntity;
 use Doctrine\ORM\EntityManagerInterface;
+use LogicException;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 
 /**
@@ -42,17 +44,22 @@ final readonly class DeckProcessor implements ProcessorInterface
             return $data;
         }
 
-        $user = $this->tokenStorage->getToken()?->getUser();
+        if ($operation instanceof Post) {
+            $user = $this->tokenStorage->getToken()?->getUser();
 
-        $deck = new DeckEntity();
-        $deck->owner = $user;
-        $deck->name = $data->name;
+            $deck = new DeckEntity();
+            $deck->owner = $user;
+            $deck->name = $data->name;
 
-        $this->entityManager->persist($deck);
-        $this->entityManager->flush();
+            $this->entityManager->persist($deck);
+            $this->entityManager->flush();
 
-        $data->id = $deck->getId();
+            $data->id = $deck->getId();
+            $data->createdAt = $deck->createdAt;
 
-        return $data;
+            return $data;
+        }
+
+        throw new LogicException('Unexpected operation');
     }
 }
