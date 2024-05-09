@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Repository;
+namespace App\Repository\Deck;
 
 use App\Entity\Deck\Deck;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
