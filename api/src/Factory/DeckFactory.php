@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Factory;
 
 use App\Entity\Deck\Deck;
-use App\Repository\DeckRepository;
+use App\Repository\Deck\DeckRepository;
 use Override;
 use Zenstruck\Foundry\ModelFactory;
 use Zenstruck\Foundry\Proxy;
