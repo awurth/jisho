@@ -23,12 +23,21 @@ class Entry
     #[Column(unique: true)]
     public int $sequenceId;
 
+    /**
+     * @var Collection<int, KanjiElement>
+     */
     #[OneToMany(targetEntity: KanjiElement::class, mappedBy: 'entry', cascade: ['persist', 'remove'])]
     public Collection $kanjiElements;
 
+    /**
+     * @var Collection<int, ReadingElement>
+     */
     #[OneToMany(targetEntity: ReadingElement::class, mappedBy: 'entry', cascade: ['persist', 'remove'])]
     public Collection $readingElements;
 
+    /**
+     * @var Collection<int, Sense>
+     */
     #[OneToMany(targetEntity: Sense::class, mappedBy: 'entry', cascade: ['persist', 'remove'])]
     public Collection $senses;
 

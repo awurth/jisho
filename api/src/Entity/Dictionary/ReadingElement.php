@@ -36,6 +36,9 @@ class ReadingElement
     #[Column]
     public bool $notTrueKanjiReading = false;
 
+    /**
+     * @var string[]
+     */
     #[Column]
     public array $kanjiElements = [];
 

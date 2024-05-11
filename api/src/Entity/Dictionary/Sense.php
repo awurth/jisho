@@ -24,6 +24,9 @@ class Sense
     #[ManyToOne(inversedBy: 'senses')]
     public Entry $entry;
 
+    /**
+     * @var string[]
+     */
     #[Column]
     public array $partsOfSpeech;
 
@@ -39,18 +42,33 @@ class Sense
     #[Column(nullable: true)]
     public ?string $info = null;
 
+    /**
+     * @var string[]
+     */
     #[Column]
     public array $kanjiElements;
 
+    /**
+     * @var string[]
+     */
     #[Column]
     public array $readingElements;
 
+    /**
+     * @var string[]
+     */
     #[Column]
     public array $referencedElements;
 
+    /**
+     * @var string[]
+     */
     #[Column]
     public array $antonyms;
 
+    /**
+     * @var Collection<int, Translation>
+     */
     #[OneToMany(targetEntity: Translation::class, mappedBy: 'sense', cascade: ['persist', 'remove'])]
     public Collection $translations;
 

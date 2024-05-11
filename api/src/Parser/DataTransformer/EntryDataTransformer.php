@@ -14,6 +14,9 @@ use function Functional\map;
 
 final readonly class EntryDataTransformer
 {
+    /**
+     * @param array<string, mixed> $data
+     */
     public function transformToEntity(array $data): Entry
     {
         $entry = new Entry();

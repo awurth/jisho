@@ -13,6 +13,9 @@ use function Functional\map;
 
 final readonly class EntryDataTransformer
 {
+    /**
+     * @return array<string, mixed>
+     */
     public function transformToSearchArray(Entry ...$entries): array
     {
         return map($entries, static fn (Entry $entry): array => [
