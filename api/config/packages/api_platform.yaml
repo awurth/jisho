@@ -18,3 +18,6 @@ api_platform:
             rfc_7807_compliant_errors: true
     use_symfony_listeners: false
     keep_legacy_inflector: false
+    resource_class_directories:
+        - '%kernel.project_dir%/src/Deck/ApiResource'
+        - '%kernel.project_dir%/src/Dictionary/ApiResource'
