@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Parser;
 
-use App\DataTransformer\EntryDataTransformer;
+use App\Parser\DataTransformer\EntryDataTransformer;
 use Doctrine\ORM\EntityManagerInterface;
 use DOMNode;
 use Symfony\Component\DomCrawler\Crawler;

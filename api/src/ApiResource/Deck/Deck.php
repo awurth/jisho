@@ -79,6 +79,10 @@ use Symfony\Component\Validator\Constraints\NotBlank;
             uriVariables: [
                 'id' => new Link(fromClass: Deck::class),
             ],
+            normalizationContext: [
+                'groups' => ['deck:read'],
+                'openapi_definition_name' => 'Read',
+            ],
             security: 'is_granted("DECK_DELETE", object)',
             provider: DeckProvider::class,
             processor: DeckProcessor::class,

@@ -4,74 +4,47 @@ declare(strict_types=1);
 
 namespace App\DataTransformer;
 
-use App\Entity\Dictionary\Entry;
+use App\ApiResource\Dictionary\Entry;
+use App\ApiResource\Dictionary\Kanji;
+use App\ApiResource\Dictionary\Reading;
+use App\ApiResource\Dictionary\Sense;
+use App\ApiResource\Dictionary\Translation;
+use App\Entity\Dictionary\Entry as EntryEntity;
 use App\Entity\Dictionary\KanjiElement;
 use App\Entity\Dictionary\ReadingElement;
-use App\Entity\Dictionary\Sense;
-use App\Entity\Dictionary\Translation;
-use Doctrine\Common\Collections\ArrayCollection;
+use App\Entity\Dictionary\Sense as SenseEntity;
+use App\Entity\Dictionary\Translation as TranslationEntity;
 use function Functional\map;
 
 final readonly class EntryDataTransformer
 {
-    public function transformToEntity(array $data): Entry
+    public function transformEntityToApiResource(EntryEntity $entity): Entry
     {
-        $entry = new Entry();
-        $entry->sequenceId = $data['sequenceId'];
+        $entry = new Entry(
+            id: (string) $entity->getId(),
+            kanji: map($entity->kanjiElements, static fn (KanjiElement $kanji): Kanji => new Kanji(
+                $kanji->value,
+                $kanji->info,
+            )),
+            readings: map($entity->readingElements, static fn (ReadingElement $reading): Reading => new Reading(
+                kana: $reading->kana,
+                romaji: $reading->romaji,
+                info: $reading->info,
+            )),
+            senses: map($entity->senses, static fn (SenseEntity $sense): Sense => new Sense(
+                partsOfSpeech: $sense->partsOfSpeech,
+                fieldOfApplication: $sense->fieldOfApplication,
+                dialect: $sense->dialect,
+                misc: $sense->misc,
+                info: $sense->info,
+                translations: map($sense->translations, static fn (TranslationEntity $translation): Translation => new Translation(
+                    value: $translation->value,
+                    language: $translation->language,
+                )),
+            )),
+        );
 
-        $kanjiElements = map($data['kanjiElements'], static function (array $data) use ($entry): KanjiElement {
-            $element = new KanjiElement();
-            $element->entry = $entry;
-            $element->value = $data['value'];
-            $element->info = $data['info'];
-            $element->priority = $data['priority'];
-
-            return $element;
-        });
-
-        $readingElements = map($data['readingElements'], static function (array $data) use ($entry): ReadingElement {
-            $element = new ReadingElement();
-            $element->entry = $entry;
-            $element->kana = $data['kana'];
-            $element->romaji = $data['romaji'] ?? '';
-            $element->info = $data['info'];
-            $element->priority = $data['priority'];
-            $element->notTrueKanjiReading = $data['nokanji'];
-            $element->kanjiElements = $data['relatedKanjis'];
-
-            return $element;
-        });
-
-        $senses = map($data['senses'], static function (array $data) use ($entry): Sense {
-            $sense = new Sense();
-            $sense->entry = $entry;
-            $sense->partsOfSpeech = $data['partsOfSpeech'];
-            $sense->fieldOfApplication = $data['fieldOfApplication'];
-            $sense->dialect = $data['dialect'];
-            $sense->misc = $data['misc'];
-            $sense->info = $data['info'];
-            $sense->kanjiElements = $data['relatedKanjis'];
-            $sense->readingElements = $data['relatedReadings'];
-            $sense->referencedElements = $data['references'];
-            $sense->antonyms = $data['antonyms'];
-
-            $translations = map($data['translations'], static function (array $data) use ($sense): Translation {
-                $translation = new Translation();
-                $translation->sense = $sense;
-                $translation->value = $data['value'];
-                $translation->language = $data['language'];
-
-                return $translation;
-            });
-
-            $sense->translations = new ArrayCollection($translations);
-
-            return $sense;
-        });
-
-        $entry->kanjiElements = new ArrayCollection($kanjiElements);
-        $entry->readingElements = new ArrayCollection($readingElements);
-        $entry->senses = new ArrayCollection($senses);
+        $entry->entity = $entity;
 
         return $entry;
     }

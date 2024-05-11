@@ -16,7 +16,7 @@ use LogicException;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 
 /**
- * @implements ProcessorInterface<Deck|DeckEntity>
+ * @implements ProcessorInterface<Deck, Deck>
  */
 final readonly class DeckProcessor implements ProcessorInterface
 {

@@ -5,8 +5,13 @@ declare(strict_types=1);
 namespace App\ApiResource\Dictionary;
 
 use ApiPlatform\Metadata\ApiResource;
+use ApiPlatform\Metadata\Get;
 use ApiPlatform\Metadata\GetCollection;
+use ApiPlatform\Metadata\Link;
+use App\Entity\Dictionary\Entry as EntryEntity;
+use App\State\Dictionary\EntryProvider;
 use App\State\Dictionary\SearchProvider;
+use Symfony\Component\Serializer\Attribute\Groups;
 
 #[ApiResource(
     operations: [
@@ -23,17 +28,35 @@ use App\State\Dictionary\SearchProvider;
         ),
     ],
 )]
-final readonly class Entry
+#[ApiResource(
+    operations: [
+        new Get(
+            uriTemplate: '/dictionary/entries/{id}',
+            uriVariables: [
+                'id' => new Link(fromClass: Entry::class),
+            ],
+            shortName: 'DictionaryEntry',
+            provider: EntryProvider::class,
+        ),
+    ],
+)]
+final class Entry
 {
+    public EntryEntity $entity;
+
     /**
      * @param Kanji[]   $kanji
      * @param Reading[] $readings
      * @param Sense[]   $senses
      */
     public function __construct(
+        #[Groups('deck-entry:read')]
         public string $id,
+        #[Groups('deck-entry:read')]
         public array $kanji,
+        #[Groups('deck-entry:read')]
         public array $readings,
+        #[Groups('deck-entry:read')]
         public array $senses,
     ) {
     }
