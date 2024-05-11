@@ -14,6 +14,7 @@ use App\Common\Security\Security;
 use App\Deck\ApiResource\Deck;
 use Doctrine\ORM\EntityManagerInterface;
 use LogicException;
+use Override;
 
 /**
  * @implements ProcessorInterface<Deck, Deck>
@@ -26,6 +27,7 @@ final readonly class DeckProcessor implements ProcessorInterface
     ) {
     }
 
+    #[Override]
     public function process(mixed $data, Operation $operation, array $uriVariables = [], array $context = [])
     {
         if ($operation instanceof DeleteOperationInterface) {

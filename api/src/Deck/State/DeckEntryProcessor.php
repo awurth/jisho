@@ -12,6 +12,7 @@ use App\Deck\ApiResource\DataTransformer\DeckEntryDataTransformer;
 use App\Deck\ApiResource\DeckEntry;
 use Doctrine\ORM\EntityManagerInterface;
 use LogicException;
+use Override;
 
 /**
  * @implements ProcessorInterface<DeckEntry, DeckEntry>
@@ -24,6 +25,7 @@ final readonly class DeckEntryProcessor implements ProcessorInterface
     ) {
     }
 
+    #[Override]
     public function process(mixed $data, Operation $operation, array $uriVariables = [], array $context = [])
     {
         if ($operation instanceof DeleteOperationInterface) {
