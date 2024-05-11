@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\DataTransformer;
 
 use App\ApiResource\Deck\Deck;

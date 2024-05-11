@@ -20,6 +20,7 @@ final class DeckVoter extends Voter
     public const string CREATE = 'DECK_CREATE';
     public const string EDIT = 'DECK_EDIT';
     public const string DELETE = 'DECK_DELETE';
+    public const string CREATE_ENTRY = 'DECK_ENTRY_CREATE';
 
     #[Override]
     protected function supports(string $attribute, mixed $subject): bool
@@ -28,7 +29,7 @@ final class DeckVoter extends Voter
             return true;
         }
 
-        return in_array($attribute, [self::VIEW, self::EDIT, self::DELETE], true)
+        return in_array($attribute, [self::VIEW, self::EDIT, self::DELETE, self::CREATE_ENTRY], true)
             && $subject instanceof Deck;
     }
 
