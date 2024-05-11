@@ -9,9 +9,9 @@ use ApiPlatform\Metadata\Operation;
 use ApiPlatform\State\ProviderInterface;
 use App\Common\Entity\Deck\Deck as DeckEntity;
 use App\Common\Repository\Deck\DeckRepository;
+use App\Common\Security\Security;
 use App\Deck\ApiResource\DataTransformer\DeckDataTransformer;
 use App\Deck\ApiResource\Deck;
-use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use function Functional\map;
 
 /**
@@ -22,14 +22,14 @@ final readonly class DeckProvider implements ProviderInterface
     public function __construct(
         private DeckDataTransformer $deckDataTransformer,
         private DeckRepository $deckRepository,
-        private TokenStorageInterface $tokenStorage,
+        private Security $security,
     ) {
     }
 
     public function provide(Operation $operation, array $uriVariables = [], array $context = []): object|array|null
     {
         if ($operation instanceof CollectionOperationInterface) {
-            $decks = $this->deckRepository->findBy(['owner' => $this->tokenStorage->getToken()?->getUser()]);
+            $decks = $this->deckRepository->findBy(['owner' => $this->security->getUser()]);
 
             return map($decks, $this->deckDataTransformer->transformEntityToApiResource(...));
         }

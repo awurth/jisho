@@ -10,10 +10,10 @@ use ApiPlatform\Metadata\Patch;
 use ApiPlatform\Metadata\Post;
 use ApiPlatform\State\ProcessorInterface;
 use App\Common\Entity\Deck\Deck as DeckEntity;
+use App\Common\Security\Security;
 use App\Deck\ApiResource\Deck;
 use Doctrine\ORM\EntityManagerInterface;
 use LogicException;
-use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 
 /**
  * @implements ProcessorInterface<Deck, Deck>
@@ -22,7 +22,7 @@ final readonly class DeckProcessor implements ProcessorInterface
 {
     public function __construct(
         private EntityManagerInterface $entityManager,
-        private TokenStorageInterface $tokenStorage,
+        private Security $security,
     ) {
     }
 
@@ -45,7 +45,7 @@ final readonly class DeckProcessor implements ProcessorInterface
         }
 
         if ($operation instanceof Post) {
-            $user = $this->tokenStorage->getToken()?->getUser();
+            $user = $this->security->getUser();
 
             $deck = new DeckEntity();
             $deck->owner = $user;

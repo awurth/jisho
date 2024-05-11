@@ -12,10 +12,10 @@ use App\Common\Entity\Deck\Deck as DeckEntity;
 use App\Common\Entity\Deck\DeckEntry as DeckEntryEntity;
 use App\Common\Repository\Deck\DeckEntryRepository;
 use App\Common\Repository\Deck\DeckRepository;
+use App\Common\Security\Security;
 use App\Deck\ApiResource\DataTransformer\DeckDataTransformer;
 use App\Deck\ApiResource\DataTransformer\DeckEntryDataTransformer;
 use App\Deck\ApiResource\DeckEntry;
-use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use function Functional\map;
 
 /**
@@ -28,7 +28,7 @@ final readonly class DeckEntryProvider implements ProviderInterface
         private DeckEntryDataTransformer $deckEntryDataTransformer,
         private DeckEntryRepository $deckEntryRepository,
         private DeckRepository $deckRepository,
-        private TokenStorageInterface $tokenStorage,
+        private Security $security,
     ) {
     }
 
@@ -36,7 +36,7 @@ final readonly class DeckEntryProvider implements ProviderInterface
     {
         $deckEntity = $this->deckRepository->findOneBy([
             'id' => $uriVariables['deckId'],
-            'owner' => $this->tokenStorage->getToken()?->getUser(),
+            'owner' => $this->security->getUser(),
         ]);
 
         if (!$deckEntity instanceof DeckEntity) {

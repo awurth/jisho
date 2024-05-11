@@ -4,12 +4,10 @@ declare(strict_types=1);
 
 namespace App\Common\Controller;
 
-use App\Common\Entity\User;
-use LogicException;
+use App\Common\Security\Security;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpKernel\Attribute\AsController;
 use Symfony\Component\Routing\Attribute\Route;
-use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 #[AsController]
@@ -18,17 +16,13 @@ use Symfony\Component\Security\Http\Attribute\IsGranted;
 final readonly class MeAction
 {
     public function __construct(
-        private TokenStorageInterface $tokenStorage,
+        private Security $security,
     ) {
     }
 
     public function __invoke(): JsonResponse
     {
-        $user = $this->tokenStorage->getToken()?->getUser();
-
-        if (!$user instanceof User) {
-            throw new LogicException('User should be set');
-        }
+        $user = $this->security->getUser();
 
         return new JsonResponse([
             'name' => $user->getName(),
