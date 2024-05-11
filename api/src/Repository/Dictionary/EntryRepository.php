@@ -23,7 +23,10 @@ final class EntryRepository extends ServiceEntityRepository
         parent::__construct($registry, Entry::class);
     }
 
-    public function getBatch(int $offset, int $limit): iterable
+    /**
+     * @return Entry[]
+     */
+    public function getBatch(int $offset, int $limit): array
     {
         return $this->createQueryBuilder(alias: 'e')
             ->addSelect('k')

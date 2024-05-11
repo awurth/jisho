@@ -6,10 +6,14 @@ namespace App\State\Dictionary;
 
 use ApiPlatform\Metadata\Operation;
 use ApiPlatform\State\ProviderInterface;
+use App\ApiResource\Dictionary\Entry;
 use App\DataTransformer\EntryDataTransformer;
 use App\Entity\Dictionary\Entry as EntryEntity;
 use App\Repository\Dictionary\EntryRepository;
 
+/**
+ * @implements ProviderInterface<Entry>
+ */
 final readonly class EntryProvider implements ProviderInterface
 {
     public function __construct(

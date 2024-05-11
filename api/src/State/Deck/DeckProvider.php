@@ -7,12 +7,16 @@ namespace App\State\Deck;
 use ApiPlatform\Metadata\CollectionOperationInterface;
 use ApiPlatform\Metadata\Operation;
 use ApiPlatform\State\ProviderInterface;
+use App\ApiResource\Deck\Deck;
 use App\DataTransformer\DeckDataTransformer;
 use App\Entity\Deck\Deck as DeckEntity;
 use App\Repository\Deck\DeckRepository;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use function Functional\map;
 
+/**
+ * @implements ProviderInterface<Deck>
+ */
 final readonly class DeckProvider implements ProviderInterface
 {
     public function __construct(

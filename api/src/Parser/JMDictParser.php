@@ -56,6 +56,9 @@ final readonly class JMDictParser
         $this->entityManager->clear();
     }
 
+    /**
+     * @return array<string, mixed>
+     */
     private function parseEntry(string $xml): array
     {
         $crawler = new Crawler($xml, useHtml5Parser: false);

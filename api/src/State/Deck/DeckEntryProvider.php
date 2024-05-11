@@ -18,6 +18,9 @@ use App\Repository\Deck\DeckRepository;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use function Functional\map;
 
+/**
+ * @implements ProviderInterface<DeckEntry>
+ */
 final readonly class DeckEntryProvider implements ProviderInterface
 {
     public function __construct(
