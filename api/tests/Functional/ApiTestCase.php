@@ -11,6 +11,9 @@ use function array_replace_recursive;
 
 abstract class ApiTestCase extends BaseApiTestCase
 {
+    /**
+     * @phpstan-ignore-next-line
+     */
     #[Override]
     protected static function createClient(array $kernelOptions = [], array $defaultOptions = []): Client
     {

@@ -16,6 +16,7 @@ use App\Common\Security\Security;
 use App\Deck\ApiResource\DataTransformer\DeckDataTransformer;
 use App\Deck\ApiResource\DataTransformer\DeckEntryDataTransformer;
 use App\Deck\ApiResource\DeckEntry;
+use Override;
 use function Functional\map;
 
 /**
@@ -32,6 +33,7 @@ final readonly class DeckEntryProvider implements ProviderInterface
     ) {
     }
 
+    #[Override]
     public function provide(Operation $operation, array $uriVariables = [], array $context = []): object|array|null
     {
         $deckEntity = $this->deckRepository->findOneBy([

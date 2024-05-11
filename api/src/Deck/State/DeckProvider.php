@@ -12,6 +12,7 @@ use App\Common\Repository\Deck\DeckRepository;
 use App\Common\Security\Security;
 use App\Deck\ApiResource\DataTransformer\DeckDataTransformer;
 use App\Deck\ApiResource\Deck;
+use Override;
 use function Functional\map;
 
 /**
@@ -26,6 +27,7 @@ final readonly class DeckProvider implements ProviderInterface
     ) {
     }
 
+    #[Override]
     public function provide(Operation $operation, array $uriVariables = [], array $context = []): object|array|null
     {
         if ($operation instanceof CollectionOperationInterface) {

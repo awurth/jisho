@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Dictionary\Command;
 
 use App\Dictionary\Search\Indexation\DictionaryIndexer;
+use Override;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
@@ -21,6 +22,7 @@ final class IndexCommand extends Command
         parent::__construct();
     }
 
+    #[Override]
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $this->indexer->indexAll();
