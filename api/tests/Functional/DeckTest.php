@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Tests\Functional;
 
-use App\Factory\DeckFactory;
-use App\Factory\UserFactory;
+use App\Common\Factory\DeckFactory;
+use App\Common\Factory\UserFactory;
 use Zenstruck\Foundry\Test\Factories;
 use Zenstruck\Foundry\Test\ResetDatabase;
 
