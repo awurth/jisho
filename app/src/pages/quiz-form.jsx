@@ -1,19 +1,19 @@
 import { useQuery } from "@tanstack/react-query";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { getTags } from "../api/dictionary.js";
+import { getTags } from "../api/deck.js";
 import Button from "../components/button.jsx";
 import Tags from "../components/forms/tags.jsx";
-import { useDictionaryStore } from "../stores/dictionary.js";
+import { useDeckStore } from "../stores/deck.js";
 
 export default function QuizForm() {
   const navigate = useNavigate();
-  const dictionary = useDictionaryStore((state) => state.activeDictionary);
+  const deck = useDeckStore((state) => state.activeDeck);
   const [tags, setTags] = useState([]);
 
   const { data: existingTags = [] } = useQuery({
-    queryKey: ["tags", dictionary.id],
-    queryFn: () => getTags(dictionary.id),
+    queryKey: ["tags", deck.id],
+    queryFn: () => getTags(deck.id),
   });
 
   const onPlayClick = () => {

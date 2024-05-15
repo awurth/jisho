@@ -1,6 +1,6 @@
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
-import { useDictionaryStore } from "./dictionary.js";
+import { useDeckStore } from "./deck.js";
 
 export const useUserStore = create(
   persist(
@@ -15,6 +15,6 @@ export const useUserStore = create(
 
 useUserStore.subscribe(({ user }) => {
   if (!user) {
-    useDictionaryStore.setState({ activeDictionary: null });
+    useDeckStore.setState({ activeDeck: null });
   }
 });
