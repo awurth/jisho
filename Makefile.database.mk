@@ -31,6 +31,6 @@ restore-database: .docker/postgres/dump/dump.sql
 	@echo "${GREEN}Database restored${GREEN}"
 
 ## Execute the migrations
-migrate-database: config/packages/doctrine.yaml
+migrate-database: api/config/packages/doctrine.yaml
 	@$(DOCKER_COMPOSE_EXEC_PHP) bin/console doctrine:migrations:migrate --no-interaction
 	@echo "${GREEN}Database migrated${GREEN}"
