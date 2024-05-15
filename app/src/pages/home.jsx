@@ -4,13 +4,13 @@ import { getEntries } from "../api/deck.js";
 import Entry from "../components/deck/entry.jsx";
 import { useDeckStore } from "../stores/deck.js";
 
-export default function Deck() {
+export default function Home() {
   const deck = useDeckStore((state) => state.activeDeck);
 
   if (!deck) {
     return (
       <div className="text-center mt-20">
-        <p className="text-white mb-3">Pas de jeu de cartes sélectionné. Sélectionnez-en un ou</p>
+        <p className="text-white mb-3">Vous n'avez pas encore de jeu de cartes</p>
         <Link to="/new-deck" className="inline-block bg-primary-500 border-b-4 border-primary-600 rounded-xl text-white font-semibold px-5 py-3">Créer un jeu de cartes</Link>
       </div>
     );

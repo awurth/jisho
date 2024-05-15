@@ -4,7 +4,7 @@ import {getDecks} from './api/deck.js';
 import { getMe } from "./api/user.js";
 import Error from "./error.jsx";
 import Account from "./pages/account.jsx";
-import Deck from "./pages/deck.jsx";
+import Home from "./pages/home.jsx";
 import Login from "./pages/login.jsx";
 import NewDeck from './pages/new-deck.jsx';
 import QuizForm from "./pages/quiz-form.jsx";
@@ -21,7 +21,9 @@ const mustBeLoggedIn = async () => {
 
     if (!useDeckStore.getState().activeDeck) {
       const decks = await getDecks();
-      useDeckStore.setState({ activeDeck: decks[0] });
+      if (decks.length) {
+        useDeckStore.setState({ activeDeck: decks[0] });
+      }
     }
 
     return null;
@@ -40,7 +42,7 @@ export const router = createBrowserRouter([
     children: [
       {
         index: true,
-        element: <Deck />,
+        element: <Home />,
       },
       {
         path: "account",
