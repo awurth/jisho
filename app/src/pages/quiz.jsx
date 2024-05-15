@@ -5,7 +5,7 @@ import { useSearchParams } from "react-router-dom";
 import Button from "../components/button.jsx";
 import Input from "../components/forms/input.jsx";
 import Timer from "../components/quiz/timer.jsx";
-import { useDictionaryStore } from "../stores/dictionary.js";
+import { useDeckStore } from "../stores/deck.js";
 
 function shuffle(array) {
   let currentIndex = array.length;
@@ -24,7 +24,7 @@ function shuffle(array) {
 export default function Quiz() {
   const [searchParams] = useSearchParams();
   const answerRef = useRef(null);
-  const dictionary = useDictionaryStore((state) => state.activeDictionary);
+  const deck = useDeckStore((state) => state.activeDeck);
   const [entries, setEntries] = useState([]);
   const [currentEntryIndex, setCurrentEntryIndex] = useState(null);
   const [points, setPoints] = useState(0);
@@ -34,7 +34,7 @@ export default function Quiz() {
   const tags = searchParams.get("tags")?.split(",").filter(Boolean);
 
   useEffect(() => {
-    axios.get(`/api/dictionaries/${dictionary.id}/entries`).then(({ data }) => {
+    axios.get(`/api/decks/${deck.id}/entries`).then(({ data }) => {
       if (data.length === 0) {
         return;
       }
