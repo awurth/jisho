@@ -1,13 +1,9 @@
-import Input from "../components/forms/input.jsx";
+import SearchBar from '../components/dictionary/search-bar.jsx';
 
 export default function Search() {
   return (
     <>
-      <Input
-        type="search"
-        placeholder="Recherche..."
-        className="w-full px-4 py-4"
-      />
+      <SearchBar/>
     </>
   );
 }
