@@ -6,9 +6,7 @@ import { getDecks } from "../api/deck.js";
 import { useDeckStore } from "../stores/deck.js";
 
 export default function DeckDropdown() {
-  const setActiveDeck = useDeckStore(
-    (state) => state.setActiveDeck,
-  );
+  const setActiveDeck = useDeckStore((state) => state.setActiveDeck);
   const activeDeck = useDeckStore((state) => state.activeDeck);
 
   const { data: decks = [] } = useQuery({

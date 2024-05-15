@@ -3,13 +3,9 @@ import { faHome, faPlus, faSearch } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import clsx from "clsx";
 import { useCallback } from "react";
-import { NavLink, useNavigate } from "react-router-dom";
-import { useEntryFormStore } from "../stores/entry-form.js";
+import { NavLink } from "react-router-dom";
 
 export default function TabBar() {
-  const navigate = useNavigate();
-  const setEntryFormVisible = useEntryFormStore((state) => state.setVisible);
-
   const itemClassName = useCallback(
     ({ isActive }) =>
       clsx({
@@ -20,15 +16,9 @@ export default function TabBar() {
     [],
   );
 
-  const onAddButtonClick = () => {
-    setEntryFormVisible(true);
-    navigate("/");
-    window.scrollTo(0, 0);
-  };
-
   return (
     <footer className="fixed bottom-0 left-0 right-0 bg-dark-950 border-l-1 border-r-1 border-t-2 border-dark-900 rounded-t-2xl">
-      <ul className="grid grid-cols-5 text-center">
+      <ul className="grid grid-cols-4 text-center">
         <li>
           <NavLink to="/" className={itemClassName}>
             <FontAwesomeIcon icon={faHome} className="mb-1" />
@@ -40,14 +30,6 @@ export default function TabBar() {
             <FontAwesomeIcon icon={faSearch} className="mb-1" />
             <span className="text-xs">Recherche</span>
           </NavLink>
-        </li>
-        <li className="flex items-center justify-center">
-          <button
-            onClick={onAddButtonClick}
-            className="add-entry-button flex items-center justify-center bg-primary-500 hover:bg-primary-400 text-white rounded-full w-10 h-10"
-          >
-            <FontAwesomeIcon icon={faPlus} />
-          </button>
         </li>
         <li>
           <NavLink to="/new-quiz" className={itemClassName}>

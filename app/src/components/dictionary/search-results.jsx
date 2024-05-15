@@ -1,6 +1,6 @@
-import SearchResult from './search-result.jsx';
+import SearchResult from "./search-result.jsx";
 
-export default function SearchResults({results}) {
+export default function SearchResults({ results }) {
   if (!results.length) {
     return null;
   }
@@ -8,7 +8,7 @@ export default function SearchResults({results}) {
   return (
     <div className="bg-dark-900 rounded-lg p-2">
       {results.map((entry) => (
-        <SearchResult key={entry.id} entry={entry}/>
+        <SearchResult key={entry.id} entry={entry} />
       ))}
     </div>
   );

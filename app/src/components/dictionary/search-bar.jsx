@@ -1,10 +1,10 @@
-import {useEffect, useState} from 'react';
-import {search} from '../../api/dictionary.js';
-import Input from '../forms/input.jsx';
-import SearchResults from './search-results.jsx';
+import { useEffect, useState } from "react";
+import { search } from "../../api/dictionary.js";
+import Input from "../forms/input.jsx";
+import SearchResults from "./search-results.jsx";
 
 export default function SearchBar() {
-  const [query, setQuery] = useState('');
+  const [query, setQuery] = useState("");
   const [results, setResults] = useState([]);
 
   useEffect(() => {
@@ -13,7 +13,7 @@ export default function SearchBar() {
     }
 
     const controller = new AbortController();
-    search(query, {signal: controller.signal}).then(setResults);
+    search(query, { signal: controller.signal }).then(setResults);
 
     return () => {
       controller.abort();
@@ -29,7 +29,7 @@ export default function SearchBar() {
         value={query}
         onChange={(e) => setQuery(e.target.value)}
       />
-      <SearchResults results={results}/>
+      <SearchResults results={results} />
     </>
   );
 }

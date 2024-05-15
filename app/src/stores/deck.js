@@ -5,8 +5,7 @@ export const useDeckStore = create(
   persist(
     (set) => ({
       activeDeck: null,
-      setActiveDeck: (deck) =>
-        set(() => ({ activeDeck: deck })),
+      setActiveDeck: (deck) => set(() => ({ activeDeck: deck })),
     }),
     {
       name: "deck",

@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import {Link} from 'react-router-dom';
+import { Link } from "react-router-dom";
 import { getEntries } from "../api/deck.js";
 import Entry from "../components/deck/entry.jsx";
 import { useDeckStore } from "../stores/deck.js";
@@ -10,16 +10,43 @@ export default function Home() {
   if (!deck) {
     return (
       <div className="text-center mt-20">
-        <p className="text-white mb-3">Vous n'avez pas encore de jeu de cartes</p>
-        <Link to="/new-deck" className="inline-block bg-primary-500 border-b-4 border-primary-600 rounded-xl text-white font-semibold px-5 py-3">Créer un jeu de cartes</Link>
+        <p className="text-white mb-3">
+          Vous n'avez pas encore de jeu de cartes
+        </p>
+        <Link
+          to="/new-deck"
+          className="inline-block bg-primary-500 border-b-4 border-primary-600 rounded-xl text-white font-semibold px-5 py-3"
+        >
+          Créer un jeu de cartes
+        </Link>
       </div>
     );
   }
 
-  const { data: entries = [] } = useQuery({
+  const { isPending, data: entries = [] } = useQuery({
     queryKey: ["entries", deck.id],
     queryFn: () => getEntries(deck.id),
   });
+
+  if (isPending) {
+    return <></>;
+  }
+
+  if (!entries.length) {
+    return (
+      <div className="text-center mt-20">
+        <p className="text-white mb-3">
+          Vous n'avez pas encore ajouté de cartes à votre jeu
+        </p>
+        <Link
+          to="/search"
+          className="inline-block bg-primary-500 border-b-4 border-primary-600 rounded-xl text-white font-semibold px-5 py-3"
+        >
+          Ajouter des mots
+        </Link>
+      </div>
+    );
+  }
 
   return (
     <>
