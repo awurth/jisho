@@ -73,3 +73,7 @@ env-test: compose.yaml
 	@echo "Switching to ${YELLOW}test${RESET}"
 	@$(DOCKER_COMPOSE_EXEC_PHP) bash -c 'grep APP_ENV= .env.local 1>/dev/null 2>&1 || echo -e "\nAPP_ENV=test" >> .env.local'
 	@$(DOCKER_COMPOSE_EXEC_PHP) sed -i 's/APP_ENV=.*/APP_ENV=test/g' .env.local
+
+## Create a new dump
+create-search-dump: compose.yaml
+	@curl -X POST 'http://localhost:7700/dumps' -H 'Authorization: Bearer N2Q3YzE0MzgzMTY4ZjZlNDkxOTExNDQzNzZkYTk2MGI4NzI1MmQ4ZWQxZmJmYmE1M2Ql'
