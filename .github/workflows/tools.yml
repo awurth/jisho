@@ -1,0 +1,50 @@
+name: Tools
+
+on: push
+
+jobs:
+    main:
+        runs-on: ubuntu-latest
+        steps:
+            - uses: actions/checkout@v4
+
+            - name: Log in to Docker Hub
+              uses: docker/login-action@v3
+              with:
+                  registry: ghcr.io
+                  username: ${{ github.actor }}
+                  password: ${{ secrets.GITHUB_TOKEN }}
+
+            - name: Pull the Docker images
+              run: make pull-ci
+
+            - name: Up the stack
+              run: make up
+
+            - name: Cache Composer dependencies
+              id: composer-cache
+              uses: actions/cache@v4
+              with:
+                  path: vendor
+                  key: ${{ runner.os }}-${{ hashFiles('**/composer.lock') }}
+
+            - name: Install the vendors
+              if: steps.composer-cache.outputs.cache-hit != 'true'
+              run: make vendor
+
+            - name: Audit the composer dependencies
+              run: make audit
+
+            - name: Warm the cache
+              if: steps.composer-cache.outputs.cache-hit == 'true'
+              run: |
+                  make cache-clear
+
+            - name: Launch php-cs-fixer (dry-run mode)
+              run: make php-cs-fixer-dry
+
+            - name: Launch phpstan
+              run: make phpstan
+
+            - name: Launch rector (dry-run mode)
+              run: make rector-dry

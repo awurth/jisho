@@ -1,0 +1,49 @@
+name: Tests
+
+on: push
+
+jobs:
+    main:
+        runs-on: ubuntu-latest
+        steps:
+            - uses: actions/checkout@v4
+
+            - name: Log in to Docker Hub
+              uses: docker/login-action@v3
+              with:
+                  registry: ghcr.io
+                  username: ${{ github.actor }}
+                  password: ${{ secrets.GITHUB_TOKEN }}
+
+            - name: Pull the Docker images
+              run: make pull-ci
+
+            - name: Up the stack
+              run: make up
+
+            - name: Cache Composer dependencies
+              id: composer-cache
+              uses: actions/cache@v4
+              with:
+                  path: vendor
+                  key: ${{ runner.os }}-${{ hashFiles('**/composer.lock') }}
+
+            - name: Install the vendors
+              if: steps.composer-cache.outputs.cache-hit != 'true'
+              run: make vendor
+
+            - name: Warm the cache
+              if: steps.composer-cache.outputs.cache-hit == 'true'
+              run: |
+                make env-test
+                make cache-clear
+
+            - name: Cache yarn dependencies
+              id: yarn-cache
+              uses: actions/cache@v4
+              with:
+                  path: node_modules
+                  key: ${{ runner.os }}-${{ hashFiles('**/yarn.lock') }}
+
+            - name: Launch PHPUnit tests
+              run: make phpunit

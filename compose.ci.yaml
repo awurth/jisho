@@ -1,0 +1,32 @@
+version: '3.7'
+
+services:
+    nginx:
+        image: ghcr.io/awurth/jisho_nginx:1.0.0
+        build:
+            cache_from:
+                - ghcr.io/awurth/jisho_nginx:1.0.0
+
+    php:
+        image: ghcr.io/awurth/jisho_php:1.0.0
+        build:
+            cache_from:
+                - ghcr.io/awurth/jisho_php:1.0.0
+
+    postgres:
+        image: ghcr.io/awurth/jisho_postgres:1.0.0
+        build:
+            cache_from:
+                - ghcr.io/awurth/jisho_postgres:1.0.0
+
+    search:
+        image: ghcr.io/awurth/jisho_search:1.0.0
+        build:
+            cache_from:
+                - ghcr.io/awurth/jisho_search:1.0.0
+
+    node:
+        image: ghcr.io/awurth/jisho_node:1.0.0
+        build:
+            cache_from:
+                - ghcr.io/awurth/jisho_node:1.0.0

@@ -1,0 +1,28 @@
+name: Docker
+
+on:
+    push:
+        paths:
+            - .docker/**/*
+            - compose.ci.yaml
+            - .github/workflows/docker.yml
+            - Makefile*
+
+jobs:
+    main:
+        runs-on: ubuntu-latest
+        steps:
+            - uses: actions/checkout@v4
+
+            - name: Log in to Docker Hub
+              uses: docker/login-action@v3
+              with:
+                registry: ghcr.io
+                username: ${{ github.actor }}
+                password: ${{ secrets.GITHUB_TOKEN }}
+
+            - name: Build the images
+              run: make build-ci
+
+            - name: Push the images
+              run: make push-ci

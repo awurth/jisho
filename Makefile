@@ -3,6 +3,7 @@ include Makefile.database.mk
 include Makefile.testing.mk
 include Makefile.tools.mk
 include Makefile.frontend.mk
+include Makefile.ci.mk
 
 #################################
 Docker:
@@ -54,6 +55,10 @@ vendor: api/composer.json api/composer.lock
 ## Audit the composer dependencies
 audit: api/composer.json api/composer.lock
 	$(DOCKER_COMPOSE_EXEC_COMPOSER) audit
+
+## Clear the cache
+cache-clear: api/bin/console
+	$(DOCKER_COMPOSE_EXEC_PHP) bin/console cache:clear
 
 #################################
 Common:
