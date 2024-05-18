@@ -2,6 +2,8 @@
 
 FROM php:8.3-fpm
 
+WORKDIR /srv/api
+
 # persistent / runtime deps
 # hadolint ignore=DL3008
 RUN apt-get update && apt-get install -y --no-install-recommends \
