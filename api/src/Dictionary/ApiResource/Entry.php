@@ -36,6 +36,10 @@ use Symfony\Component\Serializer\Attribute\Groups;
                 'id' => new Link(fromClass: Entry::class),
             ],
             shortName: 'DictionaryEntry',
+            normalizationContext: [
+                'groups' => ['entry:read'],
+                'openapi_definition_name' => 'Read',
+            ],
             provider: EntryProvider::class,
         ),
     ],
@@ -50,13 +54,13 @@ final class Entry
      * @param Sense[]   $senses
      */
     public function __construct(
-        #[Groups('deck-entry:read')]
+        #[Groups(['deck-entry:read', 'entry:read'])]
         public string $id,
-        #[Groups('deck-entry:read')]
+        #[Groups(['deck-entry:read', 'entry:read'])]
         public array $kanji,
-        #[Groups('deck-entry:read')]
+        #[Groups(['deck-entry:read', 'entry:read'])]
         public array $readings,
-        #[Groups('deck-entry:read')]
+        #[Groups(['deck-entry:read', 'entry:read'])]
         public array $senses,
     ) {
     }

@@ -9,9 +9,9 @@ use Symfony\Component\Serializer\Attribute\Groups;
 final readonly class Translation
 {
     public function __construct(
-        #[Groups('deck-entry:read')]
+        #[Groups(['deck-entry:read', 'entry:read'])]
         public string $value,
-        #[Groups('deck-entry:read')]
+        #[Groups(['deck-entry:read', 'entry:read'])]
         public string $language,
     ) {
     }
