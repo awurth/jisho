@@ -9,6 +9,7 @@ services:
 
   php:
     build: .docker/php
+    working_dir: /srv/api
     volumes:
       - .:/srv
     depends_on: [ postgres ]
