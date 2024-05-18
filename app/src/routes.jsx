@@ -4,6 +4,7 @@ import { getDecks } from "./api/deck.js";
 import { getMe } from "./api/user.js";
 import Error from "./error.jsx";
 import Account from "./pages/account.jsx";
+import Entry from "./pages/entry.jsx";
 import Home from "./pages/home.jsx";
 import Login from "./pages/login.jsx";
 import NewDeck from "./pages/new-deck.jsx";
@@ -67,6 +68,11 @@ export const router = createBrowserRouter([
       {
         path: "quiz",
         element: <Quiz />,
+        loader: mustBeLoggedIn,
+      },
+      {
+        path: "entry/:id",
+        element: <Entry />,
         loader: mustBeLoggedIn,
       },
     ],

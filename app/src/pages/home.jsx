@@ -52,7 +52,7 @@ export default function Home() {
     <>
       <div className="flex flex-col">
         {entries.map((entry) => (
-          <Entry key={entry.japanese} entry={entry} className="mb-4" />
+          <Entry key={entry.id} entry={entry.entry} className="mb-4" />
         ))}
       </div>
     </>

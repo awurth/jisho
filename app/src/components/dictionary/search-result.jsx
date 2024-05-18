@@ -16,14 +16,20 @@
 //   })).filter((sense) => !!sense.translations.length);
 // };
 
+import { useNavigate } from "react-router-dom";
+
 export default function SearchResult({ entry }) {
+  const navigate = useNavigate();
   const main = entry.kanji[0]?.value ?? entry.readings[0].kana;
 
   const senses = entry.senses;
   // const language = senses[0].translations[0].language;
 
   return (
-    <div className="bg-dark-950 rounded-lg text-white p-2 mb-2">
+    <div
+      className="bg-dark-950 rounded-lg text-white p-2 mb-2"
+      onClick={() => navigate(`/entry/${entry.id}`)}
+    >
       <p className="text-lg font-semibold mb-1">{main}</p>
       {!!entry.kanji.length && (
         <p className="text-sm text-gray-300 mb-1">{entry.readings[0].kana}</p>

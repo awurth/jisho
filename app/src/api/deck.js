@@ -19,3 +19,10 @@ export async function postDeck(deck) {
   const { data } = await axios.post(`/api/decks`, deck);
   return data;
 }
+
+export async function postDeckEntry(deckId, entryId) {
+  const { data } = await axios.post(`/api/decks/${deckId}/entries`, {
+    entry: `/api/dictionary/entries/${entryId}`,
+  });
+  return data;
+}
