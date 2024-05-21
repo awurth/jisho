@@ -110,7 +110,7 @@ final readonly class JMDictParser
             $dialect = $element->filter('dial');
 
             $translations = $element->filter('gloss')->each(static function (Crawler $element): array {
-                $language = $element->getNode(0)->attributes->getNamedItem('xml:lang');
+                $language = $element->getNode(0)?->attributes?->getNamedItem('xml:lang');
 
                 return [
                     'language' => $language instanceof DOMNode ? $language->nodeValue : 'eng',
