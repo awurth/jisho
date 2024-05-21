@@ -29,14 +29,6 @@ final class EntryRepository extends ServiceEntityRepository
     public function getBatch(int $offset, int $limit): array
     {
         return $this->createQueryBuilder(alias: 'e')
-            ->addSelect('k')
-            ->addSelect('r')
-            ->addSelect('s')
-            ->addSelect('t')
-            ->innerJoin(join: 'e.kanjiElements', alias: 'k')
-            ->innerJoin(join: 'e.readingElements', alias: 'r')
-            ->innerJoin(join: 'e.senses', alias: 's')
-            ->innerJoin(join: 's.translations', alias: 't')
             ->setFirstResult($offset)
             ->setMaxResults($limit)
             ->getQuery()
