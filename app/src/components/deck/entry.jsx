@@ -17,6 +17,22 @@ export default function Entry({ entry, ...props }) {
       {!!entry.kanji.length && (
         <p className="text-sm text-gray-300 mb-1">{entry.readings[0].kana}</p>
       )}
+      <ul>
+        {entry.senses.map((sense, index) => (
+          <li key={index}>
+            -{" "}
+            {sense.translations.map((translation, index) => (
+              <span key={index}>
+                <span className="inline-block bg-dark-900 rounded px-1 mr-1">
+                  {translation.language === "fre" ? "fr" : "en"}
+                </span>
+                {translation.value}
+                {index === sense.translations.length - 1 ? "" : ", "}
+              </span>
+            ))}
+          </li>
+        ))}
+      </ul>
       {/*<p className="text-xs text-gray-600 font-semibold">*/}
       {/*  {toRomaji(entry.japanese)}*/}
       {/*</p>*/}
