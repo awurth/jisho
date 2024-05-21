@@ -7,6 +7,7 @@ namespace App\Dictionary\Parser;
 use App\Dictionary\Parser\DataTransformer\EntryDataTransformer;
 use Doctrine\ORM\EntityManagerInterface;
 use DOMNode;
+use RuntimeException;
 use Symfony\Component\DomCrawler\Crawler;
 use XMLReader;
 use function count;
@@ -26,6 +27,10 @@ final readonly class JMDictParser
     public function parse(string $file): void
     {
         $xml = XMLReader::open($file);
+
+        if (!$xml instanceof XMLReader) {
+            throw new RuntimeException('Could not open XML file.');
+        }
 
         do {
             $xml->read();
