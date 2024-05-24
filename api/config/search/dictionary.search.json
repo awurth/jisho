@@ -1,6 +1,6 @@
 {
   "name": "dictionary",
-  "primaryKey": "sequenceId",
+  "primaryKey": "id",
   "displayedAttributes": [
     "*"
   ],
@@ -13,7 +13,9 @@
     "attribute"
   ],
   "searchableAttributes": [
-    "senses.translations.value"
+    "senses",
+    "kana",
+    "kanji"
   ],
   "filterableAttributes": [],
   "sortableAttributes": []

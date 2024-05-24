@@ -13,7 +13,7 @@ use function iterator_count;
 
 final readonly class DictionaryIndexer
 {
-    private const int BATCH_SIZE = 500;
+    private const int BATCH_SIZE = 1000;
 
     public function __construct(
         private Client $searchClient,
@@ -40,6 +40,6 @@ final readonly class DictionaryIndexer
     {
         $documents = $this->entryDataTransformer->transformToSearchArray(...$entries);
 
-        $this->searchClient->index('dictionary')->addDocuments($documents, 'sequenceId');
+        $this->searchClient->index('dictionary')->addDocuments($documents);
     }
 }

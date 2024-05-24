@@ -31,17 +31,17 @@ final readonly class SearchProvider implements ProviderInterface
         $searchResult = $this->searchClient->index('dictionary')->rawSearch($uriVariables['query']);
 
         return map($searchResult['hits'], static fn (array $data): Entry => new Entry(
-            id: $data['id'],
-            kanji: map($data['kanji'] ?? [], static fn (array $kanji): Kanji => new Kanji(
+            id: $data['entry']['id'],
+            kanji: map($data['entry']['kanji'] ?? [], static fn (array $kanji): Kanji => new Kanji(
                 $kanji['value'],
                 $kanji['info'] ?? null,
             )),
-            readings: map($data['readings'], static fn (array $reading): Reading => new Reading(
+            readings: map($data['entry']['readings'], static fn (array $reading): Reading => new Reading(
                 kana: $reading['kana'],
                 romaji: $reading['romaji'],
                 info: $reading['info'] ?? null,
             )),
-            senses: map($data['senses'], static fn (array $sense): Sense => new Sense(
+            senses: map($data['entry']['senses'], static fn (array $sense): Sense => new Sense(
                 partsOfSpeech: $sense['partsOfSpeech'] ?? [],
                 fieldOfApplication: $sense['fieldOfApplication'] ?? null,
                 dialect: $sense['dialect'] ?? null,

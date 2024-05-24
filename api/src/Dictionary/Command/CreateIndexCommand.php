@@ -60,7 +60,7 @@ final class CreateIndexCommand extends Command
             $this->searchClient->getIndex($indexToCreate);
         } catch (Exception) {
             $index = $this->searchClient->createIndex($indexToCreate, [
-                'primaryKey' => $indexConfiguration->primaryKey(),
+                'primaryKey' => $indexConfiguration['primaryKey'],
             ]);
 
             $this->searchClient->waitForTask($index['taskUid']);
