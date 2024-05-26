@@ -24,6 +24,7 @@ final readonly class EntryDataTransformer
             'id' => $entry->sequenceId,
             'senses' => $this->transformSenses($entry->senses),
             'kana' => map($this->sortReadings($entry->readingElements), static fn (ReadingElement $element): string => $element->kana),
+            'romaji' => map($this->sortReadings($entry->readingElements), static fn (ReadingElement $element): string => $element->romaji),
             'kanji' => map($entry->kanjiElements, static fn (KanjiElement $element): string => $element->value),
             'entry' => [
                 'id' => (string) $entry->getId(),

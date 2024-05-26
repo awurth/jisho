@@ -15,6 +15,7 @@
   "searchableAttributes": [
     "senses",
     "kana",
+    "romaji",
     "kanji"
   ],
   "filterableAttributes": [],

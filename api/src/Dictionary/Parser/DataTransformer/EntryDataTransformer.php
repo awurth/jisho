@@ -9,11 +9,16 @@ use App\Common\Entity\Dictionary\KanjiElement;
 use App\Common\Entity\Dictionary\ReadingElement;
 use App\Common\Entity\Dictionary\Sense;
 use App\Common\Entity\Dictionary\Translation;
+use App\Common\Transliterator\KanaToRomajiTransliterator;
 use Doctrine\Common\Collections\ArrayCollection;
 use function Functional\map;
 
 final readonly class EntryDataTransformer
 {
+    public function __construct(private KanaToRomajiTransliterator $transliterator)
+    {
+    }
+
     /**
      * @param array<string, mixed> $data
      */
@@ -32,11 +37,11 @@ final readonly class EntryDataTransformer
             return $element;
         });
 
-        $readingElements = map($data['readingElements'], static function (array $data) use ($entry): ReadingElement {
+        $readingElements = map($data['readingElements'], function (array $data) use ($entry): ReadingElement {
             $element = new ReadingElement();
             $element->entry = $entry;
             $element->kana = $data['kana'];
-            $element->romaji = $data['romaji'] ?? '';
+            $element->romaji = $this->transliterator->transliterate($data['kana']);
             $element->info = $data['info'];
             $element->priority = $data['priority'];
             $element->notTrueKanjiReading = $data['nokanji'];
