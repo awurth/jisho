@@ -34,6 +34,7 @@ export default function Entry() {
       {!!entry.kanji.length && (
         <p className="text-lg text-gray-300 mb-1">{entry.readings[0].kana}</p>
       )}
+      <p className="text-md text-gray-300 mb-1">{entry.readings[0].romaji}</p>
       <ul className="mb-3">
         {entry.senses.map((sense, index) => (
           <li key={index} className="text-gray-100">
