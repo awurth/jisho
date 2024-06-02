@@ -15,10 +15,14 @@ drop-database: api/config/packages/doctrine.yaml
 	@$(DOCKER_COMPOSE_EXEC_PHP) bin/console doctrine:database:drop --if-exists --force
 	@echo "${GREEN}Database dropped${GREEN}"
 
-## Create the database schema
-create-database-schema: api/config/packages/doctrine.yaml create-database
-	@$(DOCKER_COMPOSE_EXEC_PHP) bin/console doctrine:schema:create
-	@echo "${GREEN}Database schema created${GREEN}"
+## Update the database schema
+update-database-schema: api/config/packages/doctrine.yaml
+	@$(DOCKER_COMPOSE_EXEC_PHP) bin/console doctrine:schema:update --force
+	@echo "${GREEN}Database schema updated${GREEN}"
+
+## Show the database schema update sql
+show-database-schema: api/config/packages/doctrine.yaml
+	@$(DOCKER_COMPOSE_EXEC_PHP) bin/console doctrine:schema:update --dump-sql
 
 ## Dump the database
 dump-database: .docker/postgres/dump
