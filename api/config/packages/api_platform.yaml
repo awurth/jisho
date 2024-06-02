@@ -21,3 +21,4 @@ api_platform:
     resource_class_directories:
         - '%kernel.project_dir%/src/Deck/ApiResource'
         - '%kernel.project_dir%/src/Dictionary/ApiResource'
+        - '%kernel.project_dir%/src/Quiz/ApiResource'
