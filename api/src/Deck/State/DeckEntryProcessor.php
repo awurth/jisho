@@ -26,7 +26,7 @@ final readonly class DeckEntryProcessor implements ProcessorInterface
     }
 
     #[Override]
-    public function process(mixed $data, Operation $operation, array $uriVariables = [], array $context = [])
+    public function process(mixed $data, Operation $operation, array $uriVariables = [], array $context = []): DeckEntry
     {
         if ($operation instanceof DeleteOperationInterface) {
             $this->entityManager->remove($data->entity);

@@ -14,6 +14,7 @@ use App\Common\Entity\Quiz\Quiz as QuizEntity;
 use App\Deck\ApiResource\Deck;
 use App\Quiz\State\QuizProcessor;
 use App\Quiz\State\QuizProvider;
+use App\Quiz\State\QuizStartProcessor;
 use DateTimeImmutable;
 use Symfony\Component\Serializer\Attribute\Groups;
 use Symfony\Component\Uid\Uuid;
@@ -66,6 +67,19 @@ use Symfony\Component\Uid\Uuid;
             security: 'is_granted("QUIZ_DELETE", object)',
             provider: QuizProvider::class,
             processor: QuizProcessor::class,
+        ),
+        new Post(
+            uriTemplate: '/quizzes/{id}/start',
+            uriVariables: [
+                'id' => new Link(fromClass: Quiz::class),
+            ],
+            normalizationContext: [
+                'groups' => ['quiz:read'],
+                'openapi_definition_name' => 'Read',
+            ],
+            security: 'is_granted("QUIZ_START", object)',
+            provider: QuizProvider::class,
+            processor: QuizStartProcessor::class,
         ),
     ],
 )]

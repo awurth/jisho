@@ -27,7 +27,7 @@ final readonly class QuizProcessor implements ProcessorInterface
     }
 
     #[Override]
-    public function process(mixed $data, Operation $operation, array $uriVariables = [], array $context = [])
+    public function process(mixed $data, Operation $operation, array $uriVariables = [], array $context = []): Quiz
     {
         if ($operation instanceof DeleteOperationInterface) {
             $this->entityManager->remove($data->entity);
