@@ -34,6 +34,7 @@ final class QuizRepository extends ServiceEntityRepository
             ->where('d.owner = :owner')
             ->setParameter('owner', $owner)
             ->getQuery()
-            ->getResult();
+            ->getResult()
+        ;
     }
 }

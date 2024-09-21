@@ -5,7 +5,6 @@ declare(strict_types=1);
 use Rector\Config\RectorConfig;
 use Rector\Doctrine\Set\DoctrineSetList;
 use Rector\PHPUnit\Set\PHPUnitSetList;
-use Rector\Set\ValueObject\LevelSetList;
 use Rector\Set\ValueObject\SetList;
 use Rector\Symfony\Set\SymfonySetList;
 
@@ -16,13 +15,17 @@ return static function (RectorConfig $rectorConfig): void {
     ]);
 
     $rectorConfig->sets([
-        LevelSetList::UP_TO_PHP_83,
+        SetList::PHP_83,
         SetList::CODE_QUALITY,
+        SetList::STRICT_BOOLEANS,
         SetList::RECTOR_PRESET,
         SetList::TYPE_DECLARATION,
+        SetList::EARLY_RETURN,
         DoctrineSetList::DOCTRINE_DBAL_40,
         DoctrineSetList::DOCTRINE_ORM_214,
         PHPUnitSetList::PHPUNIT_100,
         SymfonySetList::SYMFONY_64,
+        SymfonySetList::SYMFONY_CODE_QUALITY,
+        SymfonySetList::SYMFONY_CONSTRUCTOR_INJECTION,
     ]);
 };

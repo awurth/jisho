@@ -14,7 +14,7 @@ final class AppFixtures extends Fixture
     #[Override]
     public function load(ObjectManager $manager): void
     {
-        $user = UserFactory::createOne([
+        UserFactory::createOne([
             'email' => 'alexis.wurth57@gmail.com',
         ]);
     }

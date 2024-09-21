@@ -45,7 +45,7 @@ final class GoogleAuthenticator extends OAuth2Authenticator
         $accessToken = $this->fetchAccessToken($client);
 
         return new SelfValidatingPassport(
-            new UserBadge($accessToken->getToken(), function () use ($accessToken, $client) {
+            new UserBadge($accessToken->getToken(), function () use ($accessToken, $client): User {
                 /** @var GoogleUser $googleUser */
                 $googleUser = $client->fetchUserFromToken($accessToken);
 
