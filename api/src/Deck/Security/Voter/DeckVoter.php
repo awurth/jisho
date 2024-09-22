@@ -20,7 +20,7 @@ final class DeckVoter extends Voter
     public const string CREATE = 'DECK_CREATE';
     public const string EDIT = 'DECK_EDIT';
     public const string DELETE = 'DECK_DELETE';
-    public const string CREATE_ENTRY = 'DECK_ENTRY_CREATE';
+    public const string CREATE_ENTRY = 'CARD_CREATE';
     public const string CREATE_QUIZ = 'QUIZ_CREATE';
 
     #[Override]

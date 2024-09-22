@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Common\Entity\Deck;
 
 use App\Common\Entity\Dictionary\Entry;
-use App\Common\Repository\Deck\DeckEntryRepository;
+use App\Common\Repository\Deck\CardRepository;
 use DateTimeImmutable;
 use Doctrine\ORM\Mapping\Column;
 use Doctrine\ORM\Mapping\Entity;
@@ -15,9 +15,9 @@ use Doctrine\ORM\Mapping\ManyToOne;
 use Doctrine\ORM\Mapping\UniqueConstraint;
 use Symfony\Component\Uid\Uuid;
 
-#[Entity(repositoryClass: DeckEntryRepository::class)]
+#[Entity(repositoryClass: CardRepository::class)]
 #[UniqueConstraint(fields: ['deck', 'entry'])]
-final class DeckEntry
+final class Card
 {
     #[Id]
     #[Column(type: 'uuid')]

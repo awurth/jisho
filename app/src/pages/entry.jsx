@@ -1,6 +1,6 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useParams } from "react-router-dom";
-import { postDeckEntry } from "../api/deck.js";
+import { postCard } from "../api/deck.js";
 import { getEntry } from "../api/dictionary.js";
 import Button from "../components/button.jsx";
 import { useDeckStore } from "../stores/deck.js";
@@ -16,7 +16,7 @@ export default function Entry() {
 
   const queryClient = useQueryClient();
   const mutation = useMutation({
-    mutationFn: ({ deckId, entryId }) => postDeckEntry(deckId, entryId),
+    mutationFn: ({ deckId, entryId }) => postCard(deckId, entryId),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["entries"] });
     },

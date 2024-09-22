@@ -54,13 +54,13 @@ final class Entry
      * @param Sense[]   $senses
      */
     public function __construct(
-        #[Groups(['deck-entry:read', 'entry:read'])]
+        #[Groups(['card:read', 'entry:read'])]
         public string $id,
-        #[Groups(['deck-entry:read', 'entry:read'])]
+        #[Groups(['card:read', 'entry:read'])]
         public array $kanji,
-        #[Groups(['deck-entry:read', 'entry:read'])]
+        #[Groups(['card:read', 'entry:read'])]
         public array $readings,
-        #[Groups(['deck-entry:read', 'entry:read'])]
+        #[Groups(['card:read', 'entry:read'])]
         public array $senses,
     ) {
     }

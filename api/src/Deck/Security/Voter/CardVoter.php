@@ -5,26 +5,26 @@ declare(strict_types=1);
 namespace App\Deck\Security\Voter;
 
 use App\Common\Entity\User;
-use App\Deck\ApiResource\DeckEntry;
+use App\Deck\ApiResource\Card;
 use Override;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Authorization\Voter\Voter;
 use function in_array;
 
 /**
- * @extends Voter<string, DeckEntry>
+ * @extends Voter<string, Card>
  */
-final class DeckEntryVoter extends Voter
+final class CardVoter extends Voter
 {
-    public const string VIEW = 'DECK_ENTRY_VIEW';
-    public const string EDIT = 'DECK_ENTRY_EDIT';
-    public const string DELETE = 'DECK_ENTRY_DELETE';
+    public const string VIEW = 'CARD_VIEW';
+    public const string EDIT = 'CARD_EDIT';
+    public const string DELETE = 'CARD_DELETE';
 
     #[Override]
     protected function supports(string $attribute, mixed $subject): bool
     {
         return in_array($attribute, [self::VIEW, self::EDIT, self::DELETE], true)
-            && $subject instanceof DeckEntry;
+            && $subject instanceof Card;
     }
 
     #[Override]

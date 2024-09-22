@@ -8,25 +8,25 @@ use ApiPlatform\Metadata\DeleteOperationInterface;
 use ApiPlatform\Metadata\Operation;
 use ApiPlatform\Metadata\Post;
 use ApiPlatform\State\ProcessorInterface;
-use App\Deck\ApiResource\DataTransformer\DeckEntryDataTransformer;
-use App\Deck\ApiResource\DeckEntry;
+use App\Deck\ApiResource\DataTransformer\CardDataTransformer;
+use App\Deck\ApiResource\Card;
 use Doctrine\ORM\EntityManagerInterface;
 use LogicException;
 use Override;
 
 /**
- * @implements ProcessorInterface<DeckEntry, DeckEntry>
+ * @implements ProcessorInterface<Card, Card>
  */
-final readonly class DeckEntryProcessor implements ProcessorInterface
+final readonly class CardProcessor implements ProcessorInterface
 {
     public function __construct(
-        private DeckEntryDataTransformer $deckEntryDataTransformer,
+        private CardDataTransformer    $cardDataTransformer,
         private EntityManagerInterface $entityManager,
     ) {
     }
 
     #[Override]
-    public function process(mixed $data, Operation $operation, array $uriVariables = [], array $context = []): DeckEntry
+    public function process(mixed $data, Operation $operation, array $uriVariables = [], array $context = []): Card
     {
         if ($operation instanceof DeleteOperationInterface) {
             $this->entityManager->remove($data->entity);
@@ -45,12 +45,12 @@ final readonly class DeckEntryProcessor implements ProcessorInterface
         // }
 
         if ($operation instanceof Post) {
-            $entity = $this->deckEntryDataTransformer->transformApiResourceToEntity($data);
+            $entity = $this->cardDataTransformer->transformApiResourceToEntity($data);
 
             $this->entityManager->persist($entity);
             $this->entityManager->flush();
 
-            return $this->deckEntryDataTransformer->transformEntityToApiResource($entity);
+            return $this->cardDataTransformer->transformEntityToApiResource($entity);
         }
 
         throw new LogicException('Unexpected operation');

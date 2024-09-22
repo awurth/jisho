@@ -25,16 +25,16 @@ final class Version20240526101041 extends AbstractMigration
         )');
         $this->addSql('CREATE INDEX IDX_4FAC36377E3C61F9 ON deck (owner_id)');
         $this->addSql('CREATE UNIQUE INDEX UNIQ_4FAC36377E3C61F95E237E06 ON deck (owner_id, name)');
-        $this->addSql('CREATE TABLE deck_entry (
+        $this->addSql('CREATE TABLE card (
           id UUID NOT NULL,
           added_at TIMESTAMP(0) WITHOUT TIME ZONE NOT NULL,
           deck_id UUID NOT NULL,
           entry_id UUID NOT NULL,
           PRIMARY KEY(id)
         )');
-        $this->addSql('CREATE INDEX IDX_EA7C679F111948DC ON deck_entry (deck_id)');
-        $this->addSql('CREATE INDEX IDX_EA7C679FBA364942 ON deck_entry (entry_id)');
-        $this->addSql('CREATE UNIQUE INDEX UNIQ_EA7C679F111948DCBA364942 ON deck_entry (deck_id, entry_id)');
+        $this->addSql('CREATE INDEX IDX_EA7C679F111948DC ON card (deck_id)');
+        $this->addSql('CREATE INDEX IDX_EA7C679FBA364942 ON card (entry_id)');
+        $this->addSql('CREATE UNIQUE INDEX UNIQ_EA7C679F111948DCBA364942 ON card (deck_id, entry_id)');
         $this->addSql('CREATE TABLE entry (id UUID NOT NULL, sequence_id INT NOT NULL, PRIMARY KEY(id))');
         $this->addSql('CREATE UNIQUE INDEX UNIQ_2B219D7098FB19AE ON entry (sequence_id)');
         $this->addSql('CREATE TABLE kanji_element (
@@ -104,11 +104,11 @@ final class Version20240526101041 extends AbstractMigration
         ADD
           CONSTRAINT FK_4FAC36377E3C61F9 FOREIGN KEY (owner_id) REFERENCES "user" (id) NOT DEFERRABLE INITIALLY IMMEDIATE');
         $this->addSql('ALTER TABLE
-          deck_entry
+          card
         ADD
           CONSTRAINT FK_EA7C679F111948DC FOREIGN KEY (deck_id) REFERENCES deck (id) NOT DEFERRABLE INITIALLY IMMEDIATE');
         $this->addSql('ALTER TABLE
-          deck_entry
+          card
         ADD
           CONSTRAINT FK_EA7C679FBA364942 FOREIGN KEY (entry_id) REFERENCES entry (id) NOT DEFERRABLE INITIALLY IMMEDIATE');
         $this->addSql('ALTER TABLE
@@ -135,18 +135,17 @@ final class Version20240526101041 extends AbstractMigration
 
     public function down(Schema $schema): void
     {
-        // this down() migration is auto-generated, please modify it to your needs
         $this->addSql('CREATE SCHEMA public');
         $this->addSql('ALTER TABLE deck DROP CONSTRAINT FK_4FAC36377E3C61F9');
-        $this->addSql('ALTER TABLE deck_entry DROP CONSTRAINT FK_EA7C679F111948DC');
-        $this->addSql('ALTER TABLE deck_entry DROP CONSTRAINT FK_EA7C679FBA364942');
+        $this->addSql('ALTER TABLE card DROP CONSTRAINT FK_EA7C679F111948DC');
+        $this->addSql('ALTER TABLE card DROP CONSTRAINT FK_EA7C679FBA364942');
         $this->addSql('ALTER TABLE kanji_element DROP CONSTRAINT FK_31347D4DBA364942');
         $this->addSql('ALTER TABLE reading_element DROP CONSTRAINT FK_5D9CD0CBA364942');
         $this->addSql('ALTER TABLE sense DROP CONSTRAINT FK_F2B33FBBA364942');
         $this->addSql('ALTER TABLE tag DROP CONSTRAINT FK_389B783111948DC');
         $this->addSql('ALTER TABLE translation DROP CONSTRAINT FK_B469456F8707C57E');
         $this->addSql('DROP TABLE deck');
-        $this->addSql('DROP TABLE deck_entry');
+        $this->addSql('DROP TABLE card');
         $this->addSql('DROP TABLE entry');
         $this->addSql('DROP TABLE kanji_element');
         $this->addSql('DROP TABLE reading_element');

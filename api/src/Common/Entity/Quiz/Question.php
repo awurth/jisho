@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Common\Entity\Quiz;
 
-use App\Common\Entity\Deck\DeckEntry;
+use App\Common\Entity\Deck\Card;
 use App\Common\Repository\Quiz\QuestionRepository;
 use DateTimeImmutable;
 use Doctrine\ORM\Mapping\Column;
@@ -23,7 +23,7 @@ class Question
 
     #[ManyToOne]
     #[JoinColumn(nullable: false)]
-    public DeckEntry $deckEntry;
+    public Card $card;
 
     #[Column(updatable: false)]
     public DateTimeImmutable $createdAt;

@@ -9,9 +9,9 @@ use Symfony\Component\Serializer\Attribute\Groups;
 final readonly class Kanji
 {
     public function __construct(
-        #[Groups(['deck-entry:read', 'entry:read'])]
+        #[Groups(['card:read', 'entry:read'])]
         public string $value,
-        #[Groups(['deck-entry:read', 'entry:read'])]
+        #[Groups(['card:read', 'entry:read'])]
         public ?string $info,
     ) {
     }

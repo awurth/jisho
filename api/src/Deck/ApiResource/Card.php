@@ -10,9 +10,9 @@ use ApiPlatform\Metadata\Get;
 use ApiPlatform\Metadata\GetCollection;
 use ApiPlatform\Metadata\Link;
 use ApiPlatform\Metadata\Post;
-use App\Common\Entity\Deck\DeckEntry as DeckEntryEntity;
-use App\Deck\State\DeckEntryProcessor;
-use App\Deck\State\DeckEntryProvider;
+use App\Common\Entity\Deck\Card as CardEntity;
+use App\Deck\State\CardProcessor;
+use App\Deck\State\CardProvider;
 use App\Dictionary\ApiResource\Entry;
 use DateTimeImmutable;
 use Symfony\Component\Serializer\Attribute\Groups;
@@ -26,24 +26,24 @@ use Symfony\Component\Uid\Uuid;
                 'deckId' => new Link(fromClass: Deck::class),
             ],
             normalizationContext: [
-                'groups' => ['deck-entry:read'],
+                'groups' => ['card:read'],
                 'openapi_definition_name' => 'Read',
             ],
             security: 'is_granted("ROLE_USER")',
-            provider: DeckEntryProvider::class,
+            provider: CardProvider::class,
         ),
         new Get(
             uriTemplate: '/decks/{deckId}/entries/{id}',
             uriVariables: [
                 'deckId' => new Link(fromClass: Deck::class),
-                'id' => new Link(fromClass: DeckEntry::class),
+                'id' => new Link(fromClass: Card::class),
             ],
             normalizationContext: [
-                'groups' => ['deck-entry:read'],
+                'groups' => ['card:read'],
                 'openapi_definition_name' => 'Read',
             ],
-            security: 'is_granted("DECK_ENTRY_VIEW", object)',
-            provider: DeckEntryProvider::class,
+            security: 'is_granted("CARD_VIEW", object)',
+            provider: CardProvider::class,
         ),
         new Post(
             uriTemplate: '/decks/{deckId}/entries',
@@ -51,21 +51,21 @@ use Symfony\Component\Uid\Uuid;
                 'deckId' => new Link(fromClass: Deck::class),
             ],
             normalizationContext: [
-                'groups' => ['deck-entry:read'],
+                'groups' => ['card:read'],
                 'openapi_definition_name' => 'Read',
             ],
             denormalizationContext: [
-                'groups' => ['deck-entry:write'],
+                'groups' => ['card:write'],
                 'openapi_definition_name' => 'Write',
             ],
-            security: 'is_granted("DECK_ENTRY_CREATE", object.deck)',
-            provider: DeckEntryProvider::class,
-            processor: DeckEntryProcessor::class,
+            security: 'is_granted("CARD_CREATE", object.deck)',
+            provider: CardProvider::class,
+            processor: CardProcessor::class,
         ),
         // new Patch(
         //     uriTemplate: '/decks/{id}',
         //     uriVariables: [
-        //         'id' => new Link(fromClass: DeckEntry::class),
+        //         'id' => new Link(fromClass: Card::class),
         //     ],
         //     normalizationContext: [
         //         'groups' => ['deck:read'],
@@ -83,30 +83,30 @@ use Symfony\Component\Uid\Uuid;
             uriTemplate: '/decks/{deckId}/entries/{id}',
             uriVariables: [
                 'deckId' => new Link(fromClass: Deck::class),
-                'id' => new Link(fromClass: DeckEntry::class),
+                'id' => new Link(fromClass: Card::class),
             ],
             normalizationContext: [
-                'groups' => ['deck-entry:read'],
+                'groups' => ['card:read'],
                 'openapi_definition_name' => 'Read',
             ],
-            security: 'is_granted("DECK_ENTRY_DELETE", object)',
-            provider: DeckEntryProvider::class,
-            processor: DeckEntryProcessor::class,
+            security: 'is_granted("CARD_DELETE", object)',
+            provider: CardProvider::class,
+            processor: CardProcessor::class,
         ),
     ],
 )]
-final class DeckEntry
+final class Card
 {
-    public DeckEntryEntity $entity;
+    public CardEntity $entity;
 
-    #[Groups('deck-entry:read')]
+    #[Groups('card:read')]
     public Uuid $id;
 
     public Deck $deck;
 
-    #[Groups(['deck-entry:read', 'deck-entry:write'])]
+    #[Groups(['card:read', 'card:write'])]
     public Entry $entry;
 
-    #[Groups(['deck-entry:read'])]
+    #[Groups(['card:read'])]
     public DateTimeImmutable $addedAt;
 }
