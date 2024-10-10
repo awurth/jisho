@@ -12,10 +12,10 @@
         "ext-dom": "*",
         "ext-xmlreader": "*",
         "api-platform/core": "^3.4",
-        "doctrine/dbal": "^3.0 || ^4.0",
+        "doctrine/dbal": "^4.0",
         "doctrine/doctrine-bundle": "^2.13",
         "doctrine/doctrine-migrations-bundle": "^3.3",
-        "doctrine/orm": "^2.19 || ^3.0",
+        "doctrine/orm": "^3.0",
         "knpuniversity/oauth2-client-bundle": "^2.18",
         "league/oauth2-google": "^4.0",
         "lstrojny/functional-php": "^1.17",
@@ -58,7 +58,7 @@
         "symfony/maker-bundle": "dev-main",
         "symfony/phpunit-bridge": "7.1.*",
         "symfony/web-profiler-bundle": "7.1.*",
-        "zenstruck/foundry": "^1.38"
+        "zenstruck/foundry": "^2.0"
     },
     "config": {
         "allow-plugins": {
