@@ -30,7 +30,7 @@ database-schema-diff: api/config/packages/doctrine.yaml
 
 ## Dump the database
 dump-database: .docker/postgres/dump
-	@$(DOCKER_COMPOSE_EXEC_POSTGRES) pg_dump -c -U app app > .docker/postgres/dump/dump.sql
+	@$(DOCKER_COMPOSE_EXEC_POSTGRES) pg_dump --data-only -U app app > .docker/postgres/dump/dump.sql
 	@echo "${GREEN}Database dumped${GREEN}"
 
 ## Restore the database

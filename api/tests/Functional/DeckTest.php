@@ -27,7 +27,7 @@ final class DeckTest extends ApiTestCase
         $user = UserFactory::createOne();
 
         $client = self::createClient();
-        $client->loginUser($user->object());
+        $client->loginUser($user);
         $client->request('GET', '/api/decks');
 
         self::assertResponseStatusCodeSame(200);

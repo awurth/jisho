@@ -25,7 +25,7 @@ final class ParseCommand extends Command
     #[Override]
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        $this->parser->parse('/srv/api/data/JMdict.xml');
+        $this->parser->parse('/srv/api/data/JMdict.xml', '/srv/api/data/JMdict.dtd');
 
         return Command::SUCCESS;
     }

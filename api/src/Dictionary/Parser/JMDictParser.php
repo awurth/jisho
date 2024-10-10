@@ -11,6 +11,7 @@ use RuntimeException;
 use Symfony\Component\DomCrawler\Crawler;
 use XMLReader;
 use function count;
+use function file_get_contents;
 use function Functional\filter;
 use function in_array;
 
@@ -24,8 +25,14 @@ final readonly class JMDictParser
     ) {
     }
 
-    public function parse(string $file): void
+    public function parse(string $file, string $dtdFile): void
     {
+        $dtd = file_get_contents($dtdFile);
+
+        if (false === $dtd) {
+            throw new RuntimeException('Could not open DTD file.');
+        }
+
         $xml = XMLReader::open($file);
 
         if (!$xml instanceof XMLReader) {
@@ -38,7 +45,7 @@ final readonly class JMDictParser
 
         $counter = 0;
         while ('entry' === $xml->name) {
-            $entry = $this->parseEntry($xml->readOuterXml());
+            $entry = $this->parseEntry($xml->readOuterXml(), $dtd);
 
             if ([] !== $entry) {
                 $entry = $this->entryDataTransformer->transformToEntity($entry);
@@ -64,8 +71,9 @@ final readonly class JMDictParser
     /**
      * @return array<string, mixed>
      */
-    private function parseEntry(string $xml): array
+    private function parseEntry(string $xml, string $dtd): array
     {
+        $xml = $dtd.'<JMdict>'.$xml.'</JMdict>';
         $crawler = new Crawler($xml, useHtml5Parser: false);
 
         $sequenceId = (int) $crawler->filter('ent_seq')->text();
@@ -110,7 +118,7 @@ final readonly class JMDictParser
             $dialect = $element->filter('dial');
 
             $translations = $element->filter('gloss')->each(static function (Crawler $element): array {
-                $language = $element->getNode(0)?->attributes?->getNamedItem('xml:lang');
+                $language = $element->getNode(0)?->attributes?->getNamedItem('lang');
 
                 return [
                     'language' => $language instanceof DOMNode ? $language->nodeValue : 'eng',
