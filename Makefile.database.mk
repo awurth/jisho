@@ -3,7 +3,11 @@ Database:
 
 #################################
 
-.PHONY: create-database drop-database dump-database restore-database
+.PHONY: bootstrap-database create-database drop-database update-database-schema database-schema-diff dump-database restore-database migrate-database fixtures
+
+## Bootstrap the database
+bootstrap-database: create-database migrate-database
+	@echo "${GREEN}Database bootstrapped${RESET}"
 
 ## Create the database
 create-database: api/config/packages/doctrine.yaml drop-database
@@ -21,7 +25,7 @@ update-database-schema: api/config/packages/doctrine.yaml
 	@echo "${GREEN}Database schema updated${GREEN}"
 
 ## Show the database schema update sql
-show-database-schema: api/config/packages/doctrine.yaml
+database-schema-diff: api/config/packages/doctrine.yaml
 	@$(DOCKER_COMPOSE_EXEC_PHP) bin/console doctrine:schema:update --dump-sql
 
 ## Dump the database
@@ -38,3 +42,8 @@ restore-database: .docker/postgres/dump/dump.sql
 migrate-database: api/config/packages/doctrine.yaml
 	@$(DOCKER_COMPOSE_EXEC_PHP) bin/console doctrine:migrations:migrate --no-interaction
 	@echo "${GREEN}Database migrated${GREEN}"
+
+## Load the database fixtures
+fixtures: api/config/packages/doctrine.yaml
+	@$(DOCKER_COMPOSE_EXEC_CONSOLE) doctrine:fixtures:load -n
+	@echo "${GREEN}Database fixtures loaded${RESET}"

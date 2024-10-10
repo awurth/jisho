@@ -45,7 +45,7 @@ Build:
 .PHONY: start vendor
 
 ## Start the project
-start: up vendor
+start: up env-dev vendor yarn-install bootstrap-database
 	@echo "${GREEN}Project started${GREEN}"
 
 ## Install the dependencies
