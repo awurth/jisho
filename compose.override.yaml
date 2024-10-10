@@ -1,6 +1,6 @@
 services:
   traefik:
-    image: traefik:v2.11
+    image: traefik:v3.1
     ports:
       - '80:80'
       - '443:443'
@@ -28,7 +28,7 @@ services:
       - .docker/nginx/certs:/etc/nginx/certs
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.nginx.rule=Host(`jisho-local.fr`) && PathPrefix(`/api`, `/bundles`, `/_wdt`, `/_profiler`, `/favicon.ico`)"
+      - "traefik.http.routers.nginx.rule=Host(`jisho-local.fr`) && PathPrefix(`/api`) || (PathPrefix(`/bundles`) || PathPrefix(`/_wdt`) || PathPrefix(`/_profiler`) || PathPrefix(`/favicon.ico`))"
       - "traefik.http.routers.nginx.entrypoints=websecure"
       - "traefik.http.routers.nginx.tls=true"
       - "traefik.http.routers.nginx.service=nginx"
