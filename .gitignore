@@ -1,3 +1,5 @@
 /.docker/nginx/certs/prod/
 /.docker/postgres/dump/
 !/.docker/postgres/dump/.gitignore
+/.docker/search/dumps/
+!/.docker/search/dumps/.gitignore
