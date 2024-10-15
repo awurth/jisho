@@ -5,17 +5,10 @@ api_platform:
         json: ['application/json']
     error_formats:
         jsonproblem: ['application/problem+json']
-    docs_formats:
-        json: ['application/json']
-        jsonopenapi: ['application/vnd.openapi+json']
-        html: ['text/html']
     defaults:
         stateless: false
         cache_headers:
             vary: ['Content-Type', 'Authorization', 'Origin']
-        extra_properties:
-            standard_put: true
-    use_symfony_listeners: true
     resource_class_directories:
         - '%kernel.project_dir%/src/Deck/ApiResource'
         - '%kernel.project_dir%/src/Dictionary/ApiResource'
