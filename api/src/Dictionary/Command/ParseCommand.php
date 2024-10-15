@@ -10,6 +10,7 @@ use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\DependencyInjection\Attribute\Autowire;
 
 #[AsCommand(
     name: 'app:parse',
@@ -17,15 +18,21 @@ use Symfony\Component\Console\Output\OutputInterface;
 )]
 final class ParseCommand extends Command
 {
-    public function __construct(private readonly JMDictParser $parser)
-    {
+    public function __construct(
+        private readonly JMDictParser $parser,
+        #[Autowire(param: 'kernel.project_dir')]
+        private readonly string $projectDir,
+    ) {
         parent::__construct();
     }
 
     #[Override]
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        $this->parser->parse('/srv/api/data/JMdict.xml', '/srv/api/data/JMdict.dtd');
+        $this->parser->parse(
+            "$this->projectDir/data/JMdict.xml",
+            "$this->projectDir/data/JMdict.dtd",
+        );
 
         return Command::SUCCESS;
     }
