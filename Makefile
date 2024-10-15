@@ -1,9 +1,10 @@
 include Makefile.common.mk
+include Makefile.ci.mk
 include Makefile.database.mk
+include Makefile.frontend.mk
+include Makefile.search.mk
 include Makefile.testing.mk
 include Makefile.tools.mk
-include Makefile.frontend.mk
-include Makefile.ci.mk
 
 #################################
 Docker:
@@ -79,6 +80,6 @@ env-test: compose.yaml
 	@$(DOCKER_COMPOSE_EXEC_PHP) bash -c 'grep APP_ENV= .env.local 1>/dev/null 2>&1 || echo -e "\nAPP_ENV=test" >> .env.local'
 	@$(DOCKER_COMPOSE_EXEC_PHP) sed -i 's/APP_ENV=.*/APP_ENV=test/g' .env.local
 
-## Create a new dump
-create-search-dump: compose.yaml
-	@curl -X POST 'http://localhost:7700/dumps' -H 'Authorization: Bearer N2Q3YzE0MzgzMTY4ZjZlNDkxOTExNDQzNzZkYTk2MGI4NzI1MmQ4ZWQxZmJmYmE1M2Ql'
+## Parse the JMDict XML file
+parse: api/bin/console
+	@$(DOCKER_COMPOSE_EXEC_PHP) bin/console app:parse
