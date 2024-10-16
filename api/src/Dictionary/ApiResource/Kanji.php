@@ -12,7 +12,7 @@ final readonly class Kanji
         #[Groups(['card:read', 'entry:read'])]
         public string $value,
         #[Groups(['card:read', 'entry:read'])]
-        public ?string $info,
+        public string $info,
     ) {
     }
 }

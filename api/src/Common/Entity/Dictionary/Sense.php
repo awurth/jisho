@@ -28,43 +28,43 @@ class Sense
      * @var string[]
      */
     #[Column]
-    public array $partsOfSpeech;
+    public array $partsOfSpeech = [];
 
-    #[Column(nullable: true)]
-    public ?string $fieldOfApplication = null;
+    #[Column]
+    public string $fieldOfApplication = '';
 
-    #[Column(nullable: true)]
-    public ?string $dialect = null;
+    #[Column]
+    public string $dialect = '';
 
-    #[Column(nullable: true)]
-    public ?string $misc = null;
+    #[Column]
+    public string $misc = '';
 
-    #[Column(nullable: true)]
-    public ?string $info = null;
+    #[Column]
+    public string $info = '';
 
     /**
      * @var string[]
      */
     #[Column]
-    public array $kanjiElements;
+    public array $kanjiElements = [];
 
     /**
      * @var string[]
      */
     #[Column]
-    public array $readingElements;
+    public array $readingElements = [];
 
     /**
      * @var string[]
      */
     #[Column]
-    public array $referencedElements;
+    public array $referencedElements = [];
 
     /**
      * @var string[]
      */
     #[Column]
-    public array $antonyms;
+    public array $antonyms = [];
 
     /**
      * @var Collection<int, Translation>

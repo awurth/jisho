@@ -16,13 +16,13 @@ final readonly class Sense
         #[Groups(['card:read', 'entry:read'])]
         public array $partsOfSpeech,
         #[Groups(['card:read', 'entry:read'])]
-        public ?string $fieldOfApplication,
+        public string $fieldOfApplication,
         #[Groups(['card:read', 'entry:read'])]
-        public ?string $dialect,
+        public string $dialect,
         #[Groups(['card:read', 'entry:read'])]
-        public ?string $misc,
+        public string $misc,
         #[Groups(['card:read', 'entry:read'])]
-        public ?string $info,
+        public string $info,
         #[Groups(['card:read', 'entry:read'])]
         public array $translations,
     ) {

@@ -14,7 +14,7 @@ final readonly class Reading
         #[Groups(['card:read', 'entry:read'])]
         public string $romaji,
         #[Groups(['card:read', 'entry:read'])]
-        public ?string $info,
+        public string $info,
     ) {
     }
 }

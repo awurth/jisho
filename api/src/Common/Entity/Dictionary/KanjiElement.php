@@ -24,11 +24,11 @@ class KanjiElement
     #[Column]
     public string $value;
 
-    #[Column(nullable: true)]
-    public ?string $info = null;
+    #[Column]
+    public string $info = '';
 
-    #[Column(nullable: true)]
-    public ?string $priority = null;
+    #[Column]
+    public string $priority = '';
 
     public function __construct()
     {
