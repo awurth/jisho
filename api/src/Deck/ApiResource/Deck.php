@@ -16,6 +16,7 @@ use App\Common\Entity\User;
 use App\Deck\State\DeckProcessor;
 use App\Deck\State\DeckProvider;
 use DateTimeImmutable;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Serializer\Attribute\Groups;
 use Symfony\Component\Uid\Uuid;
 use Symfony\Component\Validator\Constraints\Length;
@@ -89,12 +90,19 @@ use Symfony\Component\Validator\Constraints\NotBlank;
         ),
     ],
 )]
+#[UniqueEntity(
+    fields: ['owner', 'name'],
+    message: 'This name is already taken. Please choose another one.',
+    entityClass: DeckEntity::class,
+    errorPath: 'name',
+    identifierFieldNames: ['id'],
+)]
 final class Deck
 {
     public DeckEntity $entity;
 
     #[Groups('deck:read')]
-    public Uuid $id;
+    public ?Uuid $id = null;
 
     public User $owner;
 
