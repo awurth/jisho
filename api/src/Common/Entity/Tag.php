@@ -60,8 +60,8 @@ class Tag
         #[Groups(['tag:read'])]
         public string $name,
 
-        #[Column(length: 6, nullable: true)]
-        public ?string $color = null,
+        #[Column(length: 6)]
+        public string $color = '',
     ) {
         $this->id = Uuid::v4();
     }

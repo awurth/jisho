@@ -7,7 +7,7 @@ namespace DoctrineMigrations;
 use Doctrine\DBAL\Schema\Schema;
 use Doctrine\Migrations\AbstractMigration;
 
-final class Version20241010142539 extends AbstractMigration
+final class Version20241017103426 extends AbstractMigration
 {
     public function getDescription(): string
     {
@@ -40,9 +40,9 @@ final class Version20241010142539 extends AbstractMigration
         $this->addSql('CREATE TABLE kanji_element (
           id UUID NOT NULL,
           value VARCHAR(255) NOT NULL,
-          info VARCHAR(255) DEFAULT NULL,
-          priority VARCHAR(255) DEFAULT NULL,
-          entry_id UUID DEFAULT NULL,
+          info VARCHAR(255) NOT NULL,
+          priority VARCHAR(255) NOT NULL,
+          entry_id UUID NOT NULL,
           PRIMARY KEY(id)
         )');
         $this->addSql('CREATE INDEX IDX_31347D4DBA364942 ON kanji_element (entry_id)');
@@ -67,33 +67,33 @@ final class Version20241010142539 extends AbstractMigration
           id UUID NOT NULL,
           kana VARCHAR(255) NOT NULL,
           romaji VARCHAR(255) NOT NULL,
-          info VARCHAR(255) DEFAULT NULL,
-          priority VARCHAR(255) DEFAULT NULL,
+          info VARCHAR(255) NOT NULL,
+          priority VARCHAR(255) NOT NULL,
           not_true_kanji_reading BOOLEAN NOT NULL,
           kanji_elements JSON NOT NULL,
-          entry_id UUID DEFAULT NULL,
+          entry_id UUID NOT NULL,
           PRIMARY KEY(id)
         )');
         $this->addSql('CREATE INDEX IDX_5D9CD0CBA364942 ON reading_element (entry_id)');
         $this->addSql('CREATE TABLE sense (
           id UUID NOT NULL,
           parts_of_speech JSON NOT NULL,
-          field_of_application VARCHAR(255) DEFAULT NULL,
-          dialect VARCHAR(255) DEFAULT NULL,
-          misc VARCHAR(255) DEFAULT NULL,
-          info VARCHAR(255) DEFAULT NULL,
+          field_of_application VARCHAR(255) NOT NULL,
+          dialect VARCHAR(255) NOT NULL,
+          misc VARCHAR(255) NOT NULL,
+          info VARCHAR(255) NOT NULL,
           kanji_elements JSON NOT NULL,
           reading_elements JSON NOT NULL,
           referenced_elements JSON NOT NULL,
           antonyms JSON NOT NULL,
-          entry_id UUID DEFAULT NULL,
+          entry_id UUID NOT NULL,
           PRIMARY KEY(id)
         )');
         $this->addSql('CREATE INDEX IDX_F2B33FBBA364942 ON sense (entry_id)');
         $this->addSql('CREATE TABLE tag (
           id UUID NOT NULL,
           name VARCHAR(255) NOT NULL,
-          color VARCHAR(6) DEFAULT NULL,
+          color VARCHAR(6) NOT NULL,
           deck_id UUID NOT NULL,
           PRIMARY KEY(id)
         )');
@@ -103,7 +103,7 @@ final class Version20241010142539 extends AbstractMigration
           id UUID NOT NULL,
           value TEXT NOT NULL,
           language VARCHAR(255) NOT NULL,
-          sense_id UUID DEFAULT NULL,
+          sense_id UUID NOT NULL,
           PRIMARY KEY(id)
         )');
         $this->addSql('CREATE INDEX IDX_B469456F8707C57E ON translation (sense_id)');
@@ -112,7 +112,7 @@ final class Version20241010142539 extends AbstractMigration
           email VARCHAR(180) NOT NULL,
           roles JSON NOT NULL,
           name VARCHAR(255) NOT NULL,
-          avatar_url VARCHAR(255) DEFAULT NULL,
+          avatar_url VARCHAR(255) NOT NULL,
           PRIMARY KEY(id)
         )');
         $this->addSql('CREATE UNIQUE INDEX UNIQ_8D93D649E7927C74 ON "user" (email)');

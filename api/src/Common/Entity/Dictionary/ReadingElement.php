@@ -8,6 +8,7 @@ use App\Common\Repository\Dictionary\ReadingElementRepository;
 use Doctrine\ORM\Mapping\Column;
 use Doctrine\ORM\Mapping\Entity;
 use Doctrine\ORM\Mapping\Id;
+use Doctrine\ORM\Mapping\JoinColumn;
 use Doctrine\ORM\Mapping\ManyToOne;
 use Symfony\Component\Uid\Uuid;
 
@@ -19,6 +20,7 @@ class ReadingElement
     private Uuid $id;
 
     #[ManyToOne(inversedBy: 'readingElements')]
+    #[JoinColumn(nullable: false)]
     public Entry $entry;
 
     #[Column]

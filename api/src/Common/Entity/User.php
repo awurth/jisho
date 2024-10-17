@@ -22,7 +22,7 @@ class User implements UserInterface
     private Uuid $id;
 
     #[Column(length: 180, unique: true)]
-    private ?string $email = null;
+    private string $email;
 
     /**
      * @var list<string>
@@ -31,10 +31,10 @@ class User implements UserInterface
     private array $roles = [];
 
     #[Column]
-    private ?string $name = null;
+    private string $name;
 
-    #[Column(nullable: true)]
-    private ?string $avatarUrl = null;
+    #[Column]
+    private string $avatarUrl = '';
 
     public function __construct()
     {
@@ -46,7 +46,7 @@ class User implements UserInterface
         return $this->id;
     }
 
-    public function getEmail(): ?string
+    public function getEmail(): string
     {
         return $this->email;
     }
@@ -64,7 +64,7 @@ class User implements UserInterface
     #[Override]
     public function getUserIdentifier(): string
     {
-        return (string) $this->email;
+        return $this->email;
     }
 
     /**
@@ -96,22 +96,22 @@ class User implements UserInterface
     {
     }
 
-    public function getAvatarUrl(): ?string
+    public function getAvatarUrl(): string
     {
         return $this->avatarUrl;
     }
 
-    public function setAvatarUrl(?string $avatarUrl): void
+    public function setAvatarUrl(string $avatarUrl): void
     {
         $this->avatarUrl = $avatarUrl;
     }
 
-    public function getName(): ?string
+    public function getName(): string
     {
         return $this->name;
     }
 
-    public function setName(?string $name): void
+    public function setName(string $name): void
     {
         $this->name = $name;
     }
