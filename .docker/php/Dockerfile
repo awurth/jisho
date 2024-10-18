@@ -29,6 +29,8 @@ RUN mv "$PHP_INI_DIR/php.ini-development" "$PHP_INI_DIR/php.ini"
 # https://getcomposer.org/doc/03-cli.md#composer-allow-superuser
 ENV COMPOSER_ALLOW_SUPERUSER=1
 
+ENV XDEBUG_MODE=off
+
 COPY --link conf.d/app.ini $PHP_INI_DIR/conf.d/
 COPY --link conf.d/app.dev.ini $PHP_INI_DIR/conf.d/
 COPY --link --chmod=755 entrypoint.sh /usr/local/bin/docker-entrypoint

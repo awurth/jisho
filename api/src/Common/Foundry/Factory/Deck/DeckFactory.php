@@ -2,9 +2,10 @@
 
 declare(strict_types=1);
 
-namespace App\Common\Factory;
+namespace App\Common\Foundry\Factory\Deck;
 
 use App\Common\Entity\Deck\Deck;
+use App\Common\Foundry\Factory\UserFactory;
 use Override;
 use Zenstruck\Foundry\Persistence\PersistentObjectFactory;
 

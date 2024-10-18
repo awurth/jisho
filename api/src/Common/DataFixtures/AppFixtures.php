@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Common\DataFixtures;
 
-use App\Common\Factory\UserFactory;
+use App\Common\Foundry\Factory\UserFactory;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
 use Override;

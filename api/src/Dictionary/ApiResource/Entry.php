@@ -12,6 +12,7 @@ use App\Common\Entity\Dictionary\Entry as EntryEntity;
 use App\Dictionary\State\EntryProvider;
 use App\Dictionary\State\SearchProvider;
 use Symfony\Component\Serializer\Attribute\Groups;
+use Symfony\Component\Uid\Uuid;
 
 #[ApiResource(
     operations: [
@@ -55,7 +56,7 @@ final class Entry
      */
     public function __construct(
         #[Groups(['card:read', 'entry:read'])]
-        public string $id,
+        public Uuid $id,
         #[Groups(['card:read', 'entry:read'])]
         public array $kanji,
         #[Groups(['card:read', 'entry:read'])]

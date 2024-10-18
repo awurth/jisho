@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Common\Factory;
+namespace App\Common\Foundry\Factory;
 
 use App\Common\Entity\User;
 use Override;

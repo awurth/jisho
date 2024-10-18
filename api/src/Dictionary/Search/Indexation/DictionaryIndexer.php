@@ -13,7 +13,7 @@ use function iterator_count;
 
 final readonly class DictionaryIndexer
 {
-    private const int BATCH_SIZE = 1000;
+    private const int BATCH_SIZE = 2000;
 
     public function __construct(
         private Client $searchClient,

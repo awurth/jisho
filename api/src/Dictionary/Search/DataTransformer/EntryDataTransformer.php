@@ -48,6 +48,7 @@ final readonly class EntryDataTransformer
                     'partsOfSpeech' => $sense->partsOfSpeech,
                     'fieldOfApplication' => $sense->fieldOfApplication,
                     'dialect' => $sense->dialect,
+                    'misc' => $sense->misc,
                     'info' => $sense->info,
                     'kanji' => $sense->kanjiElements,
                     'readings' => $sense->readingElements,

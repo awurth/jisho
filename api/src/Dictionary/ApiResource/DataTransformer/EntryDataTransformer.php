@@ -21,7 +21,7 @@ final readonly class EntryDataTransformer
     public function transformEntityToApiResource(EntryEntity $entity): Entry
     {
         $entry = new Entry(
-            id: (string) $entity->getId(),
+            id: $entity->getId(),
             kanji: map($entity->kanjiElements, static fn (KanjiElement $kanji): Kanji => new Kanji(
                 $kanji->value,
                 $kanji->info,

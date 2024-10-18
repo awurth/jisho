@@ -13,6 +13,7 @@ use App\Dictionary\ApiResource\Sense;
 use App\Dictionary\ApiResource\Translation;
 use Meilisearch\Client;
 use Override;
+use Symfony\Component\Uid\Uuid;
 use function Functional\map;
 
 /**
@@ -31,22 +32,22 @@ final readonly class SearchProvider implements ProviderInterface
         $searchResult = $this->searchClient->index('dictionary')->rawSearch($uriVariables['query']);
 
         return map($searchResult['hits'], static fn (array $data): Entry => new Entry(
-            id: $data['entry']['id'],
-            kanji: map($data['entry']['kanji'] ?? [], static fn (array $kanji): Kanji => new Kanji(
+            id: Uuid::fromString($data['entry']['id']),
+            kanji: map($data['entry']['kanji'], static fn (array $kanji): Kanji => new Kanji(
                 $kanji['value'],
-                $kanji['info'] ?? null,
+                $kanji['info'],
             )),
             readings: map($data['entry']['readings'], static fn (array $reading): Reading => new Reading(
                 kana: $reading['kana'],
                 romaji: $reading['romaji'],
-                info: $reading['info'] ?? null,
+                info: $reading['info'],
             )),
             senses: map($data['entry']['senses'], static fn (array $sense): Sense => new Sense(
-                partsOfSpeech: $sense['partsOfSpeech'] ?? [],
-                fieldOfApplication: $sense['fieldOfApplication'] ?? null,
-                dialect: $sense['dialect'] ?? null,
-                misc: $sense['misc'] ?? null,
-                info: $sense['info'] ?? null,
+                partsOfSpeech: $sense['partsOfSpeech'],
+                fieldOfApplication: $sense['fieldOfApplication'],
+                dialect: $sense['dialect'],
+                misc: $sense['misc'],
+                info: $sense['info'],
                 translations: map($sense['translations'], static fn (array $translation): Translation => new Translation(
                     value: $translation['value'],
                     language: $translation['language'],

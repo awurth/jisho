@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Tests\Functional\Deck;
 
-use App\Common\Factory\DeckFactory;
-use App\Common\Factory\UserFactory;
+use App\Common\Foundry\Factory\Deck\DeckFactory;
+use App\Common\Foundry\Factory\UserFactory;
 use App\Tests\Functional\ApiTestCase;
 use DateTimeInterface;
 use Zenstruck\Foundry\Test\Factories;
@@ -16,7 +16,7 @@ final class DeckTest extends ApiTestCase
     use Factories;
     use ResetDatabase;
 
-    public function testGetCollectionWhenNotAuthenticated(): void
+    public function testGetDeckCollectionWhenNotAuthenticated(): void
     {
         $client = self::createClient();
         $client->request('GET', '/api/decks');
@@ -24,7 +24,7 @@ final class DeckTest extends ApiTestCase
         self::assertResponseStatusCodeSame(401);
     }
 
-    public function testGetCollectionWhenAuthenticated(): void
+    public function testGetDeckCollectionWhenAuthenticated(): void
     {
         $user = UserFactory::createOne();
 
@@ -36,7 +36,7 @@ final class DeckTest extends ApiTestCase
         self::assertJsonEquals([]);
     }
 
-    public function testGetCollectionResult(): void
+    public function testGetDeckCollectionResult(): void
     {
         $deck = DeckFactory::createOne();
 
@@ -54,18 +54,15 @@ final class DeckTest extends ApiTestCase
         ]);
     }
 
-    public function testGetItemWithInvalidId(): void
+    public function testGetDeckItemWithInvalidId(): void
     {
-        $deck = DeckFactory::createOne();
-
         $client = self::createClient();
-        $client->loginUser($deck->owner);
         $client->request('GET', '/api/decks/1');
 
         self::assertResponseStatusCodeSame(404);
     }
 
-    public function testGetItemWhenNotAuthenticated(): void
+    public function testGetDeckItemWhenNotAuthenticated(): void
     {
         $deck = DeckFactory::createOne();
 
@@ -75,7 +72,7 @@ final class DeckTest extends ApiTestCase
         self::assertResponseStatusCodeSame(401);
     }
 
-    public function testGetItemOfAnotherUser(): void
+    public function testGetDeckItemOfAnotherUser(): void
     {
         $user = UserFactory::createOne();
         $deck = DeckFactory::createOne();
@@ -87,7 +84,7 @@ final class DeckTest extends ApiTestCase
         self::assertResponseStatusCodeSame(403);
     }
 
-    public function testGetItemResult(): void
+    public function testGetDeckItemResult(): void
     {
         $deck = DeckFactory::createOne();
 
@@ -103,7 +100,7 @@ final class DeckTest extends ApiTestCase
         ]);
     }
 
-    public function testPostWhenNotAuthenticated(): void
+    public function testPostDeckWhenNotAuthenticated(): void
     {
         $client = self::createClient();
         $client->request('POST', '/api/decks', [
@@ -113,7 +110,7 @@ final class DeckTest extends ApiTestCase
         self::assertResponseStatusCodeSame(401);
     }
 
-    public function testPostWithExistingName(): void
+    public function testPostDeckWithExistingName(): void
     {
         $deck = DeckFactory::createOne([
             'name' => 'foo',
@@ -138,7 +135,7 @@ final class DeckTest extends ApiTestCase
         ]);
     }
 
-    public function testPostSuccess(): void
+    public function testPostDeckSuccess(): void
     {
         $user = UserFactory::createOne();
 
@@ -156,7 +153,7 @@ final class DeckTest extends ApiTestCase
         ]);
     }
 
-    public function testPatchWhenNotAuthenticated(): void
+    public function testPatchDeckWhenNotAuthenticated(): void
     {
         $deck = DeckFactory::createOne();
 
@@ -166,7 +163,7 @@ final class DeckTest extends ApiTestCase
         self::assertResponseStatusCodeSame(401);
     }
 
-    public function testPatchOfAnotherUser(): void
+    public function testPatchDeckOfAnotherUser(): void
     {
         $user = UserFactory::createOne();
         $deck = DeckFactory::createOne();
@@ -178,7 +175,7 @@ final class DeckTest extends ApiTestCase
         self::assertResponseStatusCodeSame(403);
     }
 
-    public function testPatchWithInvalidId(): void
+    public function testPatchDeckWithInvalidId(): void
     {
         $client = self::createClient();
         self::patch($client, '/api/decks/1', []);
@@ -186,7 +183,7 @@ final class DeckTest extends ApiTestCase
         self::assertResponseStatusCodeSame(404);
     }
 
-    public function testPatchWithExistingName(): void
+    public function testPatchDeckWithExistingName(): void
     {
         $user = UserFactory::createOne();
 
@@ -223,7 +220,7 @@ final class DeckTest extends ApiTestCase
         ]);
     }
 
-    public function testPatchSuccess(): void
+    public function testPatchDeckSuccess(): void
     {
         $deck = DeckFactory::createOne([
             'name' => 'foo',
@@ -243,7 +240,7 @@ final class DeckTest extends ApiTestCase
         ]);
     }
 
-    public function testDeleteWhenNotLoggedIn(): void
+    public function testDeleteDeckWhenNotLoggedIn(): void
     {
         $deck = DeckFactory::createOne();
 
@@ -254,7 +251,7 @@ final class DeckTest extends ApiTestCase
         DeckFactory::assert()->exists($deck->getId());
     }
 
-    public function testDeleteOfAnotherUser(): void
+    public function testDeleteDeckOfAnotherUser(): void
     {
         $user = UserFactory::createOne();
         $deck = DeckFactory::createOne();
@@ -267,7 +264,7 @@ final class DeckTest extends ApiTestCase
         DeckFactory::assert()->exists($deck->getId());
     }
 
-    public function testDeleteWithInvalidId(): void
+    public function testDeleteDeckWithInvalidId(): void
     {
         $client = self::createClient();
         $client->request('DELETE', '/api/decks/1');
@@ -275,7 +272,7 @@ final class DeckTest extends ApiTestCase
         self::assertResponseStatusCodeSame(404);
     }
 
-    public function testDeleteSuccess(): void
+    public function testDeleteDeckSuccess(): void
     {
         $deck = DeckFactory::createOne();
 

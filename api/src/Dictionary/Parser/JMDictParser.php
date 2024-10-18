@@ -61,7 +61,6 @@ final readonly class JMDictParser
             }
 
             $xml->next('entry');
-            unset($entry);
         }
 
         $this->entityManager->flush();
@@ -85,8 +84,8 @@ final readonly class JMDictParser
 
             return [
                 'value' => $value->text(),
-                'info' => $info->count() > 0 ? $info->text() : null,
-                'priority' => $priority->count() > 0 ? $priority->text() : null,
+                'info' => $info->count() > 0 ? $info->text() : '',
+                'priority' => $priority->count() > 0 ? $priority->text() : '',
             ];
         });
 
@@ -101,8 +100,8 @@ final readonly class JMDictParser
                 'kana' => $kana->text(),
                 'nokanji' => $nokanji->count() > 0,
                 'relatedKanjis' => $relatedKanjis,
-                'info' => $info->count() > 0 ? $info->text() : null,
-                'priority' => $priority->count() > 0 ? $priority->text() : null,
+                'info' => $info->count() > 0 ? $info->text() : '',
+                'priority' => $priority->count() > 0 ? $priority->text() : '',
             ];
         });
 
@@ -138,10 +137,10 @@ final readonly class JMDictParser
                 'references' => $references,
                 'antonyms' => $antonyms,
                 'partsOfSpeech' => $partsOfSpeech,
-                'fieldOfApplication' => $fieldOfApplication->count() > 0 ? $fieldOfApplication->text() : null,
-                'misc' => $misc->count() > 0 ? $misc->text() : null,
-                'info' => $info->count() > 0 ? $info->text() : null,
-                'dialect' => $dialect->count() > 0 ? $dialect->text() : null,
+                'fieldOfApplication' => $fieldOfApplication->count() > 0 ? $fieldOfApplication->text() : '',
+                'misc' => $misc->count() > 0 ? $misc->text() : '',
+                'info' => $info->count() > 0 ? $info->text() : '',
+                'dialect' => $dialect->count() > 0 ? $dialect->text() : '',
                 'translations' => $translations,
             ];
         });
