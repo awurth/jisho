@@ -17,7 +17,7 @@ use Symfony\Component\Uid\Uuid;
 
 #[Entity(repositoryClass: CardRepository::class)]
 #[UniqueConstraint(fields: ['deck', 'entry'])]
-final class Card
+class Card
 {
     #[Id]
     #[Column(type: 'uuid')]
