@@ -2,10 +2,11 @@
 
 declare(strict_types=1);
 
-namespace App\Tests\Functional;
+namespace App\Tests\Functional\Deck;
 
 use App\Common\Factory\DeckFactory;
 use App\Common\Factory\UserFactory;
+use App\Tests\Functional\ApiTestCase;
 use DateTimeInterface;
 use Zenstruck\Foundry\Test\Factories;
 use Zenstruck\Foundry\Test\ResetDatabase;
