@@ -228,7 +228,7 @@ final class DeckTest extends ApiTestCase
         ]);
     }
 
-    public function testDeleteDeckWhenNotLoggedIn(): void
+    public function testDeleteDeckWhenNotAuthenticated(): void
     {
         $deck = DeckFactory::createOne();
 
