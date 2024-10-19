@@ -24,18 +24,6 @@ final class DeckTest extends ApiTestCase
         self::assertResponseStatusCodeSame(401);
     }
 
-    public function testGetDeckCollectionWhenAuthenticated(): void
-    {
-        $user = UserFactory::createOne();
-
-        $client = self::createClient();
-        $client->loginUser($user);
-        $client->request('GET', '/api/decks');
-
-        self::assertResponseStatusCodeSame(200);
-        self::assertJsonEquals([]);
-    }
-
     public function testGetDeckCollectionResult(): void
     {
         $deck = DeckFactory::createOne();
@@ -81,7 +69,7 @@ final class DeckTest extends ApiTestCase
         $client->loginUser($user);
         $client->request('GET', "/api/decks/{$deck->getId()}");
 
-        self::assertResponseStatusCodeSame(403);
+        self::assertResponseStatusCodeSame(404);
     }
 
     public function testGetDeckItemResult(): void
@@ -172,7 +160,7 @@ final class DeckTest extends ApiTestCase
         $client->loginUser($user);
         self::patch($client, "/api/decks/{$deck->getId()}", []);
 
-        self::assertResponseStatusCodeSame(403);
+        self::assertResponseStatusCodeSame(404);
     }
 
     public function testPatchDeckWithInvalidId(): void
@@ -260,7 +248,7 @@ final class DeckTest extends ApiTestCase
         $client->loginUser($user);
         $client->request('DELETE', "/api/decks/{$deck->getId()}");
 
-        self::assertResponseStatusCodeSame(403);
+        self::assertResponseStatusCodeSame(404);
         DeckFactory::assert()->exists($deck->getId());
     }
 

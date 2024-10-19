@@ -13,6 +13,7 @@ use ApiPlatform\Metadata\Post;
 use App\Common\Entity\Deck\Card as CardEntity;
 use App\Deck\State\CardProcessor;
 use App\Deck\State\CardProvider;
+use App\Deck\Validator\UniqueCardEntry;
 use App\Dictionary\ApiResource\Entry;
 use DateTimeImmutable;
 use Symfony\Component\Serializer\Attribute\Groups;
@@ -21,7 +22,7 @@ use Symfony\Component\Uid\Uuid;
 #[ApiResource(
     operations: [
         new GetCollection(
-            uriTemplate: '/decks/{deckId}/entries',
+            uriTemplate: '/decks/{deckId}/cards',
             uriVariables: [
                 'deckId' => new Link(fromClass: Deck::class),
             ],
@@ -33,7 +34,7 @@ use Symfony\Component\Uid\Uuid;
             provider: CardProvider::class,
         ),
         new Get(
-            uriTemplate: '/decks/{deckId}/entries/{id}',
+            uriTemplate: '/decks/{deckId}/cards/{id}',
             uriVariables: [
                 'deckId' => new Link(fromClass: Deck::class),
                 'id' => new Link(fromClass: Card::class),
@@ -46,7 +47,7 @@ use Symfony\Component\Uid\Uuid;
             provider: CardProvider::class,
         ),
         new Post(
-            uriTemplate: '/decks/{deckId}/entries',
+            uriTemplate: '/decks/{deckId}/cards',
             uriVariables: [
                 'deckId' => new Link(fromClass: Deck::class),
             ],
@@ -80,7 +81,7 @@ use Symfony\Component\Uid\Uuid;
         //     processor: DeckProcessor::class,
         // ),
         new Delete(
-            uriTemplate: '/decks/{deckId}/entries/{id}',
+            uriTemplate: '/decks/{deckId}/cards/{id}',
             uriVariables: [
                 'deckId' => new Link(fromClass: Deck::class),
                 'id' => new Link(fromClass: Card::class),
@@ -95,6 +96,7 @@ use Symfony\Component\Uid\Uuid;
         ),
     ],
 )]
+#[UniqueCardEntry]
 final class Card
 {
     public CardEntity $entity;
