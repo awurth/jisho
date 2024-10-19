@@ -81,7 +81,7 @@ final class CardTest extends ApiTestCase
         $client->loginUser($user);
         $client->request('GET', "/api/decks/{$card->deck->getId()}/cards/{$card->getId()}");
 
-        self::assertResponseStatusCodeSame(404);
+        self::assertResponseStatusCodeSame(403);
     }
 
     public function testGetCardItemResult(): void
@@ -117,6 +117,20 @@ final class CardTest extends ApiTestCase
         self::assertResponseStatusCodeSame(401);
     }
 
+    public function testPostCardOnAnotherUserDeck(): void
+    {
+        $user = UserFactory::createOne();
+        $deck = DeckFactory::createOne();
+
+        $client = self::createClient();
+        $client->loginUser($user);
+        $client->request('POST', "/api/decks/{$deck->getId()}/cards", [
+            'json' => [],
+        ]);
+
+        self::assertResponseStatusCodeSame(403);
+    }
+
     public function testPostCardWithExistingEntry(): void
     {
         $existingCard = CardFactory::createOne();
@@ -140,13 +154,14 @@ final class CardTest extends ApiTestCase
         ]);
     }
 
-    // public function testPostDeckSuccess(): void
+    // public function testPostCardSuccess(): void
     // {
     //     $user = UserFactory::createOne();
+    //     $deck = DeckFactory::createOne();
     //
     //     $client = self::createClient();
     //     $client->loginUser($user);
-    //     $client->request('POST', '/api/decks', [
+    //     $client->request('POST', "/api/decks/{$deck->getId()}/cards", [
     //         'json' => [
     //             'name' => 'foo',
     //         ],
@@ -157,7 +172,7 @@ final class CardTest extends ApiTestCase
     //         'name' => 'foo',
     //     ]);
     // }
-    //
+
     // public function testPatchDeckWhenNotAuthenticated(): void
     // {
     //     $deck = DeckFactory::createOne();

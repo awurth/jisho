@@ -69,7 +69,7 @@ final class DeckTest extends ApiTestCase
         $client->loginUser($user);
         $client->request('GET', "/api/decks/{$deck->getId()}");
 
-        self::assertResponseStatusCodeSame(404);
+        self::assertResponseStatusCodeSame(403);
     }
 
     public function testGetDeckItemResult(): void
@@ -160,7 +160,7 @@ final class DeckTest extends ApiTestCase
         $client->loginUser($user);
         self::patch($client, "/api/decks/{$deck->getId()}", []);
 
-        self::assertResponseStatusCodeSame(404);
+        self::assertResponseStatusCodeSame(403);
     }
 
     public function testPatchDeckWithInvalidId(): void
@@ -248,7 +248,7 @@ final class DeckTest extends ApiTestCase
         $client->loginUser($user);
         $client->request('DELETE', "/api/decks/{$deck->getId()}");
 
-        self::assertResponseStatusCodeSame(404);
+        self::assertResponseStatusCodeSame(403);
         DeckFactory::assert()->exists($deck->getId());
     }
 

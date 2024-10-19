@@ -7,6 +7,7 @@ namespace App\Deck\Validator;
 use App\Common\Entity\Deck\Card as CardEntity;
 use App\Common\Repository\Deck\CardRepository;
 use App\Deck\ApiResource\Card;
+use App\Deck\ApiResource\Deck;
 use Override;
 use Symfony\Component\Validator\Constraint;
 use Symfony\Component\Validator\ConstraintValidator;
@@ -28,6 +29,10 @@ final class UniqueCardEntryValidator extends ConstraintValidator
 
         if (!$value instanceof Card) {
             throw new UnexpectedValueException($value, Card::class);
+        }
+
+        if (!$value->deck instanceof Deck) {
+            return;
         }
 
         $existingCard = $this->cardRepository->findOneBy([

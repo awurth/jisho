@@ -104,7 +104,7 @@ final class Card
     #[Groups('card:read')]
     public Uuid $id;
 
-    public Deck $deck;
+    public ?Deck $deck = null;
 
     #[Groups(['card:read', 'card:write'])]
     public Entry $entry;

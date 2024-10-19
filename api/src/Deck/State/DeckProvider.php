@@ -36,10 +36,7 @@ final readonly class DeckProvider implements ProviderInterface
             return map($decks, $this->deckDataTransformer->transformEntityToApiResource(...));
         }
 
-        $deckEntity = $this->deckRepository->findOneBy([
-            'id' => $uriVariables['id'],
-            'owner' => $this->security->getUser(),
-        ]);
+        $deckEntity = $this->deckRepository->find($uriVariables['id']);
 
         if (!$deckEntity instanceof DeckEntity) {
             return null;

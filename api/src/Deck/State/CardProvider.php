@@ -12,7 +12,6 @@ use App\Common\Entity\Deck\Card as CardEntity;
 use App\Common\Entity\Deck\Deck as DeckEntity;
 use App\Common\Repository\Deck\CardRepository;
 use App\Common\Repository\Deck\DeckRepository;
-use App\Common\Security\Security;
 use App\Deck\ApiResource\Card;
 use App\Deck\ApiResource\DataTransformer\CardDataTransformer;
 use App\Deck\ApiResource\DataTransformer\DeckDataTransformer;
@@ -29,25 +28,19 @@ final readonly class CardProvider implements ProviderInterface
         private CardDataTransformer $cardDataTransformer,
         private CardRepository $cardRepository,
         private DeckRepository $deckRepository,
-        private Security $security,
     ) {
     }
 
     #[Override]
     public function provide(Operation $operation, array $uriVariables = [], array $context = []): object|array|null
     {
-        $deckEntity = $this->deckRepository->findOneBy([
-            'id' => $uriVariables['deckId'],
-            'owner' => $this->security->getUser(),
-        ]);
-
-        if (!$deckEntity instanceof DeckEntity) {
-            return null;
-        }
+        $deckEntity = $this->deckRepository->find($uriVariables['deckId']);
 
         if ($operation instanceof Post) {
             $card = new Card();
-            $card->deck = $this->deckDataTransformer->transformEntityToApiResource($deckEntity);
+            $card->deck = $deckEntity instanceof DeckEntity
+                ? $this->deckDataTransformer->transformEntityToApiResource($deckEntity)
+                : null;
 
             return $card;
         }
