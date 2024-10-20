@@ -1,9 +1,17 @@
 import clsx from "clsx";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 export default function Card({ entry, ...props }) {
   const navigate = useNavigate();
   const main = entry.kanji[0]?.value ?? entry.readings[0].kana;
+
+  const [sensesShown, setSensesShown] = useState(false);
+
+  const onSensesToggleButtonClick = (e) => {
+    e.stopPropagation();
+    setSensesShown(!sensesShown);
+  };
 
   return (
     <div
@@ -18,9 +26,12 @@ export default function Card({ entry, ...props }) {
         <p className="text-sm text-gray-300 mb-1">{entry.readings[0].kana}</p>
       )}
       <p className="text-xs text-gray-300 mb-1">{entry.readings[0].romaji}</p>
-      <ul>
+      <ul className="mb-1">
         {entry.senses.map((sense, index) => (
-          <li key={index}>
+          <li
+            key={index}
+            className={clsx("mb-1", { hidden: index > 0 && !sensesShown })}
+          >
             -{" "}
             {sense.translations.map((translation, index) => (
               <span key={index}>
@@ -34,6 +45,13 @@ export default function Card({ entry, ...props }) {
           </li>
         ))}
       </ul>
+      {entry.senses.length > 1 && (
+        <div className="text-left text-sm text-gray-400 font-semibold">
+          <button onClick={onSensesToggleButtonClick}>
+            Afficher {sensesShown ? "moins" : "plus"}
+          </button>
+        </div>
+      )}
       {/*<p className="text-xs text-gray-600 font-semibold">*/}
       {/*  {toRomaji(entry.japanese)}*/}
       {/*</p>*/}

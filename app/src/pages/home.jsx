@@ -51,8 +51,8 @@ export default function Home() {
   return (
     <>
       <div className="flex flex-col">
-        {cards.map((entry) => (
-          <Card key={entry.id} entry={entry.entry} className="mb-4" />
+        {cards.map((card) => (
+          <Card key={card.id} entry={card.entry} className="mb-4" />
         ))}
       </div>
     </>
