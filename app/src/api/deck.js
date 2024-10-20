@@ -5,8 +5,8 @@ export async function getDecks() {
   return data;
 }
 
-export async function getEntries(deckId) {
-  const { data } = await axios.get(`/api/decks/${deckId}/entries`);
+export async function getCards(deckId) {
+  const { data } = await axios.get(`/api/decks/${deckId}/cards`);
   return data;
 }
 
@@ -21,7 +21,7 @@ export async function postDeck(deck) {
 }
 
 export async function postCard(deckId, entryId) {
-  const { data } = await axios.post(`/api/decks/${deckId}/entries`, {
+  const { data } = await axios.post(`/api/decks/${deckId}/cards`, {
     entry: `/api/dictionary/entries/${entryId}`,
   });
   return data;

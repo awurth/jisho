@@ -18,7 +18,7 @@ export default function Entry() {
   const mutation = useMutation({
     mutationFn: ({ deckId, entryId }) => postCard(deckId, entryId),
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["entries"] });
+      queryClient.invalidateQueries({ queryKey: ["cards"] });
     },
   });
 

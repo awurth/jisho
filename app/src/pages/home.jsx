@@ -1,6 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import { Link } from "react-router-dom";
-import { getEntries } from "../api/deck.js";
+import { getCards } from "../api/deck.js";
 import Entry from "../components/deck/entry.jsx";
 import { useDeckStore } from "../stores/deck.js";
 
@@ -23,16 +23,16 @@ export default function Home() {
     );
   }
 
-  const { isPending, data: entries = [] } = useQuery({
-    queryKey: ["entries", deck.id],
-    queryFn: () => getEntries(deck.id),
+  const { isPending, data: cards = [] } = useQuery({
+    queryKey: ["cards", deck.id],
+    queryFn: () => getCards(deck.id),
   });
 
   if (isPending) {
     return <></>;
   }
 
-  if (!entries.length) {
+  if (!cards.length) {
     return (
       <div className="text-center mt-20">
         <p className="text-white mb-3">
@@ -51,7 +51,7 @@ export default function Home() {
   return (
     <>
       <div className="flex flex-col">
-        {entries.map((entry) => (
+        {cards.map((entry) => (
           <Entry key={entry.id} entry={entry.entry} className="mb-4" />
         ))}
       </div>

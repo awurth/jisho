@@ -34,18 +34,18 @@ export default function Quiz() {
   const tags = searchParams.get("tags")?.split(",").filter(Boolean);
 
   useEffect(() => {
-    axios.get(`/api/decks/${deck.id}/entries`).then(({ data }) => {
+    axios.get(`/api/decks/${deck.id}/cards`).then(({ data }) => {
       if (data.length === 0) {
         return;
       }
 
-      const entries =
+      const cards =
         tags.length > 0
-          ? data.filter((entry) => tags.some((tag) => entry.tags.includes(tag)))
+          ? data.filter((card) => tags.some((tag) => card.tags.includes(tag)))
           : data;
-      shuffle(entries);
+      shuffle(cards);
       setCurrentEntryIndex(0);
-      setEntries(entries);
+      setEntries(cards);
     });
   }, []);
 
