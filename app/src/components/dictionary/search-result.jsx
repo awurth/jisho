@@ -37,7 +37,7 @@ export default function SearchResult({ entry }) {
       <p className="text-xs text-gray-300 mb-1">{entry.readings[0].romaji}</p>
       <ul>
         {senses.map((sense, index) => (
-          <li key={index}>
+          <li key={index} className="mb-1">
             -{" "}
             {sense.translations.map((translation, index) => (
               <span key={index}>
