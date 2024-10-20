@@ -20,7 +20,7 @@ final readonly class EntryDataTransformer
 {
     public function transformEntityToApiResource(EntryEntity $entity): Entry
     {
-        $entry = new Entry(
+        return new Entry(
             id: $entity->getId(),
             kanji: map($entity->kanjiElements, static fn (KanjiElement $kanji): Kanji => new Kanji(
                 $kanji->value,
@@ -43,9 +43,5 @@ final readonly class EntryDataTransformer
                 )),
             )),
         );
-
-        $entry->entity = $entity;
-
-        return $entry;
     }
 }

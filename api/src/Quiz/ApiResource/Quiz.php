@@ -91,7 +91,7 @@ final class Quiz
     public Uuid $id;
 
     #[Groups(['quiz:read', 'quiz:write'])]
-    public Deck $deck;
+    public ?Deck $deck = null;
 
     #[Groups(['quiz:read', 'quiz:write'])]
     public int $maxQuestions = 0;

@@ -99,8 +99,6 @@ use Symfony\Component\Validator\Constraints\NotBlank;
 )]
 final class Deck
 {
-    public DeckEntity $entity;
-
     #[Groups('deck:read')]
     public ?Uuid $id = null;
 

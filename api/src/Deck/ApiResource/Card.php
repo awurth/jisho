@@ -10,7 +10,6 @@ use ApiPlatform\Metadata\Get;
 use ApiPlatform\Metadata\GetCollection;
 use ApiPlatform\Metadata\Link;
 use ApiPlatform\Metadata\Post;
-use App\Common\Entity\Deck\Card as CardEntity;
 use App\Deck\State\CardProcessor;
 use App\Deck\State\CardProvider;
 use App\Deck\Validator\UniqueCardEntry;
@@ -99,8 +98,6 @@ use Symfony\Component\Uid\Uuid;
 #[UniqueCardEntry]
 final class Card
 {
-    public CardEntity $entity;
-
     #[Groups('card:read')]
     public Uuid $id;
 

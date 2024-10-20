@@ -37,7 +37,7 @@ final class QuizVoter extends Voter
             return false;
         }
 
-        if ($user === $subject->deck->owner) {
+        if ($user === $subject->deck?->owner) {
             return true;
         }
 

@@ -8,7 +8,6 @@ use ApiPlatform\Metadata\ApiResource;
 use ApiPlatform\Metadata\Get;
 use ApiPlatform\Metadata\GetCollection;
 use ApiPlatform\Metadata\Link;
-use App\Common\Entity\Dictionary\Entry as EntryEntity;
 use App\Dictionary\State\EntryProvider;
 use App\Dictionary\State\SearchProvider;
 use Symfony\Component\Serializer\Attribute\Groups;
@@ -47,8 +46,6 @@ use Symfony\Component\Uid\Uuid;
 )]
 final class Entry
 {
-    public EntryEntity $entity;
-
     /**
      * @param Kanji[]   $kanji
      * @param Reading[] $readings
