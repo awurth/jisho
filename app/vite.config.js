@@ -4,6 +4,13 @@ import fs from "fs";
 
 // https://vitejs.dev/config/
 export default defineConfig({
+  css: {
+    preprocessorOptions: {
+      scss: {
+        api: "modern",
+      },
+    },
+  },
   plugins: [react()],
   server: {
     host: "jisho-local.fr",
