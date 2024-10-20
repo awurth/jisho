@@ -1,7 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 import { Link } from "react-router-dom";
 import { getCards } from "../api/deck.js";
-import Entry from "../components/deck/entry.jsx";
+import Card from "../components/deck/card.jsx";
 import { useDeckStore } from "../stores/deck.js";
 
 export default function Home() {
@@ -52,7 +52,7 @@ export default function Home() {
     <>
       <div className="flex flex-col">
         {cards.map((entry) => (
-          <Entry key={entry.id} entry={entry.entry} className="mb-4" />
+          <Card key={entry.id} entry={entry.entry} className="mb-4" />
         ))}
       </div>
     </>

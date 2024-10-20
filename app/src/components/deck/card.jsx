@@ -1,7 +1,7 @@
 import clsx from "clsx";
 import { useNavigate } from "react-router-dom";
 
-export default function Entry({ entry, ...props }) {
+export default function Card({ entry, ...props }) {
   const navigate = useNavigate();
   const main = entry.kanji[0]?.value ?? entry.readings[0].kana;
 
