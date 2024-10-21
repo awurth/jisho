@@ -135,9 +135,14 @@ final class DeckTest extends ApiTestCase
             ],
         ]);
 
+        DeckFactory::assert()->count(1);
+        $deck = DeckFactory::first();
+
         self::assertResponseStatusCodeSame(201);
-        self::assertJsonContains([
+        self::assertJsonEquals([
+            'id' => (string) $deck->getId(),
             'name' => 'foo',
+            'createdAt' => $deck->createdAt->format(DateTimeInterface::ATOM),
         ]);
     }
 
