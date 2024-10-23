@@ -23,10 +23,20 @@ class Question
 
     #[ManyToOne]
     #[JoinColumn(nullable: false)]
+    public Quiz $quiz;
+
+    #[ManyToOne]
+    #[JoinColumn(nullable: false)]
     public Card $card;
 
     #[Column(updatable: false)]
     public DateTimeImmutable $createdAt;
+
+    #[Column(nullable: true)]
+    public ?DateTimeImmutable $answeredAt = null;
+
+    #[Column]
+    public string $answer = '';
 
     public function __construct()
     {

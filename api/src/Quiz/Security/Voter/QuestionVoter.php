@@ -5,27 +5,23 @@ declare(strict_types=1);
 namespace App\Quiz\Security\Voter;
 
 use App\Common\Entity\User;
-use App\Quiz\ApiResource\Quiz;
+use App\Quiz\ApiResource\Question;
 use Override;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Authorization\Voter\Voter;
-use function in_array;
 
 /**
- * @extends Voter<string, Quiz>
+ * @extends Voter<string, Question>
  */
-final class QuizVoter extends Voter
+final class QuestionVoter extends Voter
 {
-    public const string VIEW = 'QUIZ_VIEW';
-    public const string EDIT = 'QUIZ_EDIT';
-    public const string DELETE = 'QUIZ_DELETE';
-    public const string CREATE_QUESTION = 'QUESTION_CREATE';
+    public const string VIEW = 'CARD_VIEW';
 
     #[Override]
     protected function supports(string $attribute, mixed $subject): bool
     {
-        return in_array($attribute, [self::VIEW, self::EDIT, self::DELETE, self::CREATE_QUESTION], true)
-            && $subject instanceof Quiz;
+        return self::VIEW === $attribute
+            && $subject instanceof Question;
     }
 
     #[Override]
@@ -36,6 +32,6 @@ final class QuizVoter extends Voter
             return false;
         }
 
-        return $user === $subject->deck?->owner;
+        return $user === $subject->quiz?->deck?->owner;
     }
 }

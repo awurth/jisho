@@ -44,15 +44,6 @@ final readonly class CardProcessor implements ProcessorInterface
             return $data;
         }
 
-        // if ($operation instanceof Patch) {
-        //     $data->entity->name = $data->name;
-        //
-        //     $this->entityManager->persist($data->entity);
-        //     $this->entityManager->flush();
-        //
-        //     return $data;
-        // }
-
         if ($operation instanceof Post) {
             $entity = $this->cardDataTransformer->transformApiResourceToEntity($data);
 

@@ -45,5 +45,5 @@ migrate-database: api/config/packages/doctrine.yaml
 
 ## Load the database fixtures
 fixtures: api/config/packages/doctrine.yaml
-	@$(DOCKER_COMPOSE_EXEC_CONSOLE) doctrine:fixtures:load -n
+	@$(DOCKER_COMPOSE_EXEC_CONSOLE) doctrine:fixtures:load -n --append
 	@echo "${GREEN}Database fixtures loaded${RESET}"

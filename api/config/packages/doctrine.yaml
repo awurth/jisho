@@ -21,6 +21,9 @@ doctrine:
                 dir: '%kernel.project_dir%/src/Common/Entity'
                 prefix: 'App\Common\Entity'
                 alias: App
+        dql:
+            numeric_functions:
+                random: App\Common\Doctrine\Function\RandomFunction
 
 when@test:
     doctrine:

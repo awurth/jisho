@@ -7,7 +7,7 @@ namespace DoctrineMigrations;
 use Doctrine\DBAL\Schema\Schema;
 use Doctrine\Migrations\AbstractMigration;
 
-final class Version20241017103426 extends AbstractMigration
+final class Version20241021151303 extends AbstractMigration
 {
     public function getDescription(): string
     {
@@ -49,9 +49,13 @@ final class Version20241017103426 extends AbstractMigration
         $this->addSql('CREATE TABLE question (
           id UUID NOT NULL,
           created_at TIMESTAMP(0) WITHOUT TIME ZONE NOT NULL,
+          answered_at TIMESTAMP(0) WITHOUT TIME ZONE DEFAULT NULL,
+          answer VARCHAR(255) NOT NULL,
+          quiz_id UUID NOT NULL,
           card_id UUID NOT NULL,
           PRIMARY KEY(id)
         )');
+        $this->addSql('CREATE INDEX IDX_B6F7494E853CD175 ON question (quiz_id)');
         $this->addSql('CREATE INDEX IDX_B6F7494E4ACC9A20 ON question (card_id)');
         $this->addSql('CREATE TABLE quiz (
           id UUID NOT NULL,
@@ -135,6 +139,10 @@ final class Version20241017103426 extends AbstractMigration
         $this->addSql('ALTER TABLE
           question
         ADD
+          CONSTRAINT FK_B6F7494E853CD175 FOREIGN KEY (quiz_id) REFERENCES quiz (id) NOT DEFERRABLE INITIALLY IMMEDIATE');
+        $this->addSql('ALTER TABLE
+          question
+        ADD
           CONSTRAINT FK_B6F7494E4ACC9A20 FOREIGN KEY (card_id) REFERENCES card (id) NOT DEFERRABLE INITIALLY IMMEDIATE');
         $this->addSql('ALTER TABLE
           quiz
@@ -164,6 +172,7 @@ final class Version20241017103426 extends AbstractMigration
         $this->addSql('ALTER TABLE card DROP CONSTRAINT FK_161498D3BA364942');
         $this->addSql('ALTER TABLE deck DROP CONSTRAINT FK_4FAC36377E3C61F9');
         $this->addSql('ALTER TABLE kanji_element DROP CONSTRAINT FK_31347D4DBA364942');
+        $this->addSql('ALTER TABLE question DROP CONSTRAINT FK_B6F7494E853CD175');
         $this->addSql('ALTER TABLE question DROP CONSTRAINT FK_B6F7494E4ACC9A20');
         $this->addSql('ALTER TABLE quiz DROP CONSTRAINT FK_A412FA92111948DC');
         $this->addSql('ALTER TABLE reading_element DROP CONSTRAINT FK_5D9CD0CBA364942');
