@@ -8,17 +8,17 @@ import { useDeckStore } from "../stores/deck.js";
 
 export default function QuizForm() {
   const navigate = useNavigate();
-  const deck = useDeckStore((state) => state.activeDeck);
-  const [tags, setTags] = useState([]);
-
-  const { data: existingTags = [] } = useQuery({
-    queryKey: ["tags", deck.id],
-    queryFn: () => getTags(deck.id),
-  });
+  // const deck = useDeckStore((state) => state.activeDeck);
+  // const [tags, setTags] = useState([]);
+  //
+  // const { data: existingTags = [] } = useQuery({
+  //   queryKey: ["tags", deck.id],
+  //   queryFn: () => getTags(deck.id),
+  // });
 
   const onPlayClick = () => {
     const params = {
-      tags: tags.map((tag) => tag.value).join(","),
+      // tags: tags.map((tag) => tag.value).join(","),
     };
     navigate({
       pathname: "/quiz",
@@ -29,13 +29,13 @@ export default function QuizForm() {
   return (
     <>
       <h1 className="text-xl text-white font-semibold mb-2">Nouveau quiz</h1>
-      <label className="text-white font-semibold">Tags</label>
-      <Tags
-        options={existingTags.map((tag) => tag.name)}
-        value={tags}
-        onChange={setTags}
-        className="mt-1 mb-2"
-      />
+      {/*<label className="text-white font-semibold">Tags</label>*/}
+      {/*<Tags*/}
+      {/*  options={existingTags.map((tag) => tag.name)}*/}
+      {/*  value={tags}*/}
+      {/*  onChange={setTags}*/}
+      {/*  className="mt-1 mb-2"*/}
+      {/*/>*/}
       <Button onClick={onPlayClick} className="py-2 w-full">
         Jouer
       </Button>
