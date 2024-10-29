@@ -16,6 +16,7 @@ use App\Quiz\State\QuizProvider;
 use DateTimeImmutable;
 use Symfony\Component\Serializer\Attribute\Groups;
 use Symfony\Component\Uid\Uuid;
+use Symfony\Component\Validator\Constraints\Range;
 
 #[ApiResource(
     operations: [
@@ -77,7 +78,8 @@ final class Quiz
     public ?Deck $deck = null;
 
     #[Groups(['quiz:read', 'quiz:write'])]
-    public int $maxQuestions = 0;
+    #[Range(min: 10, max: 100)]
+    public int $maxQuestions = 100;
 
     #[Groups(['quiz:read'])]
     public DateTimeImmutable $createdAt;

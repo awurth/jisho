@@ -11,7 +11,7 @@ use ApiPlatform\State\ProcessorInterface;
 use App\Common\Entity\Deck\Card as CardEntity;
 use App\Common\Repository\Deck\CardRepository;
 use App\Deck\ApiResource\Card;
-use App\Deck\ApiResource\DataTransformer\CardDataTransformer;
+use App\Deck\DataTransformer\CardDataTransformer;
 use Doctrine\ORM\EntityManagerInterface;
 use LogicException;
 use Override;

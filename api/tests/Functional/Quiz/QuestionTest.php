@@ -4,7 +4,13 @@ declare(strict_types=1);
 
 namespace App\Tests\Functional\Quiz;
 
+use App\Common\Entity\Dictionary\Entry;
 use App\Common\Foundry\Factory\Deck\CardFactory;
+use App\Common\Foundry\Factory\Dictionary\EntryFactory;
+use App\Common\Foundry\Factory\Dictionary\KanjiElementFactory;
+use App\Common\Foundry\Factory\Dictionary\ReadingElementFactory;
+use App\Common\Foundry\Factory\Dictionary\SenseFactory;
+use App\Common\Foundry\Factory\Dictionary\TranslationFactory;
 use App\Common\Foundry\Factory\Quiz\QuestionFactory;
 use App\Common\Foundry\Factory\Quiz\QuizFactory;
 use App\Common\Foundry\Factory\UserFactory;
@@ -86,9 +92,7 @@ final class QuestionTest extends ApiTestCase
         self::assertResponseStatusCodeSame(201);
         self::assertJsonEquals([
             'id' => (string) $question->getId(),
-            'card' => "/api/decks/{$card->deck->getId()}/cards/{$card->getId()}",
             'createdAt' => $question->createdAt->format(DateTimeInterface::ATOM),
-            'answer' => '',
         ]);
     }
 
@@ -121,16 +125,14 @@ final class QuestionTest extends ApiTestCase
         self::assertNotSame((string) $newQuestion->getId(), (string) $answeredQuestion->getId());
         self::assertJsonEquals([
             'id' => (string) $newQuestion->getId(),
-            'card' => "/api/decks/{$newQuestionCard->deck->getId()}/cards/{$newQuestionCard->getId()}",
             'createdAt' => $newQuestion->createdAt->format(DateTimeInterface::ATOM),
-            'answer' => '',
         ]);
     }
 
     public function testPostQuestionCreatesNewQuestionIfNotExists(): void
     {
         $quiz = QuizFactory::createOne();
-        $card = CardFactory::createOne([
+        CardFactory::createOne([
             'deck' => $quiz->deck,
         ]);
 
@@ -145,9 +147,118 @@ final class QuestionTest extends ApiTestCase
         self::assertResponseStatusCodeSame(201);
         self::assertJsonEquals([
             'id' => (string) $question->getId(),
-            'card' => "/api/decks/{$card->deck->getId()}/cards/{$card->getId()}",
             'createdAt' => $question->createdAt->format(DateTimeInterface::ATOM),
-            'answer' => '',
         ]);
+    }
+
+    public function testPatchQuestionWhenNotAuthenticated(): void
+    {
+        $question = QuestionFactory::createOne();
+
+        $client = self::createClient();
+        self::patch($client, "/api/quizzes/{$question->quiz->getId()}/questions/{$question->getId()}", []);
+
+        self::assertResponseStatusCodeSame(401);
+    }
+
+    public function testPatchQuestionWithInvalidId(): void
+    {
+        $quiz = QuizFactory::createOne();
+
+        $client = self::createClient();
+        self::patch($client, "/api/quizzes/{$quiz->getId()}/questions/1", []);
+
+        self::assertResponseStatusCodeSame(404);
+    }
+
+    public function testPatchQuestionOfAnotherUserQuiz(): void
+    {
+        $user = UserFactory::createOne();
+        $question = QuestionFactory::createOne();
+
+        $client = self::createClient();
+        $client->loginUser($user);
+        self::patch($client, "/api/quizzes/{$question->quiz->getId()}/questions/{$question->getId()}", []);
+
+        self::assertResponseStatusCodeSame(403);
+    }
+
+    public function testPatchQuestionIsLockedWhenQuizHasEnded(): void
+    {
+        $quiz = QuizFactory::createOne([
+            'endedAt' => new DateTimeImmutable(),
+        ]);
+        $question = QuestionFactory::createOne([
+            'quiz' => $quiz,
+        ]);
+
+        $client = self::createClient();
+        $client->loginUser($quiz->deck->owner);
+        self::patch($client, "/api/quizzes/{$question->quiz->getId()}/questions/{$question->getId()}", []);
+
+        self::assertResponseStatusCodeSame(423);
+        self::assertJsonContains([
+            'title' => 'An error occurred',
+            'detail' => 'Quiz already ended.',
+            'status' => 423,
+        ]);
+    }
+
+    public function testPatchQuestionIsLockedWhenQuestionIsAlreadyAnswered(): void
+    {
+        $question = QuestionFactory::createOne([
+            'answeredAt' => new DateTimeImmutable(),
+        ]);
+
+        $client = self::createClient();
+        $client->loginUser($question->quiz->deck->owner);
+        self::patch($client, "/api/quizzes/{$question->quiz->getId()}/questions/{$question->getId()}", []);
+
+        self::assertResponseStatusCodeSame(423);
+        self::assertJsonContains([
+            'title' => 'An error occurred',
+            'detail' => 'Question already answered.',
+            'status' => 423,
+        ]);
+    }
+
+    public function testPatchQuestionWithWrongAnswer(): void
+    {
+        $entry = $this->createEntry();
+        $card = CardFactory::createOne([
+            'entry' => $entry,
+        ]);
+        $question = QuestionFactory::createOne([
+            'card' => $card,
+        ]);
+
+        $client = self::createClient();
+        $client->loginUser($question->quiz->deck->owner);
+        self::patch($client, "/api/quizzes/{$question->quiz->getId()}/questions/{$question->getId()}", [
+            'json' => [
+                'answer' => 'wrong',
+            ],
+        ]);
+
+        self::assertResponseStatusCodeSame(422);
+        self::assertJsonContains([
+            'title' => 'An error occurred',
+            'detail' => 'Wrong answer.',
+            'status' => 422,
+        ]);
+    }
+
+    private function createEntry(): Entry
+    {
+        $entry = EntryFactory::createOne();
+
+        KanjiElementFactory::createOne(['entry' => $entry]);
+        ReadingElementFactory::createOne(['entry' => $entry]);
+
+        $sense = SenseFactory::createOne(['entry' => $entry]);
+
+        TranslationFactory::createOne(['sense' => $sense]);
+
+        return $entry->_real();
     }
 }

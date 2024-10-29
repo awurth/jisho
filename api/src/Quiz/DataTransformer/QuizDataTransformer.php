@@ -2,13 +2,13 @@
 
 declare(strict_types=1);
 
-namespace App\Quiz\ApiResource\DataTransformer;
+namespace App\Quiz\DataTransformer;
 
 use App\Common\Entity\Deck\Deck as DeckEntity;
 use App\Common\Entity\Quiz\Quiz as QuizEntity;
 use App\Common\Repository\Deck\DeckRepository;
-use App\Deck\ApiResource\DataTransformer\DeckDataTransformer;
 use App\Deck\ApiResource\Deck;
+use App\Deck\DataTransformer\DeckDataTransformer;
 use App\Quiz\ApiResource\Quiz;
 use InvalidArgumentException;
 use RuntimeException;

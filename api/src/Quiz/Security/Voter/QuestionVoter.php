@@ -9,18 +9,20 @@ use App\Quiz\ApiResource\Question;
 use Override;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Authorization\Voter\Voter;
+use function in_array;
 
 /**
  * @extends Voter<string, Question>
  */
 final class QuestionVoter extends Voter
 {
-    public const string VIEW = 'CARD_VIEW';
+    public const string VIEW = 'QUESTION_VIEW';
+    public const string ANSWER = 'QUESTION_ANSWER';
 
     #[Override]
     protected function supports(string $attribute, mixed $subject): bool
     {
-        return self::VIEW === $attribute
+        return in_array($attribute, [self::VIEW, self::ANSWER], true)
             && $subject instanceof Question;
     }
 

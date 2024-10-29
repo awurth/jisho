@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Deck\ApiResource\DataTransformer;
+namespace App\Deck\DataTransformer;
 
 use App\Common\Entity\Deck\Card as CardEntity;
 use App\Common\Entity\Deck\Deck as DeckEntity;
@@ -11,7 +11,7 @@ use App\Common\Repository\Deck\DeckRepository;
 use App\Common\Repository\Dictionary\EntryRepository;
 use App\Deck\ApiResource\Card;
 use App\Deck\ApiResource\Deck;
-use App\Dictionary\ApiResource\DataTransformer\EntryDataTransformer;
+use App\Dictionary\DataTransformer\EntryDataTransformer;
 use InvalidArgumentException;
 use RuntimeException;
 

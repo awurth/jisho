@@ -23,9 +23,9 @@ final class TranslationFactory extends PersistentProxyObjectFactory
     protected function defaults(): array|callable
     {
         return [
-            'language' => self::faker()->text(),
+            'language' => self::faker()->randomElement(['eng', 'fre']),
             'sense' => SenseFactory::new(),
-            'value' => self::faker()->text(),
+            'value' => self::faker()->word(),
         ];
     }
 }

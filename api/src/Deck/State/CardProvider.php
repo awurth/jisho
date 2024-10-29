@@ -13,8 +13,8 @@ use App\Common\Entity\Deck\Deck as DeckEntity;
 use App\Common\Repository\Deck\CardRepository;
 use App\Common\Repository\Deck\DeckRepository;
 use App\Deck\ApiResource\Card;
-use App\Deck\ApiResource\DataTransformer\CardDataTransformer;
-use App\Deck\ApiResource\DataTransformer\DeckDataTransformer;
+use App\Deck\DataTransformer\CardDataTransformer;
+use App\Deck\DataTransformer\DeckDataTransformer;
 use Override;
 use function Functional\map;
 

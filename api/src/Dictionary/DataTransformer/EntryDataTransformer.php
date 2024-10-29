@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Dictionary\ApiResource\DataTransformer;
+namespace App\Dictionary\DataTransformer;
 
 use App\Common\Entity\Dictionary\Entry as EntryEntity;
 use App\Common\Entity\Dictionary\KanjiElement;

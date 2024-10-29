@@ -12,9 +12,9 @@ use App\Common\Entity\Quiz\Question as QuestionEntity;
 use App\Common\Entity\Quiz\Quiz as QuizEntity;
 use App\Common\Repository\Quiz\QuestionRepository;
 use App\Common\Repository\Quiz\QuizRepository;
-use App\Quiz\ApiResource\DataTransformer\QuestionDataTransformer;
-use App\Quiz\ApiResource\DataTransformer\QuizDataTransformer;
 use App\Quiz\ApiResource\Question;
+use App\Quiz\DataTransformer\QuestionDataTransformer;
+use App\Quiz\DataTransformer\QuizDataTransformer;
 use Override;
 use function Functional\map;
 

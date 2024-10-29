@@ -27,7 +27,7 @@ final class QuizFactory extends PersistentProxyObjectFactory
         return [
             'createdAt' => DateTimeImmutable::createFromMutable(self::faker()->dateTime()),
             'deck' => DeckFactory::new(),
-            'maxQuestions' => self::faker()->randomNumber(),
+            'maxQuestions' => self::faker()->numberBetween(10, 100),
         ];
     }
 }

@@ -100,6 +100,7 @@ final class QuizTest extends ApiTestCase
         ]);
 
         self::assertResponseStatusCodeSame(401);
+        QuizFactory::assert()->empty();
     }
 
     public function testPostQuizOnAnotherUserDeck(): void
@@ -116,6 +117,50 @@ final class QuizTest extends ApiTestCase
         ]);
 
         self::assertResponseStatusCodeSame(403);
+        QuizFactory::assert()->empty();
+    }
+
+    public function testPostQuizDoesNotAcceptMaxQuestionsUnder10AndOver100(): void
+    {
+        $deck = DeckFactory::createOne();
+
+        $client = self::createClient();
+        $client->loginUser($deck->owner);
+        $client->request('POST', '/api/quizzes', [
+            'json' => [
+                'deck' => "/api/decks/{$deck->getId()}",
+                'maxQuestions' => 9,
+            ],
+        ]);
+
+        self::assertResponseStatusCodeSame(422);
+        self::assertJsonContains([
+            'violations' => [
+                [
+                    'propertyPath' => 'maxQuestions',
+                    'message' => 'This value should be between 10 and 100.',
+                ],
+            ],
+        ]);
+        QuizFactory::assert()->empty();
+
+        $client->request('POST', '/api/quizzes', [
+            'json' => [
+                'deck' => "/api/decks/{$deck->getId()}",
+                'maxQuestions' => 101,
+            ],
+        ]);
+
+        self::assertResponseStatusCodeSame(422);
+        self::assertJsonContains([
+            'violations' => [
+                [
+                    'propertyPath' => 'maxQuestions',
+                    'message' => 'This value should be between 10 and 100.',
+                ],
+            ],
+        ]);
+        QuizFactory::assert()->empty();
     }
 
     public function testPostQuizSuccess(): void
@@ -143,6 +188,7 @@ final class QuizTest extends ApiTestCase
         ]);
         self::assertNull($quiz->startedAt);
         self::assertNull($quiz->endedAt);
+        QuizFactory::assert()->exists($quiz->getId());
     }
 
     public function testDeleteQuizWhenNotAuthenticated(): void

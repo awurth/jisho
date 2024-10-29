@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Deck\ApiResource\DataTransformer;
+namespace App\Deck\DataTransformer;
 
 use App\Common\Entity\Deck\Deck as DeckEntity;
 use App\Deck\ApiResource\Deck;

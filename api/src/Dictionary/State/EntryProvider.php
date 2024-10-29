@@ -8,8 +8,8 @@ use ApiPlatform\Metadata\Operation;
 use ApiPlatform\State\ProviderInterface;
 use App\Common\Entity\Dictionary\Entry as EntryEntity;
 use App\Common\Repository\Dictionary\EntryRepository;
-use App\Dictionary\ApiResource\DataTransformer\EntryDataTransformer;
 use App\Dictionary\ApiResource\Entry;
+use App\Dictionary\DataTransformer\EntryDataTransformer;
 use Override;
 
 /**

@@ -10,8 +10,8 @@ use ApiPlatform\State\ProviderInterface;
 use App\Common\Entity\Deck\Deck as DeckEntity;
 use App\Common\Repository\Deck\DeckRepository;
 use App\Common\Security\Security;
-use App\Deck\ApiResource\DataTransformer\DeckDataTransformer;
 use App\Deck\ApiResource\Deck;
+use App\Deck\DataTransformer\DeckDataTransformer;
 use Override;
 use function Functional\map;
 

@@ -25,6 +25,7 @@ final class QuestionFactory extends PersistentProxyObjectFactory
     protected function defaults(): array|callable
     {
         return [
+            'quiz' => QuizFactory::new(),
             'card' => CardFactory::new(),
             'createdAt' => DateTimeImmutable::createFromMutable(self::faker()->dateTime()),
         ];
