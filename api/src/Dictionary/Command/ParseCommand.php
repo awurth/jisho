@@ -29,10 +29,7 @@ final class ParseCommand extends Command
     #[Override]
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        $this->parser->parse(
-            "$this->projectDir/data/JMdict.xml",
-            "$this->projectDir/data/JMdict.dtd",
-        );
+        $this->parser->parse("$this->projectDir/data/JMdict.xml");
 
         return Command::SUCCESS;
     }
