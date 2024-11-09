@@ -39,7 +39,13 @@ final readonly class JMDictParser
 
         $counter = 0;
         do {
-            $entry = $this->parseEntry($xml->expand(new DOMDocument()));
+            $node = $xml->expand(new DOMDocument());
+
+            if (!$node instanceof DOMNode) {
+                continue;
+            }
+
+            $entry = $this->parseEntry($node);
 
             if ([] !== $entry) {
                 $entry = $this->entryDataTransformer->transformToEntity($entry);
