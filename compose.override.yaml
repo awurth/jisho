@@ -38,7 +38,6 @@ services:
 
   php:
     volumes:
-      - php:/srv
       - ~/.ssh:/var/www/.ssh:ro
       - ~/.composer:/var/www/.composer
       - .docker/php/conf.d/app.dev.ini:/usr/local/etc/php/conf.d/app.dev.ini:ro
@@ -64,17 +63,3 @@ services:
       - "traefik.http.routers.node.service=node"
       - "traefik.http.services.node.loadbalancer.server.port=5173"
       - "traefik.http.services.node.loadbalancer.server.scheme=https"
-
-volumes:
-  php:
-
-x-mutagen:
-  sync:
-    defaults:
-      permissions:
-        defaultDirectoryMode: 0777
-        defaultFileMode: 0644
-    php:
-      alpha: "."
-      beta: "volume://php"
-      mode: "two-way-resolved"

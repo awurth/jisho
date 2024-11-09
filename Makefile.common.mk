@@ -11,12 +11,6 @@ DOCKER_COMPOSE_EXEC_CONSOLE         = $(DOCKER_COMPOSE_EXEC_PHP) bin/console
 DOCKER_COMPOSE_EXEC_PHPUNIT         = $(DOCKER_COMPOSE_EXEC_PHP) bin/phpunit
 DOCKER_COMPOSE_EXEC_YARN            = $(DOCKER_COMPOSE_EXEC) node yarn
 
-MUTAGEN_COMPOSE_ENABLED             := $(shell which mutagen-compose)
-
-ifdef MUTAGEN_COMPOSE_ENABLED
-	DOCKER_COMPOSE = mutagen-compose
-endif
-
 ifndef CI_JOB_ID
 	GREEN  := $(shell tput -Txterm setaf 2)
 	YELLOW := $(shell tput -Txterm setaf 3)
