@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Dictionary\JMDict\DataTransformer;
+namespace App\Dictionary\JMDict\DataMapper;
 
 use App\Common\Entity\Dictionary\Entry as EntryEntity;
 use App\Common\Entity\Dictionary\KanjiElement as KanjiElementEntity;
@@ -18,15 +18,14 @@ use App\Dictionary\JMDict\Dto\Translation;
 use Doctrine\Common\Collections\ArrayCollection;
 use function Functional\map;
 
-final readonly class EntryDataTransformer
+final readonly class EntryDataMapper
 {
     public function __construct(private KanaToRomajiTransliterator $transliterator)
     {
     }
 
-    public function transformToEntity(Entry $entryDto): EntryEntity
+    public function mapDtoToEntity(Entry $entryDto, EntryEntity $entryEntity): void
     {
-        $entryEntity = new EntryEntity();
         $entryEntity->sequenceId = $entryDto->sequenceId;
 
         $kanjiElements = map($entryDto->kanjiElements, static function (KanjiElement $kanjiElementDto) use ($entryEntity): KanjiElementEntity {
@@ -82,7 +81,5 @@ final readonly class EntryDataTransformer
         $entryEntity->kanjiElements = new ArrayCollection($kanjiElements);
         $entryEntity->readingElements = new ArrayCollection($readingElements);
         $entryEntity->senses = new ArrayCollection($senses);
-
-        return $entryEntity;
     }
 }

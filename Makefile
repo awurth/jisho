@@ -82,4 +82,4 @@ env-test: compose.yaml
 
 ## Parse the JMDict XML file
 parse: api/bin/console
-	@$(DOCKER_COMPOSE_EXEC_PHP) bin/console app:parse
+	@$(DOCKER_COMPOSE_EXEC_PHP) bin/console app:parse -vv
