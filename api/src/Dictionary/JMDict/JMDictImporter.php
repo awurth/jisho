@@ -10,6 +10,7 @@ use App\Dictionary\JMDict\DataMapper\EntryDataMapper;
 use App\Dictionary\JMDict\Dto\Entry;
 use Doctrine\ORM\EntityManagerInterface;
 use Psr\Log\LoggerInterface;
+use Symfony\Component\Stopwatch\Stopwatch;
 
 final readonly class JMDictImporter
 {
@@ -30,6 +31,9 @@ final readonly class JMDictImporter
         $currentBatchEntriesCount = 1;
         $batchesCount = 0;
 
+        $stopwatch = new Stopwatch();
+        $stopwatch->start('importBatch');
+
         while (($entry = $parser->next()) instanceof Entry) {
             $entryEntity = $this->entryRepository->findOneBy([
                 'sequenceId' => $entry->sequenceId,
@@ -47,13 +51,19 @@ final readonly class JMDictImporter
                 $this->entityManager->flush();
                 $this->entityManager->clear();
 
+                $stopwatchEvent = $stopwatch->stop('importBatch');
+
                 $currentBatchEntriesCount = 1;
                 ++$batchesCount;
 
-                $this->logger->info('Imported batch n°{batchesCount} ({entriesCount} entries)', [
+                $this->logger->info('Imported batch n°{batchesCount} ({entriesCount} total entries) in {duration} ms', [
                     'batchesCount' => $batchesCount,
                     'entriesCount' => $batchesCount * self::BATCH_SIZE,
+                    'duration' => $stopwatchEvent->getDuration(),
                 ]);
+
+                $stopwatch->reset();
+                $stopwatch->start('importBatch');
 
                 continue;
             }
@@ -64,11 +74,14 @@ final readonly class JMDictImporter
         $this->entityManager->flush();
         $this->entityManager->clear();
 
+        $stopwatchEvent = $stopwatch->stop('importBatch');
+
         ++$batchesCount;
 
-        $this->logger->info('Imported batch n°{batchesCount} ({entriesCount} entries)', [
+        $this->logger->info('Imported batch n°{batchesCount} ({entriesCount} total entries) in {duration} ms', [
             'batchesCount' => $batchesCount,
             'entriesCount' => $batchesCount * self::BATCH_SIZE,
+            'duration' => $stopwatchEvent->getDuration(),
         ]);
     }
 }
