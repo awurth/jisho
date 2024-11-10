@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Dictionary\Command;
 
-use App\Dictionary\Parser\JMDictParser;
+use App\Dictionary\JMDict\JMDictImporter;
 use Override;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
@@ -19,7 +19,7 @@ use Symfony\Component\DependencyInjection\Attribute\Autowire;
 final class ParseCommand extends Command
 {
     public function __construct(
-        private readonly JMDictParser $parser,
+        private readonly JMDictImporter $importer,
         #[Autowire(param: 'kernel.project_dir')]
         private readonly string $projectDir,
     ) {
@@ -29,7 +29,7 @@ final class ParseCommand extends Command
     #[Override]
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        $this->parser->parse("$this->projectDir/data/JMdict.xml");
+        $this->importer->import("$this->projectDir/data/JMdict.xml");
 
         return Command::SUCCESS;
     }
