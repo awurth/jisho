@@ -28,14 +28,13 @@ final readonly class EntryDataTransformer
             'kanji' => map($entry->kanjiElements, static fn (KanjiElement $element): string => $element->value),
             'entry' => [
                 'id' => (string) $entry->getId(),
+                'sequenceId' => $entry->sequenceId,
                 'kanji' => map($entry->kanjiElements, static fn (KanjiElement $element): array => [
-                    'id' => (string) $element->getId(),
                     'value' => $element->value,
                     'info' => $element->info,
                     'priority' => $element->priority,
                 ]),
                 'readings' => map($entry->readingElements, static fn (ReadingElement $element): array => [
-                    'id' => (string) $element->getId(),
                     'kana' => $element->kana,
                     'romaji' => $element->romaji,
                     'info' => $element->info,
@@ -44,7 +43,6 @@ final readonly class EntryDataTransformer
                     'kanji' => $element->kanjiElements,
                 ]),
                 'senses' => map($entry->senses, static fn (Sense $sense): array => [
-                    'id' => (string) $sense->getId(),
                     'partsOfSpeech' => $sense->partsOfSpeech,
                     'fieldOfApplication' => $sense->fieldOfApplication,
                     'dialect' => $sense->dialect,
@@ -55,7 +53,6 @@ final readonly class EntryDataTransformer
                     'references' => $sense->referencedElements,
                     'antonyms' => $sense->antonyms,
                     'translations' => map($sense->translations, static fn (Translation $translation): array => [
-                        'id' => (string) $translation->getId(),
                         'value' => $translation->value,
                         'language' => $translation->language,
                     ]),
@@ -71,18 +68,18 @@ final readonly class EntryDataTransformer
      */
     private function transformSenses(iterable $senses): array
     {
-        $translations = flat_map($senses, static fn (Sense $sense): array => $sense->translations->toArray());
-        $translations = sort($translations, static function (Translation $a, Translation $b): int {
-            if ($a->language === $b->language) {
-                return 0;
-            }
-
-            if ('fre' === $a->language) {
-                return -1;
-            }
-
-            return 1;
-        });
+        $translations = flat_map($senses, static fn (Sense $sense): array => $sense->translations);
+        // $translations = sort($translations, static function (Translation $a, Translation $b): int {
+        //     if ($a->language === $b->language) {
+        //         return 0;
+        //     }
+        //
+        //     if ('fre' === $a->language) {
+        //         return -1;
+        //     }
+        //
+        //     return 1;
+        // });
 
         return map($translations, static fn (Translation $translation): string => $translation->value);
     }

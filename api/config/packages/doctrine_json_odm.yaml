@@ -1,0 +1,6 @@
+dunglas_doctrine_json_odm:
+    type_map:
+        KanjiElement: App\Common\Entity\Dictionary\KanjiElement
+        ReadingElement: App\Common\Entity\Dictionary\ReadingElement
+        Sense: App\Common\Entity\Dictionary\Sense
+        Translation: App\Common\Entity\Dictionary\Translation

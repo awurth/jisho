@@ -6,12 +6,12 @@ namespace App\Common\Foundry\Factory\Dictionary;
 
 use App\Common\Entity\Dictionary\Translation;
 use Override;
-use Zenstruck\Foundry\Persistence\PersistentProxyObjectFactory;
+use Zenstruck\Foundry\ObjectFactory;
 
 /**
- * @extends PersistentProxyObjectFactory<Translation>
+ * @extends ObjectFactory<Translation>
  */
-final class TranslationFactory extends PersistentProxyObjectFactory
+final class TranslationFactory extends ObjectFactory
 {
     #[Override]
     public static function class(): string
@@ -23,8 +23,7 @@ final class TranslationFactory extends PersistentProxyObjectFactory
     protected function defaults(): array|callable
     {
         return [
-            'language' => self::faker()->randomElement(['eng', 'fre']),
-            'sense' => SenseFactory::new(),
+            // 'language' => self::faker()->randomElement(['eng', 'fre']),
             'value' => self::faker()->word(),
         ];
     }

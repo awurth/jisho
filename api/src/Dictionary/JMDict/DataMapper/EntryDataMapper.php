@@ -15,7 +15,6 @@ use App\Dictionary\JMDict\Dto\KanjiElement;
 use App\Dictionary\JMDict\Dto\ReadingElement;
 use App\Dictionary\JMDict\Dto\Sense;
 use App\Dictionary\JMDict\Dto\Translation;
-use Doctrine\Common\Collections\ArrayCollection;
 use function Functional\filter;
 use function Functional\map;
 
@@ -29,60 +28,39 @@ final readonly class EntryDataMapper
     {
         $entryEntity->sequenceId = $entryDto->sequenceId;
 
-        $kanjiElements = map($entryDto->kanjiElements, static function (KanjiElement $kanjiElementDto) use ($entryEntity): KanjiElementEntity {
-            $kanjiElementEntity = new KanjiElementEntity();
-            $kanjiElementEntity->entry = $entryEntity;
-            $kanjiElementEntity->value = $kanjiElementDto->value;
-            $kanjiElementEntity->info = $kanjiElementDto->info;
-            $kanjiElementEntity->priority = $kanjiElementDto->priority;
+        $entryEntity->kanjiElements = map($entryDto->kanjiElements, static fn (KanjiElement $kanjiElementDto): KanjiElementEntity => new KanjiElementEntity(
+            value: $kanjiElementDto->value,
+            info: $kanjiElementDto->info,
+            priority: $kanjiElementDto->priority,
+        ));
 
-            return $kanjiElementEntity;
-        });
+        $entryEntity->readingElements = map($entryDto->readingElements, fn (ReadingElement $readingElementDto): ReadingElementEntity => new ReadingElementEntity(
+            kana: $readingElementDto->kana,
+            romaji: $this->transliterator->transliterate($readingElementDto->kana),
+            info: $readingElementDto->info,
+            priority: $readingElementDto->priority,
+            notTrueKanjiReading: $readingElementDto->noKanji,
+            kanjiElements: $readingElementDto->relatedKanjis,
+        ));
 
-        $readingElements = map($entryDto->readingElements, function (ReadingElement $readingElementDto) use ($entryEntity): ReadingElementEntity {
-            $readingElementEntity = new ReadingElementEntity();
-            $readingElementEntity->entry = $entryEntity;
-            $readingElementEntity->kana = $readingElementDto->kana;
-            $readingElementEntity->romaji = $this->transliterator->transliterate($readingElementDto->kana);
-            $readingElementEntity->info = $readingElementDto->info;
-            $readingElementEntity->priority = $readingElementDto->priority;
-            $readingElementEntity->notTrueKanjiReading = $readingElementDto->noKanji;
-            $readingElementEntity->kanjiElements = $readingElementDto->relatedKanjis;
-
-            return $readingElementEntity;
-        });
-
-        $senses = map($entryDto->senses, static function (Sense $senseDto) use ($entryEntity): SenseEntity {
-            $senseEntity = new SenseEntity();
-            $senseEntity->entry = $entryEntity;
-            $senseEntity->partsOfSpeech = $senseDto->partsOfSpeech;
-            $senseEntity->fieldOfApplication = $senseDto->fieldOfApplication;
-            $senseEntity->dialect = $senseDto->dialect;
-            $senseEntity->misc = $senseDto->misc;
-            $senseEntity->info = $senseDto->info;
-            $senseEntity->kanjiElements = $senseDto->relatedKanjis;
-            $senseEntity->readingElements = $senseDto->relatedReadings;
-            $senseEntity->referencedElements = $senseDto->references;
-            $senseEntity->antonyms = $senseDto->antonyms;
-
+        $entryEntity->senses = map($entryDto->senses, static function (Sense $senseDto): SenseEntity {
             $translations = filter($senseDto->translations, static fn (Translation $translationDto): bool => 'eng' === $translationDto->language);
 
-            $translations = map($translations, static function (Translation $translationDto) use ($senseEntity): TranslationEntity {
-                $translationEntity = new TranslationEntity();
-                $translationEntity->sense = $senseEntity;
-                $translationEntity->value = $translationDto->value;
-                $translationEntity->language = $translationDto->language;
-
-                return $translationEntity;
-            });
-
-            $senseEntity->translations = new ArrayCollection($translations);
-
-            return $senseEntity;
+            return new SenseEntity(
+                partsOfSpeech: $senseDto->partsOfSpeech,
+                fieldOfApplication: $senseDto->fieldOfApplication,
+                dialect: $senseDto->dialect,
+                misc: $senseDto->misc,
+                info: $senseDto->info,
+                kanjiElements: $senseDto->relatedKanjis,
+                readingElements: $senseDto->relatedReadings,
+                referencedElements: $senseDto->references,
+                antonyms: $senseDto->antonyms,
+                translations: map($translations, static fn (Translation $translationDto): TranslationEntity => new TranslationEntity(
+                    value: $translationDto->value,
+                    language: $translationDto->language,
+                )),
+            );
         });
-
-        $entryEntity->kanjiElements = new ArrayCollection($kanjiElements);
-        $entryEntity->readingElements = new ArrayCollection($readingElements);
-        $entryEntity->senses = new ArrayCollection($senses);
     }
 }

@@ -24,6 +24,29 @@ final class EntryFactory extends PersistentProxyObjectFactory
     {
         return [
             'sequenceId' => self::faker()->randomNumber(),
+            'kanjiElements' => KanjiElementFactory::createRange(1, 4),
+            'readingElements' => ReadingElementFactory::createRange(1, 4),
+            'senses' => SenseFactory::createRange(1, 4),
         ];
+    }
+
+    public function single(): self
+    {
+        return $this->with([
+            'kanjiElements' => KanjiElementFactory::createMany(1),
+            'readingElements' => ReadingElementFactory::createMany(1),
+            'senses' => SenseFactory::createMany(1, [
+                'translations' => TranslationFactory::createMany(1),
+            ]),
+        ]);
+    }
+
+    public function empty(): self
+    {
+        return $this->with([
+            'kanjiElements' => [],
+            'readingElements' => [],
+            'senses' => [],
+        ]);
     }
 }

@@ -6,12 +6,12 @@ namespace App\Common\Foundry\Factory\Dictionary;
 
 use App\Common\Entity\Dictionary\ReadingElement;
 use Override;
-use Zenstruck\Foundry\Persistence\PersistentProxyObjectFactory;
+use Zenstruck\Foundry\ObjectFactory;
 
 /**
- * @extends PersistentProxyObjectFactory<ReadingElement>
+ * @extends ObjectFactory<ReadingElement>
  */
-final class ReadingElementFactory extends PersistentProxyObjectFactory
+final class ReadingElementFactory extends ObjectFactory
 {
     #[Override]
     public static function class(): string
@@ -23,13 +23,12 @@ final class ReadingElementFactory extends PersistentProxyObjectFactory
     protected function defaults(): array|callable
     {
         return [
-            'entry' => EntryFactory::new(),
-            'info' => self::faker()->text(),
-            'kana' => self::faker()->text(),
+            'info' => self::faker()->word(),
+            'kana' => self::faker()->word(),
             'kanjiElements' => [],
             'notTrueKanjiReading' => self::faker()->boolean(),
-            'priority' => self::faker()->text(),
-            'romaji' => self::faker()->text(),
+            'priority' => self::faker()->word(),
+            'romaji' => self::faker()->word(),
         ];
     }
 }

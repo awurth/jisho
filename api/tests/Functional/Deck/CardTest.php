@@ -30,7 +30,9 @@ final class CardTest extends ApiTestCase
 
     public function testGetCardCollectionResult(): void
     {
-        $card = CardFactory::createOne();
+        $card = CardFactory::createOne([
+            'entry' => EntryFactory::new()->empty()->create(),
+        ]);
 
         CardFactory::createOne();
 
@@ -87,7 +89,9 @@ final class CardTest extends ApiTestCase
 
     public function testGetCardItemResult(): void
     {
-        $card = CardFactory::createOne();
+        $card = CardFactory::createOne([
+            'entry' => EntryFactory::new()->empty()->create(),
+        ]);
 
         $client = self::createClient();
         $client->loginUser($card->deck->owner);
@@ -157,7 +161,7 @@ final class CardTest extends ApiTestCase
 
     public function testPostCardSuccess(): void
     {
-        $entry = EntryFactory::createOne();
+        $entry = EntryFactory::new()->empty()->create();
         $deck = DeckFactory::createOne();
 
         $client = self::createClient();

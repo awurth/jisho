@@ -7,7 +7,7 @@ namespace DoctrineMigrations;
 use Doctrine\DBAL\Schema\Schema;
 use Doctrine\Migrations\AbstractMigration;
 
-final class Version20241021151303 extends AbstractMigration
+final class Version20241111185129 extends AbstractMigration
 {
     public function getDescription(): string
     {
@@ -35,17 +35,15 @@ final class Version20241021151303 extends AbstractMigration
         )');
         $this->addSql('CREATE INDEX IDX_4FAC36377E3C61F9 ON deck (owner_id)');
         $this->addSql('CREATE UNIQUE INDEX UNIQ_4FAC36377E3C61F95E237E06 ON deck (owner_id, name)');
-        $this->addSql('CREATE TABLE entry (id UUID NOT NULL, sequence_id INT NOT NULL, PRIMARY KEY(id))');
-        $this->addSql('CREATE UNIQUE INDEX UNIQ_2B219D7098FB19AE ON entry (sequence_id)');
-        $this->addSql('CREATE TABLE kanji_element (
+        $this->addSql('CREATE TABLE dictionary_entry (
           id UUID NOT NULL,
-          value VARCHAR(255) NOT NULL,
-          info VARCHAR(255) NOT NULL,
-          priority VARCHAR(255) NOT NULL,
-          entry_id UUID NOT NULL,
+          sequence_id INT NOT NULL,
+          kanji_elements JSONB NOT NULL,
+          reading_elements JSONB NOT NULL,
+          senses JSONB NOT NULL,
           PRIMARY KEY(id)
         )');
-        $this->addSql('CREATE INDEX IDX_31347D4DBA364942 ON kanji_element (entry_id)');
+        $this->addSql('CREATE UNIQUE INDEX UNIQ_CAC9222098FB19AE ON dictionary_entry (sequence_id)');
         $this->addSql('CREATE TABLE question (
           id UUID NOT NULL,
           created_at TIMESTAMP(0) WITHOUT TIME ZONE NOT NULL,
@@ -67,33 +65,6 @@ final class Version20241021151303 extends AbstractMigration
           PRIMARY KEY(id)
         )');
         $this->addSql('CREATE INDEX IDX_A412FA92111948DC ON quiz (deck_id)');
-        $this->addSql('CREATE TABLE reading_element (
-          id UUID NOT NULL,
-          kana VARCHAR(255) NOT NULL,
-          romaji VARCHAR(255) NOT NULL,
-          info VARCHAR(255) NOT NULL,
-          priority VARCHAR(255) NOT NULL,
-          not_true_kanji_reading BOOLEAN NOT NULL,
-          kanji_elements JSON NOT NULL,
-          entry_id UUID NOT NULL,
-          PRIMARY KEY(id)
-        )');
-        $this->addSql('CREATE INDEX IDX_5D9CD0CBA364942 ON reading_element (entry_id)');
-        $this->addSql('CREATE TABLE sense (
-          id UUID NOT NULL,
-          parts_of_speech JSON NOT NULL,
-          field_of_application VARCHAR(255) NOT NULL,
-          dialect VARCHAR(255) NOT NULL,
-          misc VARCHAR(255) NOT NULL,
-          info VARCHAR(255) NOT NULL,
-          kanji_elements JSON NOT NULL,
-          reading_elements JSON NOT NULL,
-          referenced_elements JSON NOT NULL,
-          antonyms JSON NOT NULL,
-          entry_id UUID NOT NULL,
-          PRIMARY KEY(id)
-        )');
-        $this->addSql('CREATE INDEX IDX_F2B33FBBA364942 ON sense (entry_id)');
         $this->addSql('CREATE TABLE tag (
           id UUID NOT NULL,
           name VARCHAR(255) NOT NULL,
@@ -103,14 +74,6 @@ final class Version20241021151303 extends AbstractMigration
         )');
         $this->addSql('CREATE INDEX IDX_389B783111948DC ON tag (deck_id)');
         $this->addSql('CREATE UNIQUE INDEX UNIQ_389B783111948DC5E237E06 ON tag (deck_id, name)');
-        $this->addSql('CREATE TABLE translation (
-          id UUID NOT NULL,
-          value TEXT NOT NULL,
-          language VARCHAR(255) NOT NULL,
-          sense_id UUID NOT NULL,
-          PRIMARY KEY(id)
-        )');
-        $this->addSql('CREATE INDEX IDX_B469456F8707C57E ON translation (sense_id)');
         $this->addSql('CREATE TABLE "user" (
           id UUID NOT NULL,
           email VARCHAR(180) NOT NULL,
@@ -127,15 +90,11 @@ final class Version20241021151303 extends AbstractMigration
         $this->addSql('ALTER TABLE
           card
         ADD
-          CONSTRAINT FK_161498D3BA364942 FOREIGN KEY (entry_id) REFERENCES entry (id) NOT DEFERRABLE INITIALLY IMMEDIATE');
+          CONSTRAINT FK_161498D3BA364942 FOREIGN KEY (entry_id) REFERENCES dictionary_entry (id) NOT DEFERRABLE INITIALLY IMMEDIATE');
         $this->addSql('ALTER TABLE
           deck
         ADD
           CONSTRAINT FK_4FAC36377E3C61F9 FOREIGN KEY (owner_id) REFERENCES "user" (id) NOT DEFERRABLE INITIALLY IMMEDIATE');
-        $this->addSql('ALTER TABLE
-          kanji_element
-        ADD
-          CONSTRAINT FK_31347D4DBA364942 FOREIGN KEY (entry_id) REFERENCES entry (id) NOT DEFERRABLE INITIALLY IMMEDIATE');
         $this->addSql('ALTER TABLE
           question
         ADD
@@ -149,21 +108,9 @@ final class Version20241021151303 extends AbstractMigration
         ADD
           CONSTRAINT FK_A412FA92111948DC FOREIGN KEY (deck_id) REFERENCES deck (id) NOT DEFERRABLE INITIALLY IMMEDIATE');
         $this->addSql('ALTER TABLE
-          reading_element
-        ADD
-          CONSTRAINT FK_5D9CD0CBA364942 FOREIGN KEY (entry_id) REFERENCES entry (id) NOT DEFERRABLE INITIALLY IMMEDIATE');
-        $this->addSql('ALTER TABLE
-          sense
-        ADD
-          CONSTRAINT FK_F2B33FBBA364942 FOREIGN KEY (entry_id) REFERENCES entry (id) NOT DEFERRABLE INITIALLY IMMEDIATE');
-        $this->addSql('ALTER TABLE
           tag
         ADD
           CONSTRAINT FK_389B783111948DC FOREIGN KEY (deck_id) REFERENCES deck (id) NOT DEFERRABLE INITIALLY IMMEDIATE');
-        $this->addSql('ALTER TABLE
-          translation
-        ADD
-          CONSTRAINT FK_B469456F8707C57E FOREIGN KEY (sense_id) REFERENCES sense (id) NOT DEFERRABLE INITIALLY IMMEDIATE');
     }
 
     public function down(Schema $schema): void
@@ -171,24 +118,16 @@ final class Version20241021151303 extends AbstractMigration
         $this->addSql('ALTER TABLE card DROP CONSTRAINT FK_161498D3111948DC');
         $this->addSql('ALTER TABLE card DROP CONSTRAINT FK_161498D3BA364942');
         $this->addSql('ALTER TABLE deck DROP CONSTRAINT FK_4FAC36377E3C61F9');
-        $this->addSql('ALTER TABLE kanji_element DROP CONSTRAINT FK_31347D4DBA364942');
         $this->addSql('ALTER TABLE question DROP CONSTRAINT FK_B6F7494E853CD175');
         $this->addSql('ALTER TABLE question DROP CONSTRAINT FK_B6F7494E4ACC9A20');
         $this->addSql('ALTER TABLE quiz DROP CONSTRAINT FK_A412FA92111948DC');
-        $this->addSql('ALTER TABLE reading_element DROP CONSTRAINT FK_5D9CD0CBA364942');
-        $this->addSql('ALTER TABLE sense DROP CONSTRAINT FK_F2B33FBBA364942');
         $this->addSql('ALTER TABLE tag DROP CONSTRAINT FK_389B783111948DC');
-        $this->addSql('ALTER TABLE translation DROP CONSTRAINT FK_B469456F8707C57E');
         $this->addSql('DROP TABLE card');
         $this->addSql('DROP TABLE deck');
-        $this->addSql('DROP TABLE entry');
-        $this->addSql('DROP TABLE kanji_element');
+        $this->addSql('DROP TABLE dictionary_entry');
         $this->addSql('DROP TABLE question');
         $this->addSql('DROP TABLE quiz');
-        $this->addSql('DROP TABLE reading_element');
-        $this->addSql('DROP TABLE sense');
         $this->addSql('DROP TABLE tag');
-        $this->addSql('DROP TABLE translation');
         $this->addSql('DROP TABLE "user"');
     }
 }
