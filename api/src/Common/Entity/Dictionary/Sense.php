@@ -4,84 +4,27 @@ declare(strict_types=1);
 
 namespace App\Common\Entity\Dictionary;
 
-use App\Common\Repository\Dictionary\SenseRepository;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
-use Doctrine\ORM\Mapping\Column;
-use Doctrine\ORM\Mapping\Entity;
-use Doctrine\ORM\Mapping\Id;
-use Doctrine\ORM\Mapping\JoinColumn;
-use Doctrine\ORM\Mapping\ManyToOne;
-use Doctrine\ORM\Mapping\OneToMany;
-use Symfony\Component\Uid\Uuid;
-
-#[Entity(repositoryClass: SenseRepository::class)]
-class Sense
+final class Sense
 {
-    #[Id]
-    #[Column(type: 'uuid')]
-    private Uuid $id;
-
-    #[ManyToOne(inversedBy: 'senses')]
-    #[JoinColumn(nullable: false)]
-    public Entry $entry;
-
     /**
-     * @var string[]
+     * @param string[]      $partsOfSpeech
+     * @param string[]      $kanjiElements
+     * @param string[]      $readingElements
+     * @param string[]      $referencedElements
+     * @param string[]      $antonyms
+     * @param Translation[] $translations
      */
-    #[Column]
-    public array $partsOfSpeech = [];
-
-    #[Column]
-    public string $fieldOfApplication = '';
-
-    #[Column]
-    public string $dialect = '';
-
-    #[Column]
-    public string $misc = '';
-
-    #[Column]
-    public string $info = '';
-
-    /**
-     * @var string[]
-     */
-    #[Column]
-    public array $kanjiElements = [];
-
-    /**
-     * @var string[]
-     */
-    #[Column]
-    public array $readingElements = [];
-
-    /**
-     * @var string[]
-     */
-    #[Column]
-    public array $referencedElements = [];
-
-    /**
-     * @var string[]
-     */
-    #[Column]
-    public array $antonyms = [];
-
-    /**
-     * @var Collection<int, Translation>
-     */
-    #[OneToMany(targetEntity: Translation::class, mappedBy: 'sense', cascade: ['persist', 'remove'])]
-    public Collection $translations;
-
-    public function __construct()
-    {
-        $this->id = Uuid::v4();
-        $this->translations = new ArrayCollection();
-    }
-
-    public function getId(): Uuid
-    {
-        return $this->id;
+    public function __construct(
+        public array $partsOfSpeech,
+        public string $fieldOfApplication,
+        public string $dialect,
+        public string $misc,
+        public string $info,
+        public array $kanjiElements,
+        public array $readingElements,
+        public array $referencedElements,
+        public array $antonyms,
+        public array $translations,
+    ) {
     }
 }

@@ -6,12 +6,12 @@ namespace App\Common\Foundry\Factory\Dictionary;
 
 use App\Common\Entity\Dictionary\Sense;
 use Override;
-use Zenstruck\Foundry\Persistence\PersistentProxyObjectFactory;
+use Zenstruck\Foundry\ObjectFactory;
 
 /**
- * @extends PersistentProxyObjectFactory<Sense>
+ * @extends ObjectFactory<Sense>
  */
-final class SenseFactory extends PersistentProxyObjectFactory
+final class SenseFactory extends ObjectFactory
 {
     #[Override]
     public static function class(): string
@@ -24,15 +24,15 @@ final class SenseFactory extends PersistentProxyObjectFactory
     {
         return [
             'antonyms' => [],
-            'dialect' => self::faker()->text(),
-            'entry' => EntryFactory::new(),
-            'fieldOfApplication' => self::faker()->text(),
-            'info' => self::faker()->text(),
+            'dialect' => self::faker()->word(),
+            'fieldOfApplication' => self::faker()->word(),
+            'info' => self::faker()->word(),
             'kanjiElements' => [],
-            'misc' => self::faker()->text(),
+            'misc' => self::faker()->word(),
             'partsOfSpeech' => [],
             'readingElements' => [],
             'referencedElements' => [],
+            'translations' => TranslationFactory::createRange(1, 4),
         ];
     }
 }

@@ -5,15 +5,14 @@ declare(strict_types=1);
 namespace App\Common\Entity\Dictionary;
 
 use App\Common\Repository\Dictionary\EntryRepository;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping\Column;
 use Doctrine\ORM\Mapping\Entity;
 use Doctrine\ORM\Mapping\Id;
-use Doctrine\ORM\Mapping\OneToMany;
+use Doctrine\ORM\Mapping\Table;
 use Symfony\Component\Uid\Uuid;
 
 #[Entity(repositoryClass: EntryRepository::class)]
+#[Table(name: 'dictionary_entry')]
 class Entry
 {
     #[Id]
@@ -24,29 +23,26 @@ class Entry
     public int $sequenceId;
 
     /**
-     * @var Collection<int, KanjiElement>
+     * @var KanjiElement[]
      */
-    #[OneToMany(targetEntity: KanjiElement::class, mappedBy: 'entry', cascade: ['persist', 'remove'])]
-    public Collection $kanjiElements;
+    #[Column(type: 'json_document', options: ['jsonb' => true])]
+    public array $kanjiElements;
 
     /**
-     * @var Collection<int, ReadingElement>
+     * @var ReadingElement[]
      */
-    #[OneToMany(targetEntity: ReadingElement::class, mappedBy: 'entry', cascade: ['persist', 'remove'])]
-    public Collection $readingElements;
+    #[Column(type: 'json_document', options: ['jsonb' => true])]
+    public array $readingElements;
 
     /**
-     * @var Collection<int, Sense>
+     * @var Sense[]
      */
-    #[OneToMany(targetEntity: Sense::class, mappedBy: 'entry', cascade: ['persist', 'remove'])]
-    public Collection $senses;
+    #[Column(type: 'json_document', options: ['jsonb' => true])]
+    public array $senses;
 
     public function __construct()
     {
         $this->id = Uuid::v4();
-        $this->kanjiElements = new ArrayCollection();
-        $this->readingElements = new ArrayCollection();
-        $this->senses = new ArrayCollection();
     }
 
     public function getId(): Uuid

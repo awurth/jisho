@@ -6,12 +6,12 @@ namespace App\Common\Foundry\Factory\Dictionary;
 
 use App\Common\Entity\Dictionary\KanjiElement;
 use Override;
-use Zenstruck\Foundry\Persistence\PersistentProxyObjectFactory;
+use Zenstruck\Foundry\ObjectFactory;
 
 /**
- * @extends PersistentProxyObjectFactory<KanjiElement>
+ * @extends ObjectFactory<KanjiElement>
  */
-final class KanjiElementFactory extends PersistentProxyObjectFactory
+final class KanjiElementFactory extends ObjectFactory
 {
     #[Override]
     public static function class(): string
@@ -23,10 +23,9 @@ final class KanjiElementFactory extends PersistentProxyObjectFactory
     protected function defaults(): array|callable
     {
         return [
-            'entry' => EntryFactory::new(),
-            'info' => self::faker()->text(),
-            'priority' => self::faker()->text(),
-            'value' => self::faker()->text(),
+            'info' => self::faker()->word(),
+            'priority' => self::faker()->word(),
+            'value' => self::faker()->word(),
         ];
     }
 }

@@ -4,13 +4,8 @@ declare(strict_types=1);
 
 namespace App\Tests\Functional\Quiz;
 
-use App\Common\Entity\Dictionary\Entry;
 use App\Common\Foundry\Factory\Deck\CardFactory;
 use App\Common\Foundry\Factory\Dictionary\EntryFactory;
-use App\Common\Foundry\Factory\Dictionary\KanjiElementFactory;
-use App\Common\Foundry\Factory\Dictionary\ReadingElementFactory;
-use App\Common\Foundry\Factory\Dictionary\SenseFactory;
-use App\Common\Foundry\Factory\Dictionary\TranslationFactory;
 use App\Common\Foundry\Factory\Quiz\QuestionFactory;
 use App\Common\Foundry\Factory\Quiz\QuizFactory;
 use App\Common\Foundry\Factory\UserFactory;
@@ -224,7 +219,7 @@ final class QuestionTest extends ApiTestCase
 
     public function testPatchQuestionWithWrongAnswer(): void
     {
-        $entry = $this->createEntry();
+        $entry = EntryFactory::createOne();
         $card = CardFactory::createOne([
             'entry' => $entry,
         ]);
@@ -246,19 +241,5 @@ final class QuestionTest extends ApiTestCase
             'detail' => 'Wrong answer.',
             'status' => 422,
         ]);
-    }
-
-    private function createEntry(): Entry
-    {
-        $entry = EntryFactory::createOne();
-
-        KanjiElementFactory::createOne(['entry' => $entry]);
-        ReadingElementFactory::createOne(['entry' => $entry]);
-
-        $sense = SenseFactory::createOne(['entry' => $entry]);
-
-        TranslationFactory::createOne(['sense' => $sense]);
-
-        return $entry->_real();
     }
 }
