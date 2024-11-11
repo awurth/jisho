@@ -15,9 +15,6 @@ use RuntimeException;
 use Symfony\Component\DependencyInjection\Attribute\Exclude;
 use Symfony\Component\DomCrawler\Crawler;
 use XMLReader;
-use function count;
-use function Functional\filter;
-use function in_array;
 
 #[Exclude]
 final class JMDictParser
@@ -70,7 +67,7 @@ final class JMDictParser
         return $this->getNextNode();
     }
 
-    private function parseEntry(DOMNode $node): ?Entry
+    private function parseEntry(DOMNode $node): Entry
     {
         $crawler = new Crawler(useHtml5Parser: false);
         $crawler->addNode($node);
@@ -105,7 +102,7 @@ final class JMDictParser
             );
         });
 
-        $senses = $crawler->filter('sense')->each(static function (Crawler $element): ?Sense {
+        $senses = $crawler->filter('sense')->each(static function (Crawler $element): Sense {
             $relatedKanjis = $element->filter('stagk')->each(static fn (Crawler $element): string => $element->text(default: ''));
             $relatedReadings = $element->filter('stagr')->each(static fn (Crawler $element): string => $element->text(default: ''));
             $references = $element->filter('xref')->each(static fn (Crawler $element): string => $element->text(default: ''));
@@ -125,12 +122,6 @@ final class JMDictParser
                 );
             });
 
-            $translations = filter($translations, static fn (Translation $translation): bool => in_array($translation->language, ['eng', 'fre'], true));
-
-            if (count($translations) === 0) {
-                return null;
-            }
-
             return new Sense(
                 relatedKanjis: $relatedKanjis,
                 relatedReadings: $relatedReadings,
@@ -144,12 +135,6 @@ final class JMDictParser
                 translations: $translations,
             );
         });
-
-        $senses = filter($senses, static fn (?Sense $sense): bool => $sense instanceof Sense);
-
-        if (count($senses) === 0) {
-            return null;
-        }
 
         return new Entry(
             sequenceId: $sequenceId,

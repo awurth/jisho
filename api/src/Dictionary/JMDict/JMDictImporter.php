@@ -8,9 +8,12 @@ use App\Common\Entity\Dictionary\Entry as EntryEntity;
 use App\Common\Repository\Dictionary\EntryRepository;
 use App\Dictionary\JMDict\DataMapper\EntryDataMapper;
 use App\Dictionary\JMDict\Dto\Entry;
+use App\Dictionary\JMDict\Dto\Sense;
+use App\Dictionary\JMDict\Dto\Translation;
 use Doctrine\ORM\EntityManagerInterface;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\Stopwatch\Stopwatch;
+use function Functional\some;
 
 final readonly class JMDictImporter
 {
@@ -35,6 +38,10 @@ final readonly class JMDictImporter
         $stopwatch->start('importBatch');
 
         while (($entry = $parser->next()) instanceof Entry) {
+            if (!some($entry->senses, static fn (Sense $sense): bool => some($sense->translations, static fn (Translation $translation): bool => 'eng' === $translation->language))) {
+                continue;
+            }
+
             $entryEntity = $this->entryRepository->findOneBy([
                 'sequenceId' => $entry->sequenceId,
             ]);

@@ -16,6 +16,7 @@ use App\Dictionary\JMDict\Dto\ReadingElement;
 use App\Dictionary\JMDict\Dto\Sense;
 use App\Dictionary\JMDict\Dto\Translation;
 use Doctrine\Common\Collections\ArrayCollection;
+use function Functional\filter;
 use function Functional\map;
 
 final readonly class EntryDataMapper
@@ -64,7 +65,9 @@ final readonly class EntryDataMapper
             $senseEntity->referencedElements = $senseDto->references;
             $senseEntity->antonyms = $senseDto->antonyms;
 
-            $translations = map($senseDto->translations, static function (Translation $translationDto) use ($senseEntity): TranslationEntity {
+            $translations = filter($senseDto->translations, static fn (Translation $translationDto): bool => 'eng' === $translationDto->language);
+
+            $translations = map($translations, static function (Translation $translationDto) use ($senseEntity): TranslationEntity {
                 $translationEntity = new TranslationEntity();
                 $translationEntity->sense = $senseEntity;
                 $translationEntity->value = $translationDto->value;
