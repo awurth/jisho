@@ -15,7 +15,7 @@ return static function (RectorConfig $rectorConfig): void {
     ]);
 
     $rectorConfig->sets([
-        SetList::PHP_83,
+        SetList::PHP_84,
         SetList::CODE_QUALITY,
         SetList::STRICT_BOOLEANS,
         SetList::RECTOR_PRESET,
@@ -24,7 +24,7 @@ return static function (RectorConfig $rectorConfig): void {
         DoctrineSetList::DOCTRINE_DBAL_40,
         DoctrineSetList::DOCTRINE_ORM_214,
         PHPUnitSetList::PHPUNIT_100,
-        SymfonySetList::SYMFONY_64,
+        SymfonySetList::SYMFONY_71,
         SymfonySetList::SYMFONY_CODE_QUALITY,
         SymfonySetList::SYMFONY_CONSTRUCTOR_INJECTION,
     ]);

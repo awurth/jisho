@@ -15,4 +15,4 @@ create-search-index: api/bin/console
 
 ## Index dictionary
 index: api/bin/console
-	@$(DOCKER_COMPOSE_EXEC_PHP) bin/console app:index
+	@$(DOCKER_COMPOSE_EXEC_PHP) bin/console app:index -vv
