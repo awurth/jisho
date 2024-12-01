@@ -45,6 +45,8 @@ final class JMDictParser
                 throw new RuntimeException('Could not open XML file.');
             }
 
+            $xml->setParserProperty(XMLReader::SUBST_ENTITIES, true);
+
             do {
                 $xml->read();
             } while ('entry' !== $xml->name);
