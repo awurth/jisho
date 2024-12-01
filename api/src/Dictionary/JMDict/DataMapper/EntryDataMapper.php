@@ -15,8 +15,10 @@ use App\Dictionary\JMDict\Dto\KanjiElement;
 use App\Dictionary\JMDict\Dto\ReadingElement;
 use App\Dictionary\JMDict\Dto\Sense;
 use App\Dictionary\JMDict\Dto\Translation;
+use InvalidArgumentException;
 use function Functional\filter;
 use function Functional\map;
+use function Functional\some;
 
 final readonly class EntryDataMapper
 {
@@ -26,6 +28,10 @@ final readonly class EntryDataMapper
 
     public function mapDtoToEntity(Entry $entryDto, EntryEntity $entryEntity): void
     {
+        if (!some($entryDto->senses, static fn (Sense $senseDto): bool => some($senseDto->translations, static fn (Translation $translationDto): bool => 'eng' === $translationDto->language))) {
+            throw new InvalidArgumentException('Entry should have at least one english translation.');
+        }
+
         $entryEntity->sequenceId = $entryDto->sequenceId;
 
         $entryEntity->kanjiElements = map($entryDto->kanjiElements, static fn (KanjiElement $kanjiElementDto): KanjiElementEntity => new KanjiElementEntity(
