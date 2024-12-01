@@ -13,8 +13,8 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\DependencyInjection\Attribute\Autowire;
 
 #[AsCommand(
-    name: 'app:parse',
-    description: 'Parse JMDict file',
+    name: 'app:import',
+    description: 'Import JMDict file',
 )]
 final class ParseCommand extends Command
 {

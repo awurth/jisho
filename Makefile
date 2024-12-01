@@ -80,6 +80,6 @@ env-test: compose.yaml
 	@$(DOCKER_COMPOSE_EXEC_PHP) bash -c 'grep APP_ENV= .env.local 1>/dev/null 2>&1 || echo -e "\nAPP_ENV=test" >> .env.local'
 	@$(DOCKER_COMPOSE_EXEC_PHP) sed -i 's/APP_ENV=.*/APP_ENV=test/g' .env.local
 
-## Parse the JMDict XML file
-parse: api/bin/console
-	@$(DOCKER_COMPOSE_EXEC_PHP) bin/console app:parse -vv
+## Import the JMDict XML file
+import: api/bin/console
+	@$(DOCKER_COMPOSE_EXEC_PHP) bin/console app:import -vv
