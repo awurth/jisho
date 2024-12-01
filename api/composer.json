@@ -23,24 +23,24 @@
         "meilisearch/meilisearch-php": "^1.11",
         "nelmio/cors-bundle": "^2.5",
         "phpstan/phpdoc-parser": "^1.33",
-        "symfony/asset": "7.1.*",
-        "symfony/console": "7.1.*",
-        "symfony/css-selector": "7.1.*",
-        "symfony/dotenv": "7.1.*",
-        "symfony/expression-language": "7.1.*",
+        "symfony/asset": "7.2.*",
+        "symfony/console": "7.2.*",
+        "symfony/css-selector": "7.2.*",
+        "symfony/dotenv": "7.2.*",
+        "symfony/expression-language": "7.2.*",
         "symfony/flex": "^2",
-        "symfony/framework-bundle": "7.1.*",
+        "symfony/framework-bundle": "7.2.*",
         "symfony/monolog-bundle": "^3.10",
-        "symfony/property-access": "7.1.*",
-        "symfony/property-info": "7.1.*",
-        "symfony/runtime": "7.1.*",
-        "symfony/security-bundle": "7.1.*",
-        "symfony/serializer": "7.1.*",
-        "symfony/stopwatch": "7.1.*",
-        "symfony/twig-bundle": "7.1.*",
-        "symfony/uid": "7.1.*",
-        "symfony/validator": "7.1.*",
-        "symfony/yaml": "7.1.*"
+        "symfony/property-access": "7.2.*",
+        "symfony/property-info": "7.2.*",
+        "symfony/runtime": "7.2.*",
+        "symfony/security-bundle": "7.2.*",
+        "symfony/serializer": "7.2.*",
+        "symfony/stopwatch": "7.2.*",
+        "symfony/twig-bundle": "7.2.*",
+        "symfony/uid": "7.2.*",
+        "symfony/validator": "7.2.*",
+        "symfony/yaml": "7.2.*"
     },
     "require-dev": {
         "dama/doctrine-test-bundle": "^8.2",
@@ -54,11 +54,11 @@
         "phpstan/phpstan-symfony": "^1.4",
         "phpunit/phpunit": "^11.4",
         "rector/rector": "^1.2",
-        "symfony/browser-kit": "7.1.*",
-        "symfony/debug-bundle": "7.1.*",
-        "symfony/http-client": "7.1.*",
+        "symfony/browser-kit": "7.2.*",
+        "symfony/debug-bundle": "7.2.*",
+        "symfony/http-client": "7.2.*",
         "symfony/maker-bundle": "dev-main",
-        "symfony/web-profiler-bundle": "7.1.*",
+        "symfony/web-profiler-bundle": "7.2.*",
         "zenstruck/foundry": "^2.2"
     },
     "config": {
@@ -108,7 +108,7 @@
     "extra": {
         "symfony": {
             "allow-contrib": false,
-            "require": "7.1.*",
+            "require": "7.2.*",
             "docker": true
         }
     }
