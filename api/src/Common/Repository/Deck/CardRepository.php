@@ -29,13 +29,13 @@ final class CardRepository extends ServiceEntityRepository
     public function getRandomCard(Uuid $deckId, Uuid ...$excludedCardsIds): Card
     {
         $expr = new Expr();
-        $queryBuilder = $this->createQueryBuilder(alias: 'c')
-            ->where($expr->eq('c.deck', ':deck'))
+        $queryBuilder = $this->createQueryBuilder(alias: 'card')
+            ->where($expr->eq('card.deck', ':deck'))
             ->setParameter('deck', $deckId);
 
         if ([] !== $excludedCardsIds) {
             $queryBuilder
-                ->andWhere($expr->notIn('c.id', ':excludedIds'))
+                ->andWhere($expr->notIn('card.id', ':excludedIds'))
                 ->setParameter('excludedIds', $excludedCardsIds);
         }
 

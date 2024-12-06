@@ -29,9 +29,9 @@ final class QuizRepository extends ServiceEntityRepository
      */
     public function findByOwner(User $owner): array
     {
-        return $this->createQueryBuilder(alias: 'q')
-            ->join('q.deck', 'd')
-            ->where('d.owner = :owner')
+        return $this->createQueryBuilder(alias: 'question')
+            ->join('question.deck', 'deck')
+            ->where('deck.owner = :owner')
             ->setParameter('owner', $owner)
             ->getQuery()
             ->getResult()
