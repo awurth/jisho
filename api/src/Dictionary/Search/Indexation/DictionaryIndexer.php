@@ -11,11 +11,11 @@ use Doctrine\ORM\EntityManagerInterface;
 use Meilisearch\Client;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\Stopwatch\Stopwatch;
-use function iterator_count;
+use function count;
 
 final readonly class DictionaryIndexer
 {
-    private const int BATCH_SIZE = 2000;
+    private const int BATCH_SIZE = 1000;
 
     public function __construct(
         private Client $searchClient,
@@ -33,7 +33,7 @@ final readonly class DictionaryIndexer
 
         $stopwatch = new Stopwatch();
 
-        while (iterator_count($entries = $this->entryRepository->getBatch($offset, self::BATCH_SIZE)) > 0) {
+        while (count($entries = $this->entryRepository->getBatch($offset, self::BATCH_SIZE)) > 0) {
             $stopwatch->start('importBatch');
 
             $this->indexBatch(...$entries);
@@ -60,6 +60,8 @@ final readonly class DictionaryIndexer
     {
         $documents = $this->entryDataTransformer->transformToSearchArray(...$entries);
 
-        $this->searchClient->index('dictionary')->addDocuments($documents);
+        $response = $this->searchClient->index('dictionary')->addDocuments($documents);
+
+        $this->searchClient->waitForTask($response['taskUid']);
     }
 }

@@ -12,6 +12,7 @@ use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Helper\Table;
 use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 use Symfony\Component\DependencyInjection\Attribute\Autowire;
@@ -36,6 +37,15 @@ final class CreateIndexCommand extends Command
     }
 
     #[Override]
+    protected function configure(): void
+    {
+        $this
+            ->setDefinition([
+                new InputOption('delete', null, InputOption::VALUE_NONE, 'If set, the index will be deleted before creation (if it exists)'),
+            ]);
+    }
+
+    #[Override]
     protected function execute(
         InputInterface $input,
         OutputInterface $output,
@@ -57,7 +67,23 @@ final class CreateIndexCommand extends Command
         }
 
         try {
-            $this->searchClient->getIndex($indexToCreate);
+            $indexes = $this->searchClient->getIndex($indexToCreate);
+
+            if ($input->getOption('delete')) {
+                $deletionRequest = $indexes->delete();
+
+                $this->searchClient->waitForTask($deletionRequest['taskUid']);
+
+                $style->warning(sprintf('The index "%s" has been deleted', $indexToCreate));
+
+                $index = $this->searchClient->createIndex($indexToCreate, [
+                    'primaryKey' => $indexConfiguration['primaryKey'],
+                ]);
+
+                $this->searchClient->waitForTask($index['taskUid']);
+
+                $style->info(sprintf('The index "%s" has been created', $index['indexUid']));
+            }
         } catch (Exception) {
             $index = $this->searchClient->createIndex($indexToCreate, [
                 'primaryKey' => $indexConfiguration['primaryKey'],
