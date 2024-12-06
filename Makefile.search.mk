@@ -11,7 +11,7 @@ create-search-dump: compose.yaml
 
 ## Create the dictionary search index
 create-search-index: api/bin/console
-	@$(DOCKER_COMPOSE_EXEC_PHP) bin/console app:create:search-index
+	@$(DOCKER_COMPOSE_EXEC_PHP) bin/console app:create:search-index --delete
 
 ## Index dictionary
 index: api/bin/console
