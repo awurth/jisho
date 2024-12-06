@@ -28,7 +28,8 @@ final class EntryRepository extends ServiceEntityRepository
      */
     public function getBatch(int $offset, int $limit): array
     {
-        return $this->createQueryBuilder(alias: 'e')
+        return $this->createQueryBuilder(alias: 'entry')
+            ->orderBy('entry.sequenceId')
             ->setFirstResult($offset)
             ->setMaxResults($limit)
             ->getQuery()

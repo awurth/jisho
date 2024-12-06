@@ -11,7 +11,6 @@ use Doctrine\ORM\EntityManagerInterface;
 use Meilisearch\Client;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\Stopwatch\Stopwatch;
-use function count;
 
 final readonly class DictionaryIndexer
 {
@@ -33,7 +32,7 @@ final readonly class DictionaryIndexer
 
         $stopwatch = new Stopwatch();
 
-        while (count($entries = $this->entryRepository->getBatch($offset, self::BATCH_SIZE)) > 0) {
+        while ([] !== ($entries = $this->entryRepository->getBatch($offset, self::BATCH_SIZE))) {
             $stopwatch->start('importBatch');
 
             $this->indexBatch(...$entries);
