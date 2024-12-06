@@ -19,7 +19,7 @@
         "dunglas/doctrine-json-odm": "*",
         "knpuniversity/oauth2-client-bundle": "^2.18",
         "league/oauth2-google": "^4.0",
-        "lstrojny/functional-php": "^1.17",
+        "awurth/functional-php": "^0.1.0",
         "meilisearch/meilisearch-php": "^1.11",
         "nelmio/cors-bundle": "^2.5",
         "phpstan/phpdoc-parser": "^1.33",
