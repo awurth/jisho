@@ -28,10 +28,6 @@ final readonly class EntryDataMapper
 
     public function mapDtoToEntity(Entry $entryDto, EntryEntity $entryEntity): void
     {
-        if (!some($entryDto->senses, static fn (Sense $senseDto): bool => some($senseDto->translations, static fn (Translation $translationDto): bool => 'eng' === $translationDto->language))) {
-            throw new InvalidArgumentException('Entry should have at least one english translation.');
-        }
-
         $entryEntity->sequenceId = $entryDto->sequenceId;
 
         $entryEntity->kanjiElements = map($entryDto->kanjiElements, static fn (KanjiElement $kanjiElementDto): KanjiElementEntity => new KanjiElementEntity(
@@ -49,7 +45,13 @@ final readonly class EntryDataMapper
             kanjiElements: $readingElementDto->relatedKanjis,
         ));
 
-        $entryEntity->senses = map($entryDto->senses, static function (Sense $senseDto): SenseEntity {
+        $senses = filter($entryDto->senses, static fn (Sense $senseDto): bool => some($senseDto->translations, static fn (Translation $translationDto): bool => 'eng' === $translationDto->language));
+
+        if ([] === $senses) {
+            throw new InvalidArgumentException('Entry should have at least one english translation.');
+        }
+
+        $entryEntity->senses = map($senses, static function (Sense $senseDto): SenseEntity {
             $translations = filter($senseDto->translations, static fn (Translation $translationDto): bool => 'eng' === $translationDto->language);
 
             return new SenseEntity(
