@@ -69,7 +69,7 @@ final class CreateIndexCommand extends Command
         try {
             $indexes = $this->searchClient->getIndex($indexToCreate);
 
-            if ($input->getOption('delete')) {
+            if ($input->hasOption('delete')) {
                 $deletionRequest = $indexes->delete();
 
                 $this->searchClient->waitForTask($deletionRequest['taskUid']);
