@@ -2,6 +2,8 @@
 
 FROM php:8.4-fpm
 
+ENV PHP_CS_FIXER_IGNORE_ENV=1
+
 # persistent / runtime deps
 RUN apt-get update && apt-get install -y --no-install-recommends \
 	acl \

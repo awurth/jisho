@@ -20,8 +20,11 @@ final class DeckFactory extends PersistentObjectFactory
         return Deck::class;
     }
 
+    /**
+     * @return array<string, mixed>
+     */
     #[Override]
-    protected function defaults(): array|callable
+    protected function defaults(): array
     {
         return [
             'name' => self::faker()->text(50),

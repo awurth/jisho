@@ -26,8 +26,11 @@ final readonly class SearchProvider implements ProviderInterface
     ) {
     }
 
+    /**
+     * @return Entry[]
+     */
     #[Override]
-    public function provide(Operation $operation, array $uriVariables = [], array $context = []): object|array|null
+    public function provide(Operation $operation, array $uriVariables = [], array $context = []): array
     {
         $searchResult = $this->searchClient->index('dictionary')->rawSearch($uriVariables['query']);
 

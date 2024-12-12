@@ -21,6 +21,9 @@ class User implements UserInterface
     #[Column(type: 'uuid')]
     private Uuid $id;
 
+    /**
+     * @var non-empty-string
+     */
     #[Column(length: 180, unique: true)]
     private string $email;
 
@@ -51,6 +54,9 @@ class User implements UserInterface
         return $this->email;
     }
 
+    /**
+     * @param non-empty-string $email
+     */
     public function setEmail(string $email): void
     {
         $this->email = $email;

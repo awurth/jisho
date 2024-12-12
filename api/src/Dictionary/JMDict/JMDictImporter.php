@@ -8,8 +8,6 @@ use App\Common\Entity\Dictionary\Entry as EntryEntity;
 use App\Common\Repository\Dictionary\EntryRepository;
 use App\Dictionary\JMDict\DataMapper\EntryDataMapper;
 use App\Dictionary\JMDict\Dto\Entry;
-use App\Dictionary\JMDict\Dto\Sense;
-use App\Dictionary\JMDict\Dto\Translation;
 use Doctrine\ORM\EntityManagerInterface;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\Stopwatch\Stopwatch;

@@ -21,8 +21,11 @@ final class QuizFactory extends PersistentProxyObjectFactory
         return Quiz::class;
     }
 
+    /**
+     * @return array<string, mixed>
+     */
     #[Override]
-    protected function defaults(): array|callable
+    protected function defaults(): array
     {
         return [
             'createdAt' => DateTimeImmutable::createFromMutable(self::faker()->dateTime()),

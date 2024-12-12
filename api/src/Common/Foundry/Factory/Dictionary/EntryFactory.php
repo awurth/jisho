@@ -19,8 +19,11 @@ final class EntryFactory extends PersistentProxyObjectFactory
         return Entry::class;
     }
 
+    /**
+     * @return array<string, mixed>
+     */
     #[Override]
-    protected function defaults(): array|callable
+    protected function defaults(): array
     {
         return [
             'sequenceId' => self::faker()->randomNumber(),

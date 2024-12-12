@@ -19,8 +19,11 @@ final class TranslationFactory extends ObjectFactory
         return Translation::class;
     }
 
+    /**
+     * @return array<string, mixed>
+     */
     #[Override]
-    protected function defaults(): array|callable
+    protected function defaults(): array
     {
         return [
             // 'language' => self::faker()->randomElement(['eng', 'fre']),

@@ -14,7 +14,7 @@ final class UniqueCardEntry extends Constraint
     public string $message = 'This entry is already in the deck.';
 
     #[Override]
-    public function getTargets(): string|array
+    public function getTargets(): string
     {
         return self::CLASS_CONSTRAINT;
     }

@@ -25,14 +25,14 @@ use Symfony\Component\Security\Http\Authenticator\Passport\SelfValidatingPasspor
 final class GoogleAuthenticator extends OAuth2Authenticator
 {
     public function __construct(
-        private readonly EntityManagerInterface $entityManager,
         private readonly ClientRegistry $clientRegistry,
+        private readonly EntityManagerInterface $entityManager,
         private readonly UserRepository $userRepository,
     ) {
     }
 
     #[Override]
-    public function supports(Request $request): ?bool
+    public function supports(Request $request): bool
     {
         return $request->attributes->getString('_route') === 'connect_google_check';
     }
@@ -53,7 +53,12 @@ final class GoogleAuthenticator extends OAuth2Authenticator
 
                 if (!$user instanceof User) {
                     $user = new User();
-                    $user->setEmail($googleUser->getEmail() ?? '');
+
+                    if (null === $googleUser->getEmail() || '' === $googleUser->getEmail()) {
+                        throw new AuthenticationException('Email not found.');
+                    }
+
+                    $user->setEmail($googleUser->getEmail());
                 }
 
                 $user->setName($googleUser->getName());
@@ -68,13 +73,13 @@ final class GoogleAuthenticator extends OAuth2Authenticator
     }
 
     #[Override]
-    public function onAuthenticationSuccess(Request $request, TokenInterface $token, string $firewallName): ?Response
+    public function onAuthenticationSuccess(Request $request, TokenInterface $token, string $firewallName): Response
     {
         return new RedirectResponse('/');
     }
 
     #[Override]
-    public function onAuthenticationFailure(Request $request, AuthenticationException $exception): ?Response
+    public function onAuthenticationFailure(Request $request, AuthenticationException $exception): Response
     {
         return new JsonResponse([
             'message' => $exception->getMessage(),

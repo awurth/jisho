@@ -19,8 +19,11 @@ final class UserFactory extends PersistentObjectFactory
         return User::class;
     }
 
+    /**
+     * @return array<string, mixed>
+     */
     #[Override]
-    protected function defaults(): array|callable
+    protected function defaults(): array
     {
         return [
             'email' => self::faker()->email(),

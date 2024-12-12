@@ -24,7 +24,7 @@ final readonly class EntryProvider implements ProviderInterface
     }
 
     #[Override]
-    public function provide(Operation $operation, array $uriVariables = [], array $context = []): object|array|null
+    public function provide(Operation $operation, array $uriVariables = [], array $context = []): ?Entry
     {
         $entryEntity = $this->entryRepository->find($uriVariables['id']);
 

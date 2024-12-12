@@ -19,8 +19,11 @@ final class SenseFactory extends ObjectFactory
         return Sense::class;
     }
 
+    /**
+     * @return array<string, mixed>
+     */
     #[Override]
-    protected function defaults(): array|callable
+    protected function defaults(): array
     {
         return [
             'antonyms' => [],

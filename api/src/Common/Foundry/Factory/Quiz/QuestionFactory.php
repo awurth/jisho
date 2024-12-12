@@ -21,8 +21,11 @@ final class QuestionFactory extends PersistentProxyObjectFactory
         return Question::class;
     }
 
+    /**
+     * @return array<string, mixed>
+     */
     #[Override]
-    protected function defaults(): array|callable
+    protected function defaults(): array
     {
         return [
             'quiz' => QuizFactory::new(),

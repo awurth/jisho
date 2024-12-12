@@ -19,8 +19,11 @@ final class ReadingElementFactory extends ObjectFactory
         return ReadingElement::class;
     }
 
+    /**
+     * @return array<string, mixed>
+     */
     #[Override]
-    protected function defaults(): array|callable
+    protected function defaults(): array
     {
         return [
             'info' => self::faker()->word(),

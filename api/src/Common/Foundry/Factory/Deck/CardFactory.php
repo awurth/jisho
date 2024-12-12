@@ -21,8 +21,11 @@ final class CardFactory extends PersistentProxyObjectFactory
         return Card::class;
     }
 
+    /**
+     * @return array<string, mixed>
+     */
     #[Override]
-    protected function defaults(): array|callable
+    protected function defaults(): array
     {
         return [
             'addedAt' => DateTimeImmutable::createFromMutable(self::faker()->dateTime()),
