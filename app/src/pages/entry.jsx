@@ -41,9 +41,6 @@ export default function Entry() {
             -{" "}
             {sense.translations.map((translation, index) => (
               <span key={index}>
-                <span className="inline-block bg-dark-900 rounded px-1 mr-1">
-                  {translation.language === "fre" ? "fr" : "en"}
-                </span>
                 {translation.value}
                 {index === sense.translations.length - 1 ? "" : ", "}
               </span>

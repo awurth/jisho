@@ -35,9 +35,6 @@ export default function Card({ entry, ...props }) {
             -{" "}
             {sense.translations.map((translation, index) => (
               <span key={index}>
-                <span className="inline-block bg-dark-900 rounded px-1 mr-1">
-                  {translation.language === "fre" ? "fr" : "en"}
-                </span>
                 {translation.value}
                 {index === sense.translations.length - 1 ? "" : ", "}
               </span>
@@ -52,10 +49,6 @@ export default function Card({ entry, ...props }) {
           </button>
         </div>
       )}
-      {/*<p className="text-xs text-gray-600 font-semibold">*/}
-      {/*  {toRomaji(entry.japanese)}*/}
-      {/*</p>*/}
-      {/*<p className="mb-1">{entry.french.join(", ")}</p>*/}
       {/*<div className="flex flex-wrap">*/}
       {/*  {entry.tags.map((tag) => (*/}
       {/*    <Tag key={tag} name={tag} className="mr-1 mb-1" />*/}
