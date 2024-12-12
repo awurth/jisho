@@ -116,7 +116,7 @@ final class JMDictParser
             $dialect = $element->filter('dial');
 
             $translations = $element->filter('gloss')->each(static function (Crawler $element): Translation {
-                $language = $element->getNode(0)?->attributes?->getNamedItem('lang')->nodeValue ?? 'eng';
+                $language = $element->getNode(0)?->attributes?->getNamedItem('lang')?->nodeValue ?? 'eng';
 
                 return new Translation(
                     language: $language,
