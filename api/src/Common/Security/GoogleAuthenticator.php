@@ -11,9 +11,9 @@ use KnpU\OAuth2ClientBundle\Client\ClientRegistry;
 use KnpU\OAuth2ClientBundle\Client\Provider\GoogleClient;
 use KnpU\OAuth2ClientBundle\Security\Authenticator\OAuth2Authenticator;
 use League\OAuth2\Client\Provider\GoogleUser;
+use Lexik\Bundle\JWTAuthenticationBundle\Services\JWTTokenManagerInterface;
 use Override;
 use Symfony\Component\HttpFoundation\JsonResponse;
-use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
@@ -27,6 +27,7 @@ final class GoogleAuthenticator extends OAuth2Authenticator
     public function __construct(
         private readonly ClientRegistry $clientRegistry,
         private readonly EntityManagerInterface $entityManager,
+        private readonly JWTTokenManagerInterface $JWTTokenManager,
         private readonly UserRepository $userRepository,
     ) {
     }
@@ -73,13 +74,15 @@ final class GoogleAuthenticator extends OAuth2Authenticator
     }
 
     #[Override]
-    public function onAuthenticationSuccess(Request $request, TokenInterface $token, string $firewallName): Response
+    public function onAuthenticationSuccess(Request $request, TokenInterface $token, string $firewallName): JsonResponse
     {
-        return new RedirectResponse('/');
+        $jwt = $this->JWTTokenManager->create($token->getUser());
+
+        return new JsonResponse(['token' => $jwt]);
     }
 
     #[Override]
-    public function onAuthenticationFailure(Request $request, AuthenticationException $exception): Response
+    public function onAuthenticationFailure(Request $request, AuthenticationException $exception): JsonResponse
     {
         return new JsonResponse([
             'message' => $exception->getMessage(),
