@@ -9,12 +9,14 @@ security:
         dev:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
             security: false
-        main:
-            lazy: true
+        connect:
+            pattern: ^/api/connect
+            stateless: true
             provider: app_user_provider
             custom_authenticator: App\Common\Security\GoogleAuthenticator
-            logout:
-                path: /api/logout
+        api:
+            stateless: true
+            jwt: ~
 
     access_control:
         # - { path: ^/admin, roles: ROLE_ADMIN }

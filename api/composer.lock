@@ -8,16 +8,16 @@
     "packages": [
         {
             "name": "api-platform/core",
-            "version": "v4.0.11",
+            "version": "v4.0.12",
             "source": {
                 "type": "git",
                 "url": "https://github.com/api-platform/core.git",
-                "reference": "b4e5494509372360ed07c2e80263449a267ed4a3"
+                "reference": "f15a338c2a32dbeb6a70f0b6ce2d6c22ec34a485"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/api-platform/core/zipball/b4e5494509372360ed07c2e80263449a267ed4a3",
-                "reference": "b4e5494509372360ed07c2e80263449a267ed4a3",
+                "url": "https://api.github.com/repos/api-platform/core/zipball/f15a338c2a32dbeb6a70f0b6ce2d6c22ec34a485",
+                "reference": "f15a338c2a32dbeb6a70f0b6ce2d6c22ec34a485",
                 "shasum": ""
             },
             "require": {
@@ -216,9 +216,9 @@
             ],
             "support": {
                 "issues": "https://github.com/api-platform/core/issues",
-                "source": "https://github.com/api-platform/core/tree/v4.0.11"
+                "source": "https://github.com/api-platform/core/tree/v4.0.12"
             },
-            "time": "2024-12-06T11:13:26+00:00"
+            "time": "2024-12-13T14:34:04+00:00"
         },
         {
             "name": "awurth/functional-php",
