@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import { Link } from "react-router-dom";
+import { Link } from "react-router";
 import { getCards } from "../api/deck.js";
 import Card from "../components/deck/card.jsx";
 import { useDeckStore } from "../stores/deck.js";

@@ -1,6 +1,6 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router";
 import { postDeck } from "../api/deck.js";
 import Button from "../components/button.jsx";
 import Input from "../components/forms/input.jsx";

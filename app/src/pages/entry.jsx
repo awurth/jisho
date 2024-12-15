@@ -1,5 +1,5 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { useParams } from "react-router-dom";
+import { useParams } from "react-router";
 import { postCard } from "../api/deck.js";
 import { getEntry } from "../api/dictionary.js";
 import Button from "../components/button.jsx";

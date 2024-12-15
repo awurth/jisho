@@ -1,11 +1,15 @@
 import axios from "axios";
 
-export async function getMe() {
-  const { data } = await axios.get("/api/me");
-  return data;
-}
+export async function connectWithGoogle(accessToken) {
+  const { data } = await axios.post(
+    "/api/connect/google",
+    {},
+    {
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+      },
+    },
+  );
 
-export async function logout() {
-  const { data } = await axios.get("/api/logout");
   return data;
 }

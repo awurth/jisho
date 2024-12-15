@@ -1,6 +1,6 @@
 import { faPlus } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { Link } from "react-router-dom";
+import { Link } from "react-router";
 import { useDeckStore } from "../stores/deck.js";
 import { useUserStore } from "../stores/user.js";
 import DeckDropdown from "./deck-dropdown.jsx";

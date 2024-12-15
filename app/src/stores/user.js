@@ -4,8 +4,9 @@ import { useDeckStore } from "./deck.js";
 
 export const useUserStore = create(
   persist(
-    () => ({
+    (set) => ({
       user: null,
+      setUser: (user) => set(() => ({ user })),
     }),
     {
       name: "user",
