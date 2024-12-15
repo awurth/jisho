@@ -12,15 +12,10 @@ security:
         connect:
             pattern: ^/api/connect
             stateless: true
-            provider: app_user_provider
-            custom_authenticator: App\Common\Security\GoogleAuthenticator
         api:
+            provider: app_user_provider
             stateless: true
             jwt: ~
-
-    access_control:
-        # - { path: ^/admin, roles: ROLE_ADMIN }
-        # - { path: ^/profile, roles: ROLE_USER }
 
 when@test:
     security:
