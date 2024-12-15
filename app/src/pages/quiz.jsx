@@ -1,7 +1,7 @@
 import axios from "axios";
 import clsx from "clsx";
 import { useEffect, useRef, useState } from "react";
-import { useSearchParams } from "react-router-dom";
+import { useSearchParams } from "react-router";
 import Button from "../components/button.jsx";
 import Input from "../components/forms/input.jsx";
 import Timer from "../components/quiz/timer.jsx";

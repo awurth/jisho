@@ -1,7 +1,6 @@
 import React from "react";
-import { createBrowserRouter, redirect } from "react-router-dom";
+import { createBrowserRouter, redirect } from "react-router";
 import { getDecks } from "./api/deck.js";
-import { getMe } from "./api/user.js";
 import Error from "./error.jsx";
 import Account from "./pages/account.jsx";
 import Entry from "./pages/entry.jsx";
@@ -16,22 +15,24 @@ import { useDeckStore } from "./stores/deck.js";
 import { useUserStore } from "./stores/user.js";
 
 const mustBeLoggedIn = async () => {
-  try {
-    const user = await getMe();
-    useUserStore.setState({ user });
+  const token = localStorage.getItem("token");
 
-    if (!useDeckStore.getState().activeDeck) {
-      const decks = await getDecks();
-      if (decks.length) {
-        useDeckStore.setState({ activeDeck: decks[0] });
-      }
-    }
-
-    return null;
-  } catch (error) {
-    useUserStore.setState({ user: null });
+  if (!token) {
     return redirect("/login");
   }
+
+  if (!useUserStore.getState().user) {
+    return redirect("/login");
+  }
+
+  if (!useDeckStore.getState().activeDeck) {
+    const decks = await getDecks();
+    if (decks.length) {
+      useDeckStore.setState({ activeDeck: decks[0] });
+    }
+  }
+
+  return null;
 };
 
 export const router = createBrowserRouter([

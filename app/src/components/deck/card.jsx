@@ -1,6 +1,6 @@
 import clsx from "clsx";
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router";
 
 export default function Card({ entry, ...props }) {
   const navigate = useNavigate();

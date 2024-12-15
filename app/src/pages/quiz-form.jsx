@@ -1,6 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router";
 import { getTags } from "../api/deck.js";
 import Button from "../components/button.jsx";
 import Tags from "../components/forms/tags.jsx";

@@ -3,7 +3,7 @@ import { faHome, faPlus, faSearch } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import clsx from "clsx";
 import { useCallback } from "react";
-import { NavLink } from "react-router-dom";
+import { NavLink } from "react-router";
 
 export default function TabBar() {
   const itemClassName = useCallback(
