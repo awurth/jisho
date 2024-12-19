@@ -1,9 +1,1 @@
 services:
-  nginx:
-    volumes:
-      - ./app/dist:/srv/app
-      - .docker/nginx/certs/prod:/etc/nginx/certs
-    ports:
-      - "80:80"
-      - "443:443"
-    hostname: jisho.fr

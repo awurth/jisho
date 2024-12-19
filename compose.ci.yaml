@@ -1,12 +1,4 @@
-version: '3.7'
-
 services:
-    nginx:
-        image: ghcr.io/awurth/jisho_nginx:1.0.0
-        build:
-            cache_from:
-                - ghcr.io/awurth/jisho_nginx:1.0.0
-
     php:
         image: ghcr.io/awurth/jisho_php:1.0.0
         build:

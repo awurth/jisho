@@ -2,5 +2,4 @@ controllers:
     resource:
         path: ../src/Common/Controller/
         namespace: App\Common\Controller
-    prefix: /api
     type: attribute

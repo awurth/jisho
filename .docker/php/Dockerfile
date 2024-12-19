@@ -1,8 +1,10 @@
-#syntax=docker/dockerfile:1.4
+#syntax=docker/dockerfile:1
 
-FROM php:8.4-fpm
+FROM dunglas/frankenphp:php8.4 AS base
 
-ENV PHP_CS_FIXER_IGNORE_ENV=1
+WORKDIR /jisho/api
+
+VOLUME /jisho/api/var/
 
 # persistent / runtime deps
 RUN apt-get update && apt-get install -y --no-install-recommends \
@@ -11,9 +13,6 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 	gettext \
 	git \
 	&& rm -rf /var/lib/apt/lists/*
-
-# php extensions installer: https://github.com/mlocati/docker-php-extension-installer
-COPY --from=mlocati/php-extension-installer /usr/bin/install-php-extensions /usr/local/bin/
 
 RUN set -eux; \
 	install-php-extensions \
@@ -25,13 +24,28 @@ RUN set -eux; \
 		pdo_pgsql \
 	;
 
-RUN mv "$PHP_INI_DIR/php.ini-development" "$PHP_INI_DIR/php.ini"
-
 # https://getcomposer.org/doc/03-cli.md#composer-allow-superuser
 ENV COMPOSER_ALLOW_SUPERUSER=1
 
 COPY --link conf.d/app.ini $PHP_INI_DIR/conf.d/
-COPY --link conf.d/app.dev.ini $PHP_INI_DIR/conf.d/
 COPY --link --chmod=755 entrypoint.sh /usr/local/bin/docker-entrypoint
+COPY --link Caddyfile /etc/caddy/Caddyfile
 
 ENTRYPOINT ["docker-entrypoint"]
+CMD [ "frankenphp", "run", "--config", "/etc/caddy/Caddyfile" ]
+
+FROM base AS dev
+
+ENV APP_ENV=dev XDEBUG_MODE=off
+ENV PHP_CS_FIXER_IGNORE_ENV=1
+
+RUN mv "$PHP_INI_DIR/php.ini-development" "$PHP_INI_DIR/php.ini"
+
+RUN set -eux; \
+	install-php-extensions \
+		xdebug \
+	;
+
+COPY --link conf.d/app.dev.ini $PHP_INI_DIR/conf.d/
+
+CMD [ "frankenphp", "run", "--config", "/etc/caddy/Caddyfile", "--watch" ]
