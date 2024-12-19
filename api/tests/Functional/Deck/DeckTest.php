@@ -19,7 +19,7 @@ final class DeckTest extends ApiTestCase
     public function testGetDeckCollectionWhenNotAuthenticated(): void
     {
         $client = self::createClient();
-        $client->request('GET', '/api/decks');
+        $client->request('GET', '/decks');
 
         self::assertResponseStatusCodeSame(401);
     }
@@ -30,7 +30,7 @@ final class DeckTest extends ApiTestCase
 
         $client = self::createClient();
         $client->loginUser($deck->owner);
-        $client->request('GET', '/api/decks');
+        $client->request('GET', '/decks');
 
         self::assertResponseStatusCodeSame(200);
         self::assertJsonEquals([
@@ -45,7 +45,7 @@ final class DeckTest extends ApiTestCase
     public function testGetDeckItemWithInvalidId(): void
     {
         $client = self::createClient();
-        $client->request('GET', '/api/decks/1');
+        $client->request('GET', '/decks/1');
 
         self::assertResponseStatusCodeSame(404);
     }
@@ -55,7 +55,7 @@ final class DeckTest extends ApiTestCase
         $deck = DeckFactory::createOne();
 
         $client = self::createClient();
-        $client->request('GET', "/api/decks/{$deck->getId()}");
+        $client->request('GET', "/decks/{$deck->getId()}");
 
         self::assertResponseStatusCodeSame(401);
     }
@@ -67,7 +67,7 @@ final class DeckTest extends ApiTestCase
 
         $client = self::createClient();
         $client->loginUser($user);
-        $client->request('GET', "/api/decks/{$deck->getId()}");
+        $client->request('GET', "/decks/{$deck->getId()}");
 
         self::assertResponseStatusCodeSame(403);
     }
@@ -78,7 +78,7 @@ final class DeckTest extends ApiTestCase
 
         $client = self::createClient();
         $client->loginUser($deck->owner);
-        $client->request('GET', "/api/decks/{$deck->getId()}");
+        $client->request('GET', "/decks/{$deck->getId()}");
 
         self::assertResponseStatusCodeSame(200);
         self::assertJsonEquals([
@@ -91,7 +91,7 @@ final class DeckTest extends ApiTestCase
     public function testPostDeckWhenNotAuthenticated(): void
     {
         $client = self::createClient();
-        $client->request('POST', '/api/decks', [
+        $client->request('POST', '/decks', [
             'json' => [],
         ]);
 
@@ -106,7 +106,7 @@ final class DeckTest extends ApiTestCase
 
         $client = self::createClient();
         $client->loginUser($deck->owner);
-        $client->request('POST', '/api/decks', [
+        $client->request('POST', '/decks', [
             'json' => [
                 'name' => 'foo',
             ],
@@ -129,7 +129,7 @@ final class DeckTest extends ApiTestCase
 
         $client = self::createClient();
         $client->loginUser($user);
-        $client->request('POST', '/api/decks', [
+        $client->request('POST', '/decks', [
             'json' => [
                 'name' => 'foo',
             ],
@@ -151,7 +151,7 @@ final class DeckTest extends ApiTestCase
         $deck = DeckFactory::createOne();
 
         $client = self::createClient();
-        self::patch($client, "/api/decks/{$deck->getId()}", []);
+        self::patch($client, "/decks/{$deck->getId()}", []);
 
         self::assertResponseStatusCodeSame(401);
     }
@@ -163,7 +163,7 @@ final class DeckTest extends ApiTestCase
 
         $client = self::createClient();
         $client->loginUser($user);
-        self::patch($client, "/api/decks/{$deck->getId()}", []);
+        self::patch($client, "/decks/{$deck->getId()}", []);
 
         self::assertResponseStatusCodeSame(403);
     }
@@ -171,7 +171,7 @@ final class DeckTest extends ApiTestCase
     public function testPatchDeckWithInvalidId(): void
     {
         $client = self::createClient();
-        self::patch($client, '/api/decks/1', []);
+        self::patch($client, '/decks/1', []);
 
         self::assertResponseStatusCodeSame(404);
     }
@@ -192,13 +192,13 @@ final class DeckTest extends ApiTestCase
 
         $client = self::createClient();
         $client->loginUser($user);
-        self::patch($client, "/api/decks/{$deck->getId()}", [
+        self::patch($client, "/decks/{$deck->getId()}", [
             'name' => 'foo',
         ]);
 
         self::assertResponseStatusCodeSame(200);
 
-        self::patch($client, "/api/decks/{$deck->getId()}", [
+        self::patch($client, "/decks/{$deck->getId()}", [
             'name' => 'bar',
         ]);
 
@@ -221,7 +221,7 @@ final class DeckTest extends ApiTestCase
 
         $client = self::createClient();
         $client->loginUser($deck->owner);
-        self::patch($client, "/api/decks/{$deck->getId()}", [
+        self::patch($client, "/decks/{$deck->getId()}", [
             'name' => 'bar',
         ]);
 
@@ -238,7 +238,7 @@ final class DeckTest extends ApiTestCase
         $deck = DeckFactory::createOne();
 
         $client = self::createClient();
-        $client->request('DELETE', "/api/decks/{$deck->getId()}");
+        $client->request('DELETE', "/decks/{$deck->getId()}");
 
         self::assertResponseStatusCodeSame(401);
         DeckFactory::assert()->exists($deck->getId());
@@ -251,7 +251,7 @@ final class DeckTest extends ApiTestCase
 
         $client = self::createClient();
         $client->loginUser($user);
-        $client->request('DELETE', "/api/decks/{$deck->getId()}");
+        $client->request('DELETE', "/decks/{$deck->getId()}");
 
         self::assertResponseStatusCodeSame(403);
         DeckFactory::assert()->exists($deck->getId());
@@ -260,7 +260,7 @@ final class DeckTest extends ApiTestCase
     public function testDeleteDeckWithInvalidId(): void
     {
         $client = self::createClient();
-        $client->request('DELETE', '/api/decks/1');
+        $client->request('DELETE', '/decks/1');
 
         self::assertResponseStatusCodeSame(404);
     }
@@ -271,7 +271,7 @@ final class DeckTest extends ApiTestCase
 
         $client = self::createClient();
         $client->loginUser($deck->owner);
-        $client->request('DELETE', "/api/decks/{$deck->getId()}");
+        $client->request('DELETE', "/decks/{$deck->getId()}");
 
         self::assertResponseStatusCodeSame(204);
         DeckFactory::assert()->notExists($deck->getId());

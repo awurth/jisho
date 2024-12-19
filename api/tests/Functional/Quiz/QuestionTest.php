@@ -25,7 +25,7 @@ final class QuestionTest extends ApiTestCase
         $quiz = QuizFactory::createOne();
 
         $client = self::createClient();
-        $client->request('POST', "/api/quizzes/{$quiz->getId()}/questions", [
+        $client->request('POST', "/quizzes/{$quiz->getId()}/questions", [
             'json' => [],
         ]);
 
@@ -39,7 +39,7 @@ final class QuestionTest extends ApiTestCase
 
         $client = self::createClient();
         $client->loginUser($user);
-        $client->request('POST', "/api/quizzes/{$quiz->getId()}/questions", [
+        $client->request('POST', "/quizzes/{$quiz->getId()}/questions", [
             'json' => [],
         ]);
 
@@ -54,7 +54,7 @@ final class QuestionTest extends ApiTestCase
 
         $client = self::createClient();
         $client->loginUser($quiz->deck->owner);
-        $client->request('POST', "/api/quizzes/{$quiz->getId()}/questions", [
+        $client->request('POST', "/quizzes/{$quiz->getId()}/questions", [
             'json' => [],
         ]);
 
@@ -80,7 +80,7 @@ final class QuestionTest extends ApiTestCase
 
         $client = self::createClient();
         $client->loginUser($quiz->deck->owner);
-        $client->request('POST', "/api/quizzes/{$quiz->getId()}/questions", [
+        $client->request('POST', "/quizzes/{$quiz->getId()}/questions", [
             'json' => [],
         ]);
 
@@ -108,7 +108,7 @@ final class QuestionTest extends ApiTestCase
 
         $client = self::createClient();
         $client->loginUser($quiz->deck->owner);
-        $client->request('POST', "/api/quizzes/{$quiz->getId()}/questions", [
+        $client->request('POST', "/quizzes/{$quiz->getId()}/questions", [
             'json' => [],
         ]);
 
@@ -133,7 +133,7 @@ final class QuestionTest extends ApiTestCase
 
         $client = self::createClient();
         $client->loginUser($quiz->deck->owner);
-        $client->request('POST', "/api/quizzes/{$quiz->getId()}/questions", [
+        $client->request('POST', "/quizzes/{$quiz->getId()}/questions", [
             'json' => [],
         ]);
 
@@ -151,7 +151,7 @@ final class QuestionTest extends ApiTestCase
         $question = QuestionFactory::createOne();
 
         $client = self::createClient();
-        self::patch($client, "/api/quizzes/{$question->quiz->getId()}/questions/{$question->getId()}", []);
+        self::patch($client, "/quizzes/{$question->quiz->getId()}/questions/{$question->getId()}", []);
 
         self::assertResponseStatusCodeSame(401);
     }
@@ -161,7 +161,7 @@ final class QuestionTest extends ApiTestCase
         $quiz = QuizFactory::createOne();
 
         $client = self::createClient();
-        self::patch($client, "/api/quizzes/{$quiz->getId()}/questions/1", []);
+        self::patch($client, "/quizzes/{$quiz->getId()}/questions/1", []);
 
         self::assertResponseStatusCodeSame(404);
     }
@@ -173,7 +173,7 @@ final class QuestionTest extends ApiTestCase
 
         $client = self::createClient();
         $client->loginUser($user);
-        self::patch($client, "/api/quizzes/{$question->quiz->getId()}/questions/{$question->getId()}", []);
+        self::patch($client, "/quizzes/{$question->quiz->getId()}/questions/{$question->getId()}", []);
 
         self::assertResponseStatusCodeSame(403);
     }
@@ -189,7 +189,7 @@ final class QuestionTest extends ApiTestCase
 
         $client = self::createClient();
         $client->loginUser($quiz->deck->owner);
-        self::patch($client, "/api/quizzes/{$question->quiz->getId()}/questions/{$question->getId()}", []);
+        self::patch($client, "/quizzes/{$question->quiz->getId()}/questions/{$question->getId()}", []);
 
         self::assertResponseStatusCodeSame(423);
         self::assertJsonContains([
@@ -207,7 +207,7 @@ final class QuestionTest extends ApiTestCase
 
         $client = self::createClient();
         $client->loginUser($question->quiz->deck->owner);
-        self::patch($client, "/api/quizzes/{$question->quiz->getId()}/questions/{$question->getId()}", []);
+        self::patch($client, "/quizzes/{$question->quiz->getId()}/questions/{$question->getId()}", []);
 
         self::assertResponseStatusCodeSame(423);
         self::assertJsonContains([
@@ -229,7 +229,7 @@ final class QuestionTest extends ApiTestCase
 
         $client = self::createClient();
         $client->loginUser($question->quiz->deck->owner);
-        self::patch($client, "/api/quizzes/{$question->quiz->getId()}/questions/{$question->getId()}", [
+        self::patch($client, "/quizzes/{$question->quiz->getId()}/questions/{$question->getId()}", [
             'json' => [
                 'answer' => 'wrong',
             ],

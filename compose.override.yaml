@@ -1,49 +1,14 @@
 services:
-  traefik:
-    image: traefik:v3.2
-    ports:
-      - '80:80'
-      - '443:443'
-      - '8080:8080'
-    command:
-      - '--api.insecure=true'
-      - '--serverstransport.insecureskipverify=true'
-      - '--providers.docker=true'
-      - '--providers.docker.exposedbydefault=false'
-      - '--entrypoints.web.address=:80'
-      - '--entrypoints.websecure.address=:443'
-      - '--entryPoints.websecure.proxyProtocol.insecure'
-      - '--entrypoints.web.http.redirections.entryPoint.to=websecure'
-      - '--entrypoints.web.http.redirections.entryPoint.scheme=https'
-      - '--entrypoints.web.http.redirections.entrypoint.priority=1000'
-      - '--providers.file.filename=/etc/traefik/traefik_certs.yml'
-    volumes:
-      - .docker/nginx/certs:/certs
-      - .docker/traefik/certs.yml:/etc/traefik/traefik_certs.yml
-      - /var/run/docker.sock:/var/run/docker.sock
-    restart: unless-stopped
-
-  nginx:
-    volumes:
-      - .docker/nginx/certs:/etc/nginx/certs
-    labels:
-      - "traefik.enable=true"
-      - "traefik.http.routers.nginx.rule=Host(`jisho-local.fr`) && PathPrefix(`/api`) || (PathPrefix(`/bundles`) || PathPrefix(`/_wdt`) || PathPrefix(`/_profiler`) || PathPrefix(`/favicon.ico`))"
-      - "traefik.http.routers.nginx.entrypoints=websecure"
-      - "traefik.http.routers.nginx.tls=true"
-      - "traefik.http.routers.nginx.service=nginx"
-      - "traefik.http.services.nginx.loadbalancer.server.port=443"
-      - "traefik.http.services.nginx.loadbalancer.server.scheme=https"
-    hostname: jisho-local.fr
-
   php:
+    build:
+      context: .docker/php
+      target: dev
     volumes:
-      - ~/.ssh:/var/www/.ssh:ro
-      - ~/.composer:/var/www/.composer
+      - ./:/jisho
       - .docker/php/conf.d/app.dev.ini:/usr/local/etc/php/conf.d/app.dev.ini:ro
-    # extra_hosts:
+    extra_hosts:
       # Ensure that host.docker.internal is correctly defined on Linux
-      # - host.docker.internal:host-gateway
+      - host.docker.internal:host-gateway
     tty: true
 
   postgres:
@@ -53,13 +18,3 @@ services:
   search:
     ports:
       - "7700:7700"
-
-  node:
-    labels:
-      - "traefik.enable=true"
-      - "traefik.http.routers.node.rule=Host(`jisho-local.fr`)"
-      - "traefik.http.routers.node.entrypoints=websecure"
-      - "traefik.http.routers.node.tls=true"
-      - "traefik.http.routers.node.service=node"
-      - "traefik.http.services.node.loadbalancer.server.port=5173"
-      - "traefik.http.services.node.loadbalancer.server.scheme=https"

@@ -17,7 +17,7 @@ final class EntryTest extends ApiTestCase
     public function testGetEntryItemWithInvalidId(): void
     {
         $client = self::createClient();
-        $client->request('GET', '/api/dictionary/entries/1');
+        $client->request('GET', '/dictionary/entries/1');
 
         self::assertResponseStatusCodeSame(404);
     }
@@ -27,7 +27,7 @@ final class EntryTest extends ApiTestCase
         $entry = EntryFactory::new()->single()->create();
 
         $client = self::createClient();
-        $client->request('GET', "/api/dictionary/entries/{$entry->getId()}");
+        $client->request('GET', "/dictionary/entries/{$entry->getId()}");
 
         self::assertResponseStatusCodeSame(200);
         self::assertJsonEquals([
