@@ -112,11 +112,12 @@ final class QuestionTest extends ApiTestCase
             'json' => [],
         ]);
 
+        self::assertResponseStatusCodeSame(201);
+
         $newQuestion = QuestionFactory::find([
             'card' => $newQuestionCard,
         ]);
 
-        self::assertResponseStatusCodeSame(201);
         self::assertNotSame((string) $newQuestion->getId(), (string) $answeredQuestion->getId());
         self::assertJsonEquals([
             'id' => (string) $newQuestion->getId(),
@@ -137,9 +138,10 @@ final class QuestionTest extends ApiTestCase
             'json' => [],
         ]);
 
+        self::assertResponseStatusCodeSame(201);
+
         $question = QuestionFactory::first();
 
-        self::assertResponseStatusCodeSame(201);
         self::assertJsonEquals([
             'id' => (string) $question->getId(),
             'createdAt' => $question->createdAt->format(DateTimeInterface::ATOM),

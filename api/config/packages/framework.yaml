@@ -2,9 +2,6 @@
 framework:
     secret: '%env(APP_SECRET)%'
 
-    session:
-        cookie_lifetime: 86400
-
 when@test:
     framework:
         test: true

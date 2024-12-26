@@ -12,10 +12,13 @@ security:
         connect:
             pattern: ^/connect
             stateless: true
-        api:
+        main:
             provider: app_user_provider
             stateless: true
             jwt: ~
+        
+    access_control:
+        - { path: ^/connect, roles: PUBLIC_ACCESS }
 
 when@test:
     security:
