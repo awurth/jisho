@@ -37,8 +37,7 @@ final class QuestionTest extends ApiTestCase
         $user = UserFactory::createOne();
         $quiz = QuizFactory::createOne();
 
-        $client = self::createClient();
-        $client->loginUser($user);
+        $client = $this->createAuthenticatedClient($user);
         $client->request('POST', "/quizzes/{$quiz->getId()}/questions", [
             'json' => [],
         ]);
@@ -52,8 +51,7 @@ final class QuestionTest extends ApiTestCase
             'endedAt' => new DateTimeImmutable(),
         ]);
 
-        $client = self::createClient();
-        $client->loginUser($quiz->deck->owner);
+        $client = $this->createAuthenticatedClient($quiz->deck->owner);
         $client->request('POST', "/quizzes/{$quiz->getId()}/questions", [
             'json' => [],
         ]);
@@ -78,8 +76,7 @@ final class QuestionTest extends ApiTestCase
             'answeredAt' => null,
         ]);
 
-        $client = self::createClient();
-        $client->loginUser($quiz->deck->owner);
+        $client = $this->createAuthenticatedClient($quiz->deck->owner);
         $client->request('POST', "/quizzes/{$quiz->getId()}/questions", [
             'json' => [],
         ]);
@@ -106,8 +103,7 @@ final class QuestionTest extends ApiTestCase
             'answeredAt' => new DateTimeImmutable(),
         ]);
 
-        $client = self::createClient();
-        $client->loginUser($quiz->deck->owner);
+        $client = $this->createAuthenticatedClient($quiz->deck->owner);
         $client->request('POST', "/quizzes/{$quiz->getId()}/questions", [
             'json' => [],
         ]);
@@ -132,8 +128,7 @@ final class QuestionTest extends ApiTestCase
             'deck' => $quiz->deck,
         ]);
 
-        $client = self::createClient();
-        $client->loginUser($quiz->deck->owner);
+        $client = $this->createAuthenticatedClient($quiz->deck->owner);
         $client->request('POST', "/quizzes/{$quiz->getId()}/questions", [
             'json' => [],
         ]);
@@ -173,8 +168,7 @@ final class QuestionTest extends ApiTestCase
         $user = UserFactory::createOne();
         $question = QuestionFactory::createOne();
 
-        $client = self::createClient();
-        $client->loginUser($user);
+        $client = $this->createAuthenticatedClient($user);
         self::patch($client, "/quizzes/{$question->quiz->getId()}/questions/{$question->getId()}", []);
 
         self::assertResponseStatusCodeSame(403);
@@ -189,8 +183,7 @@ final class QuestionTest extends ApiTestCase
             'quiz' => $quiz,
         ]);
 
-        $client = self::createClient();
-        $client->loginUser($quiz->deck->owner);
+        $client = $this->createAuthenticatedClient($quiz->deck->owner);
         self::patch($client, "/quizzes/{$question->quiz->getId()}/questions/{$question->getId()}", []);
 
         self::assertResponseStatusCodeSame(423);
@@ -207,8 +200,7 @@ final class QuestionTest extends ApiTestCase
             'answeredAt' => new DateTimeImmutable(),
         ]);
 
-        $client = self::createClient();
-        $client->loginUser($question->quiz->deck->owner);
+        $client = $this->createAuthenticatedClient($question->quiz->deck->owner);
         self::patch($client, "/quizzes/{$question->quiz->getId()}/questions/{$question->getId()}", []);
 
         self::assertResponseStatusCodeSame(423);
@@ -229,8 +221,7 @@ final class QuestionTest extends ApiTestCase
             'card' => $card,
         ]);
 
-        $client = self::createClient();
-        $client->loginUser($question->quiz->deck->owner);
+        $client = $this->createAuthenticatedClient($question->quiz->deck->owner);
         self::patch($client, "/quizzes/{$question->quiz->getId()}/questions/{$question->getId()}", [
             'json' => [
                 'answer' => 'wrong',

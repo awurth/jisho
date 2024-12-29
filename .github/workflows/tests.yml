@@ -38,12 +38,5 @@ jobs:
                 make env-test
                 make cache-clear
 
-            - name: Cache yarn dependencies
-              id: yarn-cache
-              uses: actions/cache@v4
-              with:
-                  path: node_modules
-                  key: ${{ runner.os }}-${{ hashFiles('**/yarn.lock') }}
-
             - name: Launch PHPUnit tests
               run: make phpunit

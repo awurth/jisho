@@ -30,8 +30,7 @@ final class QuizTest extends ApiTestCase
         $quiz = QuizFactory::createOne();
         QuizFactory::createOne();
 
-        $client = self::createClient();
-        $client->loginUser($quiz->deck->owner);
+        $client = $this->createAuthenticatedClient($quiz->deck->owner);
         $client->request('GET', '/quizzes');
 
         self::assertResponseStatusCodeSame(200);
@@ -68,8 +67,7 @@ final class QuizTest extends ApiTestCase
         $user = UserFactory::createOne();
         $quiz = QuizFactory::createOne();
 
-        $client = self::createClient();
-        $client->loginUser($user);
+        $client = $this->createAuthenticatedClient($user);
         $client->request('GET', "/quizzes/{$quiz->getId()}");
 
         self::assertResponseStatusCodeSame(403);
@@ -79,8 +77,7 @@ final class QuizTest extends ApiTestCase
     {
         $quiz = QuizFactory::createOne();
 
-        $client = self::createClient();
-        $client->loginUser($quiz->deck->owner);
+        $client = $this->createAuthenticatedClient($quiz->deck->owner);
         $client->request('GET', "/quizzes/{$quiz->getId()}");
 
         self::assertResponseStatusCodeSame(200);
@@ -108,8 +105,7 @@ final class QuizTest extends ApiTestCase
         $user = UserFactory::createOne();
         $deck = DeckFactory::createOne();
 
-        $client = self::createClient();
-        $client->loginUser($user);
+        $client = $this->createAuthenticatedClient($user);
         $client->request('POST', '/quizzes', [
             'json' => [
                 'deck' => "/decks/{$deck->getId()}",
@@ -124,8 +120,7 @@ final class QuizTest extends ApiTestCase
     {
         $deck = DeckFactory::createOne();
 
-        $client = self::createClient();
-        $client->loginUser($deck->owner);
+        $client = $this->createAuthenticatedClient($deck->owner);
         $client->request('POST', '/quizzes', [
             'json' => [
                 'deck' => "/decks/{$deck->getId()}",
@@ -167,8 +162,7 @@ final class QuizTest extends ApiTestCase
     {
         $deck = DeckFactory::createOne();
 
-        $client = self::createClient();
-        $client->loginUser($deck->owner);
+        $client = $this->createAuthenticatedClient($deck->owner);
         $client->request('POST', '/quizzes', [
             'json' => [
                 'deck' => "/decks/{$deck->getId()}",
@@ -207,8 +201,7 @@ final class QuizTest extends ApiTestCase
         $user = UserFactory::createOne();
         $quiz = QuizFactory::createOne();
 
-        $client = self::createClient();
-        $client->loginUser($user);
+        $client = $this->createAuthenticatedClient($user);
         $client->request('DELETE', "/quizzes/{$quiz->getId()}");
 
         self::assertResponseStatusCodeSame(403);
@@ -227,8 +220,7 @@ final class QuizTest extends ApiTestCase
     {
         $quiz = QuizFactory::createOne();
 
-        $client = self::createClient();
-        $client->loginUser($quiz->deck->owner);
+        $client = $this->createAuthenticatedClient($quiz->deck->owner);
         $client->request('DELETE', "/quizzes/{$quiz->getId()}");
 
         self::assertResponseStatusCodeSame(204);
