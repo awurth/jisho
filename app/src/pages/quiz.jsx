@@ -34,7 +34,7 @@ export default function Quiz() {
   const tags = searchParams.get("tags")?.split(",").filter(Boolean);
 
   useEffect(() => {
-    axios.get(`/api/decks/${deck.id}/cards`).then(({ data }) => {
+    axios.get(`/decks/${deck.id}/cards`).then(({ data }) => {
       if (data.length === 0) {
         return;
       }

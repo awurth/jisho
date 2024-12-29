@@ -1,7 +1,7 @@
-import axios from "axios";
+import httpClient from "./api/http-client.js";
 import { useUserStore } from "./stores/user.js";
 
-axios.interceptors.request.use(
+httpClient.interceptors.request.use(
   function (config) {
     const token = localStorage.getItem("token");
 
@@ -16,7 +16,7 @@ axios.interceptors.request.use(
   },
 );
 
-axios.interceptors.response.use(
+httpClient.interceptors.response.use(
   function (response) {
     return response;
   },
