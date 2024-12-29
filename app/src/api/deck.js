@@ -1,28 +1,28 @@
-import axios from "axios";
+import httpClient from "./http-client.js";
 
 export async function getDecks() {
-  const { data } = await axios.get("/api/decks");
+  const { data } = await httpClient.get("/decks");
   return data;
 }
 
 export async function getCards(deckId) {
-  const { data } = await axios.get(`/api/decks/${deckId}/cards`);
+  const { data } = await httpClient.get(`/decks/${deckId}/cards`);
   return data;
 }
 
 export async function getTags(deckId) {
-  const { data } = await axios.get(`/api/decks/${deckId}/tags`);
+  const { data } = await httpClient.get(`/decks/${deckId}/tags`);
   return data;
 }
 
 export async function postDeck(deck) {
-  const { data } = await axios.post(`/api/decks`, deck);
+  const { data } = await httpClient.post(`/decks`, deck);
   return data;
 }
 
 export async function postCard(deckId, entryId) {
-  const { data } = await axios.post(`/api/decks/${deckId}/cards`, {
-    entry: `/api/dictionary/entries/${entryId}`,
+  const { data } = await httpClient.post(`/decks/${deckId}/cards`, {
+    entry: `/dictionary/entries/${entryId}`,
   });
   return data;
 }
