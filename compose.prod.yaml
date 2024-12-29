@@ -1,1 +1,5 @@
 services:
+  php:
+    build:
+      context: .docker/php
+      target: prod

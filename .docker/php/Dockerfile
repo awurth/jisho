@@ -49,3 +49,26 @@ RUN set -eux; \
 COPY --link conf.d/app.dev.ini $PHP_INI_DIR/conf.d/
 
 CMD [ "frankenphp", "run", "--config", "/etc/caddy/Caddyfile", "--watch" ]
+
+FROM base AS prod
+
+ENV APP_ENV=prod
+
+RUN mv "$PHP_INI_DIR/php.ini-production" "$PHP_INI_DIR/php.ini"
+
+COPY --link conf.d/app.prod.ini $PHP_INI_DIR/conf.d/
+
+# prevent the reinstallation of vendors at every changes in the source code
+COPY --link ../../api/composer.* ../../api/symfony.* ./
+RUN set -eux; \
+	composer install --no-cache --prefer-dist --no-dev --no-autoloader --no-scripts --no-progress
+
+# copy sources
+COPY --link ./api ./
+
+RUN set -eux; \
+	mkdir -p var/cache var/log; \
+	composer dump-autoload --classmap-authoritative --no-dev; \
+	composer dump-env prod; \
+	composer run-script --no-dev post-install-cmd; \
+	chmod +x bin/console; sync;
