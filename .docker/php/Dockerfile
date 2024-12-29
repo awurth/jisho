@@ -27,9 +27,9 @@ RUN set -eux; \
 # https://getcomposer.org/doc/03-cli.md#composer-allow-superuser
 ENV COMPOSER_ALLOW_SUPERUSER=1
 
-COPY --link conf.d/app.ini $PHP_INI_DIR/conf.d/
-COPY --link --chmod=755 entrypoint.sh /usr/local/bin/docker-entrypoint
-COPY --link Caddyfile /etc/caddy/Caddyfile
+COPY --link .docker/php/conf.d/app.ini $PHP_INI_DIR/conf.d/
+COPY --link --chmod=755 .docker/php/entrypoint.sh /usr/local/bin/docker-entrypoint
+COPY --link .docker/php/Caddyfile /etc/caddy/Caddyfile
 
 ENTRYPOINT ["docker-entrypoint"]
 CMD [ "frankenphp", "run", "--config", "/etc/caddy/Caddyfile" ]
@@ -46,7 +46,7 @@ RUN set -eux; \
 		xdebug \
 	;
 
-COPY --link conf.d/app.dev.ini $PHP_INI_DIR/conf.d/
+COPY --link .docker/php/conf.d/app.dev.ini $PHP_INI_DIR/conf.d/
 
 CMD [ "frankenphp", "run", "--config", "/etc/caddy/Caddyfile", "--watch" ]
 
@@ -56,15 +56,15 @@ ENV APP_ENV=prod
 
 RUN mv "$PHP_INI_DIR/php.ini-production" "$PHP_INI_DIR/php.ini"
 
-COPY --link conf.d/app.prod.ini $PHP_INI_DIR/conf.d/
+COPY --link .docker/php/conf.d/app.prod.ini $PHP_INI_DIR/conf.d/
 
 # prevent the reinstallation of vendors at every changes in the source code
-COPY --link ../../api/composer.* ../../api/symfony.* ./
+COPY --link api/composer.* ../../api/symfony.* ./
 RUN set -eux; \
 	composer install --no-cache --prefer-dist --no-dev --no-autoloader --no-scripts --no-progress
 
 # copy sources
-COPY --link ../../api ./
+COPY --link api ./
 
 RUN set -eux; \
 	mkdir -p var/cache var/log; \
