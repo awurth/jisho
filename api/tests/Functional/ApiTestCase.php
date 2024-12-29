@@ -6,7 +6,9 @@ namespace App\Tests\Functional;
 
 use ApiPlatform\Symfony\Bundle\Test\ApiTestCase as BaseApiTestCase;
 use ApiPlatform\Symfony\Bundle\Test\Client;
+use Lexik\Bundle\JWTAuthenticationBundle\Encoder\JWTEncoderInterface;
 use Override;
+use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Contracts\HttpClient\ResponseInterface;
 use function array_replace_recursive;
 
@@ -40,6 +42,19 @@ abstract class ApiTestCase extends BaseApiTestCase
                 'Content-Type' => 'application/merge-patch+json',
             ],
             'json' => $json,
+        ]);
+    }
+
+    public function createAuthenticatedClient(UserInterface $user): Client
+    {
+        /** @var JWTEncoderInterface $encoder */
+        $encoder = self::getContainer()->get(JWTEncoderInterface::class);
+
+        return self::createClient(defaultOptions: [
+            'auth_bearer' => $encoder->encode([
+                'roles' => $user->getRoles(),
+                'username' => $user->getUserIdentifier(),
+            ]),
         ]);
     }
 }
