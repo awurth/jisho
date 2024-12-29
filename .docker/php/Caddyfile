@@ -1,8 +1,6 @@
 {
 	{$CADDY_GLOBAL_OPTIONS}
 
-	acme_ca https://acme-staging-v02.api.letsencrypt.org/directory
-
 	frankenphp {
 		{$FRANKENPHP_CONFIG}
 	}
