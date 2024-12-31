@@ -83,3 +83,15 @@ env-test: compose.yaml
 ## Import the JMDict XML file
 import: api/bin/console
 	@$(DOCKER_COMPOSE_EXEC_PHP) bin/console app:import -vv
+
+## Compress the dictionary import file
+compress-dictionary-import-file: api/bin/tools
+	@$(DOCKER_COMPOSE_EXEC_PHP) rm -rf data/JMdict.xml.gz
+	@$(DOCKER_COMPOSE_EXEC_PHP) sh bin/tools compress_dictionary
+	@$(DOCKER_COMPOSE_EXEC_PHP) rm -rf data/JMdict.xml
+	@echo "${GREEN}Dictionary import file compressed"
+
+## Decompress the dictionary import file
+decompress-dictionary-import-file: api/bin/tools
+	@$(DOCKER_COMPOSE_EXEC_PHP) sh bin/tools decompress_dictionary
+	@echo "${GREEN}Dictionary import file decompressed"

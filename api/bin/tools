@@ -1,0 +1,11 @@
+#!/bin/sh
+
+compress_dictionary() {
+    gzip -c "data/JMdict.xml" > "data/JMdict.xml.gz"
+}
+
+decompress_dictionary() {
+    gzip -d "data/JMdict.xml.gz"
+}
+
+$1;
