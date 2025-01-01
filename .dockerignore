@@ -29,5 +29,7 @@ api/.env.*.local
 api/.env.local
 api/.env.local.php
 api/.env.test
+api/phpstan.dist.neon
+api/rector.php
 .github/
 .editorconfig
