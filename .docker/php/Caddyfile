@@ -6,7 +6,7 @@
 	}
 }
 
-{$CADDY_EXTRA_CONFIG}
+{$CADDY_EXTRA_CONFIG} 
 
 {$SERVER_NAME:localhost} {
 	log {
@@ -20,7 +20,7 @@
 	}
 
 	root /jisho/api/public
-	encode zstd br gzip
+	encode zstd br gzip 
 
 	{$CADDY_SERVER_EXTRA_DIRECTIVES}
 
