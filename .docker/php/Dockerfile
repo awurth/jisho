@@ -26,6 +26,7 @@ RUN set -eux; \
 
 # https://getcomposer.org/doc/03-cli.md#composer-allow-superuser
 ENV COMPOSER_ALLOW_SUPERUSER=1
+ENV PHP_CS_FIXER_IGNORE_ENV=1
 
 COPY --link .docker/php/conf.d/app.ini $PHP_INI_DIR/conf.d/
 COPY --link --chmod=755 .docker/php/entrypoint.sh /usr/local/bin/docker-entrypoint
@@ -37,8 +38,6 @@ CMD [ "frankenphp", "run", "--config", "/etc/caddy/Caddyfile" ]
 FROM base AS dev
 
 ENV APP_ENV=dev XDEBUG_MODE=off
-ENV PHP_CS_FIXER_IGNORE_ENV=1
-
 RUN mv "$PHP_INI_DIR/php.ini-development" "$PHP_INI_DIR/php.ini"
 
 RUN set -eux; \
