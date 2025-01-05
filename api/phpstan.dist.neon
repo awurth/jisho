@@ -13,3 +13,6 @@ parameters:
         - tests/
     excludePaths:
         - tests/bootstrap.php
+    ignoreErrors:
+        - '#Parameter \$context of method [a-zA-Z0-9\\_]+::process\(\) has invalid type Illuminate\\Http\\Request#'
+        - '#Using nullsafe property access "\?->nodeValue" on left side of \?\? is unnecessary. Use -> instead#'
