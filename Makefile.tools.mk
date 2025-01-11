@@ -23,7 +23,7 @@ php-cs-fixer: api/.php-cs-fixer.dist.php
 
 ## Execute PHPStan
 phpstan: api/phpstan.dist.neon
-	$(DOCKER_COMPOSE_EXEC_PHP) vendor/bin/phpstan
+	$(DOCKER_COMPOSE_EXEC_PHP) vendor/bin/phpstan --memory-limit=1G
 
 ## Execute Prettier
 prettier: app/.prettierignore
