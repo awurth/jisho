@@ -1,8 +1,10 @@
 <?php
 
+declare(strict_types=1);
+
 use PhpCsFixer\Runner\Parallel\ParallelConfig;
 
-$finder = (new PhpCsFixer\Finder())
+$finder = new PhpCsFixer\Finder()
     ->in(__DIR__)
     ->exclude('var')
     ->exclude('config')
@@ -11,7 +13,7 @@ $finder = (new PhpCsFixer\Finder())
     ->notPath('tests/bootstrap.php')
 ;
 
-return (new PhpCsFixer\Config())
+return new PhpCsFixer\Config()
     ->setParallelConfig(new ParallelConfig())
     ->setRiskyAllowed(true)
     ->setRules([

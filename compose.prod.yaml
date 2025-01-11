@@ -1,4 +1,0 @@
-services:
-  php:
-    build:
-      target: prod

@@ -3,6 +3,7 @@ services:
     build:
         context: .
         dockerfile: .docker/php/Dockerfile
+        target: dev
     environment:
       SERVER_NAME: ${SERVER_NAME:-api.jisho.localhost}, php:80
     volumes:
