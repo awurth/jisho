@@ -34,7 +34,7 @@ dump-database: .docker/postgres/dump
 	@echo "${GREEN}Database dumped${GREEN}"
 
 ## Restore the database
-restore-database: .docker/postgres/dump/dump.sql
+restore-database: .docker/postgres/dump/dump.sql bootstrap-database
 	@$(DOCKER_COMPOSE_EXEC_POSTGRES) psql -U app -d app -f /var/lib/postgresql/dump/dump.sql
 	@echo "${GREEN}Database restored${GREEN}"
 

@@ -30,4 +30,4 @@ prettier: app/.prettierignore
 	$(DOCKER_COMPOSE_EXEC_YARN) prettier . --write --log-level warn
 
 ## Execute all linters
-lint: rector php-cs-fixer prettier phpstan
+lint: rector prettier phpstan

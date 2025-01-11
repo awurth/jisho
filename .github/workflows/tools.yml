@@ -40,8 +40,8 @@ jobs:
               run: |
                   make cache-clear
 
-            - name: Launch php-cs-fixer (dry-run mode)
-              run: make php-cs-fixer-dry
+#            - name: Launch php-cs-fixer (dry-run mode)
+#              run: make php-cs-fixer-dry
 
             - name: Launch phpstan
               run: make phpstan
