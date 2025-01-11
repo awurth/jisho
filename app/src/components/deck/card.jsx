@@ -45,7 +45,7 @@ export default function Card({ entry, ...props }) {
       {entry.senses.length > 1 && (
         <div className="text-left text-sm text-gray-400 font-semibold">
           <button onClick={onSensesToggleButtonClick}>
-            Afficher {sensesShown ? "moins" : "plus"}
+            Show {sensesShown ? "less" : "more"}
           </button>
         </div>
       )}

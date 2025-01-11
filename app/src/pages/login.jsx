@@ -26,8 +26,7 @@ export default function Login() {
       />
       <h1 className="text-4xl font-semibold text-white mb-5">Jisho.fr</h1>
       <p className="text-white font-semibold px-10 mb-5 text-center">
-        Crée ton propre dictionnaire Japonais et améliore ton vocabulaire à ton
-        rythme à l'aide de quiz personnalisés !
+        Create your own Japanese dictionary and improve your vocabulary at your own pace with personalized quizzes!
       </p>
       <GoogleLogin
         onSuccess={(credentialResponse) => {

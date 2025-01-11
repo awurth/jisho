@@ -52,7 +52,7 @@ export default function Entry() {
         className="px-3 py-2"
         onClick={() => mutation.mutate({ deckId: activeDeck.id, entryId: id })}
       >
-        Ajouter à mon jeu
+        Add to deck
       </Button>
     </>
   );

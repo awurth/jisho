@@ -1,5 +1,5 @@
 import { faCircleQuestion, faUser } from "@fortawesome/free-regular-svg-icons";
-import { faHome, faPlus, faSearch } from "@fortawesome/free-solid-svg-icons";
+import { faHome, faSearch } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import clsx from "clsx";
 import { useCallback } from "react";
@@ -22,13 +22,13 @@ export default function TabBar() {
         <li>
           <NavLink to="/" className={itemClassName}>
             <FontAwesomeIcon icon={faHome} className="mb-1" />
-            <span className="text-xs">Accueil</span>
+            <span className="text-xs">Home</span>
           </NavLink>
         </li>
         <li>
           <NavLink to="/search" className={itemClassName}>
             <FontAwesomeIcon icon={faSearch} className="mb-1" />
-            <span className="text-xs">Recherche</span>
+            <span className="text-xs">Search</span>
           </NavLink>
         </li>
         <li>
@@ -40,7 +40,7 @@ export default function TabBar() {
         <li>
           <NavLink to="/account" className={itemClassName}>
             <FontAwesomeIcon icon={faUser} className="mb-1" />
-            <span className="text-xs">Compte</span>
+            <span className="text-xs">Account</span>
           </NavLink>
         </li>
       </ul>

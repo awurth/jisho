@@ -14,7 +14,7 @@ export default function Account() {
 
   return (
     <>
-      <Button className="w-full py-4">Déconnexion</Button>
+      <Button className="w-full py-4">Log out</Button>
     </>
   );
 }

@@ -11,13 +11,13 @@ export default function Home() {
     return (
       <div className="text-center mt-20">
         <p className="text-white mb-3">
-          Vous n'avez pas encore de jeu de cartes
+          You don't have a deck of cards yet
         </p>
         <Link
           to="/new-deck"
           className="inline-block bg-primary-500 border-b-4 border-primary-600 rounded-xl text-white font-semibold px-5 py-3"
         >
-          Créer un jeu de cartes
+          Create a deck of cards
         </Link>
       </div>
     );
@@ -36,13 +36,13 @@ export default function Home() {
     return (
       <div className="text-center mt-20">
         <p className="text-white mb-3">
-          Vous n'avez pas encore ajouté de cartes à votre jeu
+          You haven't added any cards to your deck yet
         </p>
         <Link
           to="/search"
           className="inline-block bg-primary-500 border-b-4 border-primary-600 rounded-xl text-white font-semibold px-5 py-3"
         >
-          Ajouter des mots
+          Add cards
         </Link>
       </div>
     );

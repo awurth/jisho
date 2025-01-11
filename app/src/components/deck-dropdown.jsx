@@ -36,7 +36,7 @@ export default function DeckDropdown() {
         <Menu.Item className="px-4 py-2 hover:bg-gray-100 rounded-md cursor-pointer whitespace-nowrap">
           <div>
             <FontAwesomeIcon icon={faPlus} className="mr-1" />
-            Nouveau
+            New
           </div>
         </Menu.Item>
       </Menu.Items>

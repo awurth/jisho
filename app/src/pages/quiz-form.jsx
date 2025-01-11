@@ -28,7 +28,7 @@ export default function QuizForm() {
 
   return (
     <>
-      <h1 className="text-xl text-white font-semibold mb-2">Nouveau quiz</h1>
+      <h1 className="text-xl text-white font-semibold mb-2">New quiz</h1>
       {/*<label className="text-white font-semibold">Tags</label>*/}
       {/*<Tags*/}
       {/*  options={existingTags.map((tag) => tag.name)}*/}
@@ -37,7 +37,7 @@ export default function QuizForm() {
       {/*  className="mt-1 mb-2"*/}
       {/*/>*/}
       <Button onClick={onPlayClick} className="py-2 w-full">
-        Jouer
+        Play
       </Button>
     </>
   );
