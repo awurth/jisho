@@ -12,7 +12,7 @@ final readonly class DeckDataTransformer
     public function transformEntityToApiResource(DeckEntity $entity): Deck
     {
         $deck = new Deck();
-        $deck->id = $entity->getId();
+        $deck->id = $entity->id;
         $deck->owner = $entity->owner;
         $deck->name = $entity->name;
         $deck->createdAt = $entity->createdAt;

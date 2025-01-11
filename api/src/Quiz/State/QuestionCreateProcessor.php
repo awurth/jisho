@@ -63,11 +63,11 @@ final readonly class QuestionCreateProcessor implements ProcessorInterface
         }
 
         $quizQuestions = $this->questionRepository->findBy(['quiz' => $quizEntity]);
-        $quizCardsIds = map($quizQuestions, static fn (QuestionEntity $questionEntity): Uuid => $questionEntity->card->getId());
+        $quizCardsIds = map($quizQuestions, static fn (QuestionEntity $questionEntity): Uuid => $questionEntity->card->id);
 
         $question = new QuestionEntity();
         $question->quiz = $quizEntity;
-        $question->card = $this->cardRepository->getRandomCard($quizEntity->deck->getId(), ...$quizCardsIds);
+        $question->card = $this->cardRepository->getRandomCard($quizEntity->deck->id, ...$quizCardsIds);
 
         $quizEntity->startedAt = $question->createdAt;
 

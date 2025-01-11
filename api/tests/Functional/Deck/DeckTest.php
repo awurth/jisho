@@ -34,7 +34,7 @@ final class DeckTest extends ApiTestCase
         self::assertResponseStatusCodeSame(200);
         self::assertJsonEquals([
             [
-                'id' => (string) $deck->getId(),
+                'id' => (string) $deck->id,
                 'name' => $deck->name,
                 'createdAt' => $deck->createdAt->format(DateTimeInterface::ATOM),
             ],
@@ -54,7 +54,7 @@ final class DeckTest extends ApiTestCase
         $deck = DeckFactory::createOne();
 
         $client = self::createClient();
-        $client->request('GET', "/decks/{$deck->getId()}");
+        $client->request('GET', "/decks/{$deck->id}");
 
         self::assertResponseStatusCodeSame(401);
     }
@@ -65,7 +65,7 @@ final class DeckTest extends ApiTestCase
         $deck = DeckFactory::createOne();
 
         $client = $this->createAuthenticatedClient($user);
-        $client->request('GET', "/decks/{$deck->getId()}");
+        $client->request('GET', "/decks/{$deck->id}");
 
         self::assertResponseStatusCodeSame(403);
     }
@@ -75,11 +75,11 @@ final class DeckTest extends ApiTestCase
         $deck = DeckFactory::createOne();
 
         $client = $this->createAuthenticatedClient($deck->owner);
-        $client->request('GET', "/decks/{$deck->getId()}");
+        $client->request('GET', "/decks/{$deck->id}");
 
         self::assertResponseStatusCodeSame(200);
         self::assertJsonEquals([
-            'id' => (string) $deck->getId(),
+            'id' => (string) $deck->id,
             'name' => $deck->name,
             'createdAt' => $deck->createdAt->format(DateTimeInterface::ATOM),
         ]);
@@ -135,7 +135,7 @@ final class DeckTest extends ApiTestCase
 
         self::assertResponseStatusCodeSame(201);
         self::assertJsonEquals([
-            'id' => (string) $deck->getId(),
+            'id' => (string) $deck->id,
             'name' => 'foo',
             'createdAt' => $deck->createdAt->format(DateTimeInterface::ATOM),
         ]);
@@ -146,7 +146,7 @@ final class DeckTest extends ApiTestCase
         $deck = DeckFactory::createOne();
 
         $client = self::createClient();
-        self::patch($client, "/decks/{$deck->getId()}", []);
+        self::patch($client, "/decks/{$deck->id}", []);
 
         self::assertResponseStatusCodeSame(401);
     }
@@ -157,7 +157,7 @@ final class DeckTest extends ApiTestCase
         $deck = DeckFactory::createOne();
 
         $client = $this->createAuthenticatedClient($user);
-        self::patch($client, "/decks/{$deck->getId()}", []);
+        self::patch($client, "/decks/{$deck->id}", []);
 
         self::assertResponseStatusCodeSame(403);
     }
@@ -185,13 +185,13 @@ final class DeckTest extends ApiTestCase
         ]);
 
         $client = $this->createAuthenticatedClient($user);
-        self::patch($client, "/decks/{$deck->getId()}", [
+        self::patch($client, "/decks/{$deck->id}", [
             'name' => 'foo',
         ]);
 
         self::assertResponseStatusCodeSame(200);
 
-        self::patch($client, "/decks/{$deck->getId()}", [
+        self::patch($client, "/decks/{$deck->id}", [
             'name' => 'bar',
         ]);
 
@@ -213,13 +213,13 @@ final class DeckTest extends ApiTestCase
         ]);
 
         $client = $this->createAuthenticatedClient($deck->owner);
-        self::patch($client, "/decks/{$deck->getId()}", [
+        self::patch($client, "/decks/{$deck->id}", [
             'name' => 'bar',
         ]);
 
         self::assertResponseStatusCodeSame(200);
         self::assertJsonEquals([
-            'id' => (string) $deck->getId(),
+            'id' => (string) $deck->id,
             'name' => 'bar',
             'createdAt' => $deck->createdAt->format(DateTimeInterface::ATOM),
         ]);
@@ -230,10 +230,10 @@ final class DeckTest extends ApiTestCase
         $deck = DeckFactory::createOne();
 
         $client = self::createClient();
-        $client->request('DELETE', "/decks/{$deck->getId()}");
+        $client->request('DELETE', "/decks/{$deck->id}");
 
         self::assertResponseStatusCodeSame(401);
-        DeckFactory::assert()->exists($deck->getId());
+        DeckFactory::assert()->exists($deck->id);
     }
 
     public function testDeleteDeckOfAnotherUser(): void
@@ -242,10 +242,10 @@ final class DeckTest extends ApiTestCase
         $deck = DeckFactory::createOne();
 
         $client = $this->createAuthenticatedClient($user);
-        $client->request('DELETE', "/decks/{$deck->getId()}");
+        $client->request('DELETE', "/decks/{$deck->id}");
 
         self::assertResponseStatusCodeSame(403);
-        DeckFactory::assert()->exists($deck->getId());
+        DeckFactory::assert()->exists($deck->id);
     }
 
     public function testDeleteDeckWithInvalidId(): void
@@ -261,9 +261,9 @@ final class DeckTest extends ApiTestCase
         $deck = DeckFactory::createOne();
 
         $client = $this->createAuthenticatedClient($deck->owner);
-        $client->request('DELETE', "/decks/{$deck->getId()}");
+        $client->request('DELETE', "/decks/{$deck->id}");
 
         self::assertResponseStatusCodeSame(204);
-        DeckFactory::assert()->notExists($deck->getId());
+        DeckFactory::assert()->notExists($deck->id);
     }
 }

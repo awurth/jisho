@@ -36,8 +36,8 @@ final class QuizTest extends ApiTestCase
         self::assertResponseStatusCodeSame(200);
         self::assertJsonEquals([
             [
-                'id' => (string) $quiz->getId(),
-                'deck' => "/decks/{$quiz->deck->getId()}",
+                'id' => (string) $quiz->id,
+                'deck' => "/decks/{$quiz->deck->id}",
                 'maxQuestions' => $quiz->maxQuestions,
                 'createdAt' => $quiz->createdAt->format(DateTimeInterface::ATOM),
             ],
@@ -57,7 +57,7 @@ final class QuizTest extends ApiTestCase
         $quiz = QuizFactory::createOne();
 
         $client = self::createClient();
-        $client->request('GET', "/quizzes/{$quiz->getId()}");
+        $client->request('GET', "/quizzes/{$quiz->id}");
 
         self::assertResponseStatusCodeSame(401);
     }
@@ -68,7 +68,7 @@ final class QuizTest extends ApiTestCase
         $quiz = QuizFactory::createOne();
 
         $client = $this->createAuthenticatedClient($user);
-        $client->request('GET', "/quizzes/{$quiz->getId()}");
+        $client->request('GET', "/quizzes/{$quiz->id}");
 
         self::assertResponseStatusCodeSame(403);
     }
@@ -78,12 +78,12 @@ final class QuizTest extends ApiTestCase
         $quiz = QuizFactory::createOne();
 
         $client = $this->createAuthenticatedClient($quiz->deck->owner);
-        $client->request('GET', "/quizzes/{$quiz->getId()}");
+        $client->request('GET', "/quizzes/{$quiz->id}");
 
         self::assertResponseStatusCodeSame(200);
         self::assertJsonEquals([
-            'id' => (string) $quiz->getId(),
-            'deck' => "/decks/{$quiz->deck->getId()}",
+            'id' => (string) $quiz->id,
+            'deck' => "/decks/{$quiz->deck->id}",
             'maxQuestions' => $quiz->maxQuestions,
             'createdAt' => $quiz->createdAt->format(DateTimeInterface::ATOM),
         ]);
@@ -108,7 +108,7 @@ final class QuizTest extends ApiTestCase
         $client = $this->createAuthenticatedClient($user);
         $client->request('POST', '/quizzes', [
             'json' => [
-                'deck' => "/decks/{$deck->getId()}",
+                'deck' => "/decks/{$deck->id}",
             ],
         ]);
 
@@ -123,7 +123,7 @@ final class QuizTest extends ApiTestCase
         $client = $this->createAuthenticatedClient($deck->owner);
         $client->request('POST', '/quizzes', [
             'json' => [
-                'deck' => "/decks/{$deck->getId()}",
+                'deck' => "/decks/{$deck->id}",
                 'maxQuestions' => 9,
             ],
         ]);
@@ -141,7 +141,7 @@ final class QuizTest extends ApiTestCase
 
         $client->request('POST', '/quizzes', [
             'json' => [
-                'deck' => "/decks/{$deck->getId()}",
+                'deck' => "/decks/{$deck->id}",
                 'maxQuestions' => 101,
             ],
         ]);
@@ -165,7 +165,7 @@ final class QuizTest extends ApiTestCase
         $client = $this->createAuthenticatedClient($deck->owner);
         $client->request('POST', '/quizzes', [
             'json' => [
-                'deck' => "/decks/{$deck->getId()}",
+                'deck' => "/decks/{$deck->id}",
                 'maxQuestions' => 10,
             ],
         ]);
@@ -175,14 +175,14 @@ final class QuizTest extends ApiTestCase
 
         self::assertResponseStatusCodeSame(201);
         self::assertJsonEquals([
-            'id' => (string) $quiz->getId(),
-            'deck' => "/decks/{$deck->getId()}",
+            'id' => (string) $quiz->id,
+            'deck' => "/decks/{$deck->id}",
             'maxQuestions' => 10,
             'createdAt' => $quiz->createdAt->format(DateTimeInterface::ATOM),
         ]);
         self::assertNull($quiz->startedAt);
         self::assertNull($quiz->endedAt);
-        QuizFactory::assert()->exists($quiz->getId());
+        QuizFactory::assert()->exists($quiz->id);
     }
 
     public function testDeleteQuizWhenNotAuthenticated(): void
@@ -190,10 +190,10 @@ final class QuizTest extends ApiTestCase
         $quiz = QuizFactory::createOne();
 
         $client = self::createClient();
-        $client->request('DELETE', "/quizzes/{$quiz->getId()}");
+        $client->request('DELETE', "/quizzes/{$quiz->id}");
 
         self::assertResponseStatusCodeSame(401);
-        QuizFactory::assert()->exists($quiz->getId());
+        QuizFactory::assert()->exists($quiz->id);
     }
 
     public function testDeleteQuizOfAnotherUserDeck(): void
@@ -202,10 +202,10 @@ final class QuizTest extends ApiTestCase
         $quiz = QuizFactory::createOne();
 
         $client = $this->createAuthenticatedClient($user);
-        $client->request('DELETE', "/quizzes/{$quiz->getId()}");
+        $client->request('DELETE', "/quizzes/{$quiz->id}");
 
         self::assertResponseStatusCodeSame(403);
-        QuizFactory::assert()->exists($quiz->getId());
+        QuizFactory::assert()->exists($quiz->id);
     }
 
     public function testDeleteQuizWithInvalidId(): void
@@ -221,9 +221,9 @@ final class QuizTest extends ApiTestCase
         $quiz = QuizFactory::createOne();
 
         $client = $this->createAuthenticatedClient($quiz->deck->owner);
-        $client->request('DELETE', "/quizzes/{$quiz->getId()}");
+        $client->request('DELETE', "/quizzes/{$quiz->id}");
 
         self::assertResponseStatusCodeSame(204);
-        QuizFactory::assert()->notExists($quiz->getId());
+        QuizFactory::assert()->notExists($quiz->id);
     }
 }

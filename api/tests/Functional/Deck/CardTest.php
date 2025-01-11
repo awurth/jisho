@@ -23,7 +23,7 @@ final class CardTest extends ApiTestCase
         $deck = DeckFactory::createOne();
 
         $client = self::createClient();
-        $client->request('GET', "/decks/{$deck->getId()}/cards");
+        $client->request('GET', "/decks/{$deck->id}/cards");
 
         self::assertResponseStatusCodeSame(401);
     }
@@ -37,14 +37,14 @@ final class CardTest extends ApiTestCase
         CardFactory::createOne();
 
         $client = $this->createAuthenticatedClient($card->deck->owner);
-        $client->request('GET', "/decks/{$card->deck->getId()}/cards");
+        $client->request('GET', "/decks/{$card->deck->id}/cards");
 
         self::assertResponseStatusCodeSame(200);
         self::assertJsonEquals([
             [
-                'id' => (string) $card->getId(),
+                'id' => (string) $card->id,
                 'entry' => [
-                    'id' => (string) $card->entry->getId(),
+                    'id' => (string) $card->entry->id,
                     'kanji' => [],
                     'readings' => [],
                     'senses' => [],
@@ -59,7 +59,7 @@ final class CardTest extends ApiTestCase
         $deck = DeckFactory::createOne();
 
         $client = self::createClient();
-        $client->request('GET', "/decks/{$deck->getId()}/cards/1");
+        $client->request('GET', "/decks/{$deck->id}/cards/1");
 
         self::assertResponseStatusCodeSame(404);
     }
@@ -69,7 +69,7 @@ final class CardTest extends ApiTestCase
         $card = CardFactory::createOne();
 
         $client = self::createClient();
-        $client->request('GET', "/decks/{$card->deck->getId()}/cards/{$card->getId()}");
+        $client->request('GET', "/decks/{$card->deck->id}/cards/{$card->id}");
 
         self::assertResponseStatusCodeSame(401);
     }
@@ -80,7 +80,7 @@ final class CardTest extends ApiTestCase
         $card = CardFactory::createOne();
 
         $client = $this->createAuthenticatedClient($user);
-        $client->request('GET', "/decks/{$card->deck->getId()}/cards/{$card->getId()}");
+        $client->request('GET', "/decks/{$card->deck->id}/cards/{$card->id}");
 
         self::assertResponseStatusCodeSame(403);
     }
@@ -92,13 +92,13 @@ final class CardTest extends ApiTestCase
         ]);
 
         $client = $this->createAuthenticatedClient($card->deck->owner);
-        $client->request('GET', "/decks/{$card->deck->getId()}/cards/{$card->getId()}");
+        $client->request('GET', "/decks/{$card->deck->id}/cards/{$card->id}");
 
         self::assertResponseStatusCodeSame(200);
         self::assertJsonEquals([
-            'id' => (string) $card->getId(),
+            'id' => (string) $card->id,
             'entry' => [
-                'id' => (string) $card->entry->getId(),
+                'id' => (string) $card->entry->id,
                 'kanji' => [],
                 'readings' => [],
                 'senses' => [],
@@ -112,7 +112,7 @@ final class CardTest extends ApiTestCase
         $deck = DeckFactory::createOne();
 
         $client = self::createClient();
-        $client->request('POST', "/decks/{$deck->getId()}/cards", [
+        $client->request('POST', "/decks/{$deck->id}/cards", [
             'json' => [],
         ]);
 
@@ -125,7 +125,7 @@ final class CardTest extends ApiTestCase
         $deck = DeckFactory::createOne();
 
         $client = $this->createAuthenticatedClient($user);
-        $client->request('POST', "/decks/{$deck->getId()}/cards", [
+        $client->request('POST', "/decks/{$deck->id}/cards", [
             'json' => [],
         ]);
 
@@ -137,9 +137,9 @@ final class CardTest extends ApiTestCase
         $existingCard = CardFactory::createOne();
 
         $client = $this->createAuthenticatedClient($existingCard->deck->owner);
-        $client->request('POST', "/decks/{$existingCard->deck->getId()}/cards", [
+        $client->request('POST', "/decks/{$existingCard->deck->id}/cards", [
             'json' => [
-                'entry' => "/dictionary/entries/{$existingCard->entry->getId()}",
+                'entry' => "/dictionary/entries/{$existingCard->entry->id}",
             ],
         ]);
 
@@ -160,9 +160,9 @@ final class CardTest extends ApiTestCase
         $deck = DeckFactory::createOne();
 
         $client = $this->createAuthenticatedClient($deck->owner);
-        $client->request('POST', "/decks/{$deck->getId()}/cards", [
+        $client->request('POST', "/decks/{$deck->id}/cards", [
             'json' => [
-                'entry' => "/dictionary/entries/{$entry->getId()}",
+                'entry' => "/dictionary/entries/{$entry->id}",
             ],
         ]);
 
@@ -171,9 +171,9 @@ final class CardTest extends ApiTestCase
 
         self::assertResponseStatusCodeSame(201);
         self::assertJsonEquals([
-            'id' => (string) $card->getId(),
+            'id' => (string) $card->id,
             'entry' => [
-                'id' => (string) $card->entry->getId(),
+                'id' => (string) $card->entry->id,
                 'kanji' => [],
                 'readings' => [],
                 'senses' => [],
@@ -187,10 +187,10 @@ final class CardTest extends ApiTestCase
         $card = CardFactory::createOne();
 
         $client = self::createClient();
-        $client->request('DELETE', "/decks/{$card->deck->getId()}/cards/{$card->getId()}");
+        $client->request('DELETE', "/decks/{$card->deck->id}/cards/{$card->id}");
 
         self::assertResponseStatusCodeSame(401);
-        CardFactory::assert()->exists($card->getId());
+        CardFactory::assert()->exists($card->id);
     }
 
     public function testDeleteCardOfAnotherUserDeck(): void
@@ -199,10 +199,10 @@ final class CardTest extends ApiTestCase
         $card = CardFactory::createOne();
 
         $client = $this->createAuthenticatedClient($user);
-        $client->request('DELETE', "/decks/{$card->deck->getId()}/cards/{$card->getId()}");
+        $client->request('DELETE', "/decks/{$card->deck->id}/cards/{$card->id}");
 
         self::assertResponseStatusCodeSame(403);
-        CardFactory::assert()->exists($card->getId());
+        CardFactory::assert()->exists($card->id);
     }
 
     public function testDeleteDeckWithInvalidId(): void
@@ -210,7 +210,7 @@ final class CardTest extends ApiTestCase
         $deck = DeckFactory::createOne();
 
         $client = self::createClient();
-        $client->request('DELETE', "/decks/{$deck->getId()}/cards/1");
+        $client->request('DELETE', "/decks/{$deck->id}/cards/1");
 
         self::assertResponseStatusCodeSame(404);
     }
@@ -220,9 +220,9 @@ final class CardTest extends ApiTestCase
         $card = CardFactory::createOne();
 
         $client = $this->createAuthenticatedClient($card->deck->owner);
-        $client->request('DELETE', "/decks/{$card->deck->getId()}/cards/{$card->getId()}");
+        $client->request('DELETE', "/decks/{$card->deck->id}/cards/{$card->id}");
 
         self::assertResponseStatusCodeSame(204);
-        CardFactory::assert()->notExists($card->getId());
+        CardFactory::assert()->notExists($card->id);
     }
 }

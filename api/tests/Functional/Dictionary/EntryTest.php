@@ -27,11 +27,11 @@ final class EntryTest extends ApiTestCase
         $entry = EntryFactory::new()->single()->create();
 
         $client = self::createClient();
-        $client->request('GET', "/dictionary/entries/{$entry->getId()}");
+        $client->request('GET', "/dictionary/entries/{$entry->id}");
 
         self::assertResponseStatusCodeSame(200);
         self::assertJsonEquals([
-            'id' => (string) $entry->getId(),
+            'id' => (string) $entry->id,
             'kanji' => [
                 [
                     'value' => $entry->kanjiElements[0]->value,

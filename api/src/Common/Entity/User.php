@@ -19,47 +19,29 @@ class User implements UserInterface
 {
     #[Id]
     #[Column(type: 'uuid')]
-    private Uuid $id;
+    protected(set) Uuid $id;
 
     /**
      * @var non-empty-string
      */
     #[Column(length: 180, unique: true)]
-    private string $email;
+    public string $email;
 
     /**
      * @var list<string>
      */
     #[Column]
-    private array $roles = [];
+    public array $roles = [];
 
     #[Column]
-    private string $name;
+    public string $name;
 
     #[Column]
-    private string $avatarUrl = '';
+    public string $avatarUrl = '';
 
     public function __construct()
     {
         $this->id = Uuid::v4();
-    }
-
-    public function getId(): Uuid
-    {
-        return $this->id;
-    }
-
-    public function getEmail(): string
-    {
-        return $this->email;
-    }
-
-    /**
-     * @param non-empty-string $email
-     */
-    public function setEmail(string $email): void
-    {
-        $this->email = $email;
     }
 
     /**
@@ -80,18 +62,9 @@ class User implements UserInterface
     public function getRoles(): array
     {
         $roles = $this->roles;
-        // guarantee every user at least has ROLE_USER
         $roles[] = 'ROLE_USER';
 
         return array_unique($roles);
-    }
-
-    /**
-     * @param list<string> $roles
-     */
-    public function setRoles(array $roles): void
-    {
-        $this->roles = $roles;
     }
 
     /**
@@ -100,25 +73,5 @@ class User implements UserInterface
     #[Override]
     public function eraseCredentials(): void
     {
-    }
-
-    public function getAvatarUrl(): string
-    {
-        return $this->avatarUrl;
-    }
-
-    public function setAvatarUrl(string $avatarUrl): void
-    {
-        $this->avatarUrl = $avatarUrl;
-    }
-
-    public function getName(): string
-    {
-        return $this->name;
-    }
-
-    public function setName(string $name): void
-    {
-        $this->name = $name;
     }
 }

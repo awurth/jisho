@@ -27,7 +27,7 @@ final readonly class EntryDataTransformer
             'romaji' => map($this->sortReadings($entry->readingElements), static fn (ReadingElement $element): string => $element->romaji),
             'kanji' => map($entry->kanjiElements, static fn (KanjiElement $element): string => $element->value),
             'entry' => [
-                'id' => (string) $entry->getId(),
+                'id' => (string) $entry->id,
                 'sequenceId' => $entry->sequenceId,
                 'kanji' => map($entry->kanjiElements, static fn (KanjiElement $element): array => [
                     'value' => $element->value,

@@ -21,7 +21,7 @@ class Card
 {
     #[Id]
     #[Column(type: 'uuid')]
-    private Uuid $id;
+    protected(set) Uuid $id;
 
     #[ManyToOne]
     #[JoinColumn(nullable: false)]
@@ -38,10 +38,5 @@ class Card
     {
         $this->id = Uuid::v4();
         $this->addedAt = new DateTimeImmutable();
-    }
-
-    public function getId(): Uuid
-    {
-        return $this->id;
     }
 }

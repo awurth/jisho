@@ -24,7 +24,7 @@ final readonly class QuizDataTransformer
     public function transformEntityToApiResource(QuizEntity $entity): Quiz
     {
         $quiz = new Quiz();
-        $quiz->id = $entity->getId();
+        $quiz->id = $entity->id;
         $quiz->deck = $this->deckDataTransformer->transformEntityToApiResource($entity->deck);
         $quiz->maxQuestions = $entity->maxQuestions;
         $quiz->createdAt = $entity->createdAt;

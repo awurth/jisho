@@ -17,7 +17,7 @@ class Entry
 {
     #[Id]
     #[Column(type: 'uuid')]
-    private Uuid $id;
+    protected(set) Uuid $id;
 
     #[Column(unique: true)]
     public int $sequenceId;
@@ -43,10 +43,5 @@ class Entry
     public function __construct()
     {
         $this->id = Uuid::v4();
-    }
-
-    public function getId(): Uuid
-    {
-        return $this->id;
     }
 }

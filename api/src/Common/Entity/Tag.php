@@ -49,7 +49,7 @@ class Tag
     #[Id]
     #[Column(type: 'uuid')]
     #[Groups(['tag:read'])]
-    private Uuid $id;
+    protected(set) Uuid $id;
 
     public function __construct(
         #[ManyToOne]
@@ -64,10 +64,5 @@ class Tag
         public string $color = '',
     ) {
         $this->id = Uuid::v4();
-    }
-
-    public function getId(): Uuid
-    {
-        return $this->id;
     }
 }

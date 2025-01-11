@@ -28,7 +28,7 @@ final readonly class CardDataTransformer
     public function transformEntityToApiResource(CardEntity $entity): Card
     {
         $card = new Card();
-        $card->id = $entity->getId();
+        $card->id = $entity->id;
         $card->deck = $this->deckDataTransformer->transformEntityToApiResource($entity->deck);
         $card->entry = $this->entryDataTransformer->transformEntityToApiResource($entity->entry);
         $card->addedAt = $entity->addedAt;

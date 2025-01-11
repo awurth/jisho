@@ -73,11 +73,11 @@ final readonly class GoogleConnectAction
 
         if (!$user instanceof User) {
             $user = new User();
-            $user->setEmail($email);
+            $user->email = $email;
         }
 
-        $user->setName($name);
-        $user->setAvatarUrl($picture ?? '');
+        $user->name = $name;
+        $user->avatarUrl = $picture ?? '';
 
         $this->entityManager->persist($user);
         $this->entityManager->flush();
@@ -86,8 +86,8 @@ final readonly class GoogleConnectAction
 
         return new JsonResponse([
             'token' => $jwt,
-            'name' => $user->getName(),
-            'avatarUrl' => $user->getAvatarUrl(),
+            'name' => $user->name,
+            'avatarUrl' => $user->avatarUrl,
         ]);
     }
 }

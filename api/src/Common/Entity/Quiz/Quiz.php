@@ -20,7 +20,7 @@ class Quiz
 {
     #[Id]
     #[Column(type: 'uuid')]
-    private Uuid $id;
+    protected(set) Uuid $id;
 
     #[ManyToOne]
     #[JoinColumn(nullable: false)]
@@ -45,10 +45,5 @@ class Quiz
         $this->id = Uuid::v4();
         $this->createdAt = new DateTimeImmutable();
         // $this->tags = new ArrayCollection();
-    }
-
-    public function getId(): Uuid
-    {
-        return $this->id;
     }
 }
