@@ -16,7 +16,7 @@ use Symfony\Component\DependencyInjection\Attribute\Autowire;
     name: 'app:import',
     description: 'Import JMDict file',
 )]
-final class ParseCommand extends Command
+final class ImportCommand extends Command
 {
     public function __construct(
         private readonly JMDictImporter $importer,
