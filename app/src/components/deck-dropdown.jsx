@@ -21,7 +21,7 @@ export default function DeckDropdown() {
 
   return (
     <Menu as="div" className="relative">
-      <Menu.Button className="text-white bg-black/15 hover:bg-black/20 px-3 py-2 rounded-md">
+      <Menu.Button className="px-3 py-2 rounded-md font-semibold">
         <span className="mr-1">{activeDeck?.name}</span>
         <FontAwesomeIcon icon={faCaretDown} />
       </Menu.Button>

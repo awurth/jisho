@@ -16,7 +16,7 @@ export default function Card({ entry, ...props }) {
   return (
     <div
       className={clsx(
-        "border-2 border-b-4 border-dark-900 hover:border-secondary-400 rounded-xl px-5 py-4 flex flex-col text-gray-200",
+        "bg-gray-100 rounded-xl px-5 py-4 flex flex-col text-gray-500",
         props.className ?? "",
       )}
       onClick={() => navigate(`/entry/${entry.id}`)}

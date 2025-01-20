@@ -4,6 +4,7 @@ import { Link } from "react-router";
 import { useDeckStore } from "../stores/deck.js";
 import { useUserStore } from "../stores/user.js";
 import DeckDropdown from "./deck-dropdown.jsx";
+import SearchBar from './dictionary/search-bar.jsx';
 
 export default function Header() {
   const { avatarUrl } = useUserStore((state) => state.user);
@@ -12,7 +13,7 @@ export default function Header() {
 
   return (
     <header>
-      <div className="container mx-auto flex px-5 py-3 justify-between items-center">
+      <div className="container mx-auto flex px-5 my-3 justify-between items-center">
         {activeDeck ? (
           <DeckDropdown />
         ) : (
@@ -28,10 +29,13 @@ export default function Header() {
         <Link to="/account" className="rounded-full">
           <img
             alt="avatar"
-            className="border-4 border-dark-900 w-12 h-12 object-cover object-center rounded-full shadow-md inline-block"
+            className="w-10 h-10 object-cover object-center rounded-full shadow-md inline-block"
             src={avatarUrl}
           />
         </Link>
+      </div>
+      <div className="container px-5 mb-4">
+        <SearchBar/>
       </div>
     </header>
   );
