@@ -10,9 +10,7 @@ export default function Home() {
   if (!deck) {
     return (
       <div className="text-center mt-20">
-        <p className="text-white mb-3">
-          You don't have a deck of cards yet
-        </p>
+        <p className="text-white mb-3">You don't have a deck of cards yet</p>
         <Link
           to="/new-deck"
           className="inline-block bg-primary-500 border-b-4 border-primary-600 rounded-xl text-white font-semibold px-5 py-3"

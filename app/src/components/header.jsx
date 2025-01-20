@@ -4,7 +4,7 @@ import { Link } from "react-router";
 import { useDeckStore } from "../stores/deck.js";
 import { useUserStore } from "../stores/user.js";
 import DeckDropdown from "./deck-dropdown.jsx";
-import SearchBar from './dictionary/search-bar.jsx';
+import SearchBar from "./dictionary/search-bar.jsx";
 
 export default function Header() {
   const { avatarUrl } = useUserStore((state) => state.user);
@@ -35,7 +35,7 @@ export default function Header() {
         </Link>
       </div>
       <div className="container px-5 mb-4">
-        <SearchBar/>
+        <SearchBar />
       </div>
     </header>
   );
