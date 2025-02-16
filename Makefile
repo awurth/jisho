@@ -18,12 +18,12 @@ build: .docker compose.yaml pull
 	@$(DOCKER_COMPOSE) build
 	@echo "${GREEN}Images built${GREEN}"
 
-## Up the containers (along with the WebEdito project)
+## Up the containers
 up: .docker compose.yaml
 	@$(DOCKER_COMPOSE) up -d --force-recreate --remove-orphans
 	@echo "${GREEN}Project started${GREEN}"
 
-## Down the containers (along with the WebEdito project)
+## Down the containers
 down: .docker compose.yaml
 	@$(DOCKER_COMPOSE) down --remove-orphans
 	@echo "${GREEN}Project stopped${GREEN}"

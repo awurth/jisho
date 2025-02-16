@@ -28,7 +28,9 @@ RUN set -eux; \
 ENV COMPOSER_ALLOW_SUPERUSER=1
 ENV PHP_CS_FIXER_IGNORE_ENV=1
 
-COPY --link .docker/php/conf.d/app.ini $PHP_INI_DIR/conf.d/
+ENV PHP_INI_SCAN_DIR=":$PHP_INI_DIR/app.conf.d"
+
+COPY --link .docker/php/conf.d/10-app.ini $PHP_INI_DIR/app.conf.d/
 COPY --link --chmod=755 .docker/php/entrypoint.sh /usr/local/bin/docker-entrypoint
 COPY --link .docker/php/Caddyfile /etc/caddy/Caddyfile
 
@@ -37,7 +39,6 @@ CMD [ "frankenphp", "run", "--config", "/etc/caddy/Caddyfile" ]
 
 FROM base AS dev
 
-ENV XDEBUG_MODE=off
 RUN mv "$PHP_INI_DIR/php.ini-development" "$PHP_INI_DIR/php.ini"
 
 RUN set -eux; \
@@ -45,7 +46,7 @@ RUN set -eux; \
 		xdebug \
 	;
 
-COPY --link .docker/php/conf.d/app.dev.ini $PHP_INI_DIR/conf.d/
+COPY --link .docker/php/conf.d/20-app.dev.ini $PHP_INI_DIR/app.conf.d/
 
 CMD [ "frankenphp", "run", "--config", "/etc/caddy/Caddyfile", "--watch" ]
 
@@ -55,10 +56,11 @@ ENV APP_ENV=prod
 
 RUN mv "$PHP_INI_DIR/php.ini-production" "$PHP_INI_DIR/php.ini"
 
-COPY --link .docker/php/conf.d/app.prod.ini $PHP_INI_DIR/conf.d/
+COPY --link .docker/php/conf.d/20-app.prod.ini $PHP_INI_DIR/app.conf.d/
+COPY --link .docker/php/worker.Caddyfile /etc/caddy/worker.Caddyfile
 
 # prevent the reinstallation of vendors at every changes in the source code
-COPY --link api/composer.* ../../api/symfony.* ./
+COPY --link api/composer.* api/symfony.* ./
 RUN set -eux; \
 	composer install --no-cache --prefer-dist --no-dev --no-autoloader --no-scripts --no-progress
 
