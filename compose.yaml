@@ -1,57 +1,57 @@
 services:
-  php:
-    build:
-        context: .
-        dockerfile: .docker/php/Dockerfile
-        target: dev
-    environment:
-      SERVER_NAME: ${SERVER_NAME:-api.jisho.localhost}, php:80
-    volumes:
-      - caddy_data:/data
-      - caddy_config:/config
-    ports:
-      # HTTP
-      - target: 80
-        published: ${HTTP_PORT:-80}
-        protocol: tcp
-      # HTTPS
-      - target: 443
-        published: ${HTTPS_PORT:-443}
-        protocol: tcp
-      # HTTP/3
-      - target: 443
-        published: ${HTTP3_PORT:-443}
-        protocol: udp
-    depends_on: [ postgres ]
-
-  postgres:
-    build: .docker/postgres
-    environment:
-      POSTGRES_DB: ${POSTGRES_DB:-app}
-      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-!ChangeMe!}
-      POSTGRES_USER: ${POSTGRES_USER:-app}
-    volumes:
-      - database_data:/var/lib/postgresql/data:rw
-      - .docker/postgres/dump:/var/lib/postgresql/dump
-
-  search:
-    build: .docker/search
-    environment:
-      MEILI_MASTER_KEY: "${SEARCH_MASTER_KEY:-N2Q3YzE0MzgzMTY4ZjZlNDkxOTExNDQzNzZkYTk2MGI4NzI1MmQ4ZWQxZmJmYmE1M2Ql}"
-    volumes:
-      - search_data:/meili_data
-      - .docker/search/dumps:/meili_data/dumps
-
-  node:
-    build: .docker/node
-    working_dir: /project
-    volumes:
-      - ./app/:/project
-    ports:
-      - "5173:5173"
+    php:
+        build:
+            context: .
+            dockerfile: .docker/php/Dockerfile
+            target: dev
+        environment:
+            SERVER_NAME: ${SERVER_NAME:-api.jisho.localhost}, php:80
+        volumes:
+            - caddy_data:/data
+            - caddy_config:/config
+        ports:
+            # HTTP
+            -   target: 80
+                published: ${HTTP_PORT:-80}
+                protocol: tcp
+            # HTTPS
+            -   target: 443
+                published: ${HTTPS_PORT:-443}
+                protocol: tcp
+            # HTTP/3
+            -   target: 443
+                published: ${HTTP3_PORT:-443}
+                protocol: udp
+        depends_on: [ postgres ]
+    
+    postgres:
+        build: .docker/postgres
+        environment:
+            POSTGRES_DB: ${POSTGRES_DB:-app}
+            POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-!ChangeMe!}
+            POSTGRES_USER: ${POSTGRES_USER:-app}
+        volumes:
+            - database_data:/var/lib/postgresql/data:rw
+            - .docker/postgres/dump:/var/lib/postgresql/dump
+    
+    search:
+        build: .docker/search
+        environment:
+            MEILI_MASTER_KEY: "${SEARCH_MASTER_KEY:-N2Q3YzE0MzgzMTY4ZjZlNDkxOTExNDQzNzZkYTk2MGI4NzI1MmQ4ZWQxZmJmYmE1M2Ql}"
+        volumes:
+            - search_data:/meili_data
+            - .docker/search/dumps:/meili_data/dumps
+    
+    node:
+        build: .docker/node
+        working_dir: /project
+        volumes:
+            - ./app/:/project
+        ports:
+            - "5173:5173"
 
 volumes:
-  caddy_data:
-  caddy_config:
-  database_data:
-  search_data:
+    caddy_data:
+    caddy_config:
+    database_data:
+    search_data:
