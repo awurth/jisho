@@ -21,7 +21,7 @@ return new PhpCsFixer\Config()
         '@PSR2' => true,
         '@PSR12' => true,
         '@PSR12:risky' => true,
-        '@PHP83Migration' => true,
+        '@PHP84Migration' => true,
         '@PhpCsFixer:risky' => true,
         '@PHPUnit100Migration:risky' => true,
         '@Symfony' => true,

@@ -1,0 +1,9 @@
+DOCKER := 'docker'
+DOCKER_COMPOSE := if env('GITHUB_ACTIONS', '') != '' { DOCKER + ' compose -f compose.yaml -f compose.ci.yaml' } else { DOCKER + ' compose' }
+DOCKER_COMPOSE_EXEC := if env('GITHUB_ACTIONS', '') != '' { DOCKER_COMPOSE + ' exec -T' } else { DOCKER_COMPOSE + ' exec' }
+DOCKER_COMPOSE_EXEC_PHP := DOCKER_COMPOSE_EXEC + ' php'
+DOCKER_COMPOSE_EXEC_POSTGRES := DOCKER_COMPOSE_EXEC + ' postgres'
+DOCKER_COMPOSE_EXEC_COMPOSER := DOCKER_COMPOSE_EXEC_PHP + ' composer'
+DOCKER_COMPOSE_EXEC_CONSOLE := DOCKER_COMPOSE_EXEC_PHP + ' bin/console'
+DOCKER_COMPOSE_EXEC_PHPUNIT := DOCKER_COMPOSE_EXEC_PHP + ' vendor/bin/phpunit'
+DOCKER_COMPOSE_EXEC_YARN := DOCKER_COMPOSE_EXEC + ' node yarn'

@@ -55,3 +55,7 @@ indent_style = tab
 
 [*.*Caddyfile]
 indent_style = tab
+
+[{justfile,*.just}]
+indent_style = space
+indent_size = 4
