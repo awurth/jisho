@@ -8,7 +8,6 @@ VOLUME /jisho/api/var/
 
 # persistent / runtime deps
 RUN apt-get update && apt-get install -y --no-install-recommends \
-	acl \
 	file \
 	gettext \
 	git \

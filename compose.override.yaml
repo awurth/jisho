@@ -16,7 +16,11 @@ services:
     postgres:
         ports:
             - "5432:5432"
-    
+
+    node:
+        ports:
+            - "5173:5173"
+
     search:
         ports:
             - "7700:7700"
