@@ -31,7 +31,7 @@ export default function NewDeck() {
         <label className="text-white font-semibold mb-1">Name</label>
         <Input value={name} onChange={(e) => setName(e.target.value)} />
       </div>
-      <Button onClick={onSubmit} className="py-2 w-full">
+      <Button onClick={onSubmit} size="block">
         Create
       </Button>
     </>

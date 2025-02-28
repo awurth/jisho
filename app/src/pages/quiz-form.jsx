@@ -36,7 +36,7 @@ export default function QuizForm() {
       {/*  onChange={setTags}*/}
       {/*  className="mt-1 mb-2"*/}
       {/*/>*/}
-      <Button onClick={onPlayClick} className="py-2 w-full">
+      <Button onClick={onPlayClick} size="block">
         Play
       </Button>
     </>

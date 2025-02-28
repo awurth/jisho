@@ -49,7 +49,6 @@ export default function Entry() {
         ))}
       </ul>
       <Button
-        className="px-3 py-2"
         onClick={() => mutation.mutate({ deckId: activeDeck.id, entryId: id })}
       >
         Add to deck

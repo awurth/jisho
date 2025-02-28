@@ -1,13 +1,52 @@
-import clsx from "clsx";
+import { cva } from "class-variance-authority";
 
-export default function Button(props) {
+const button = cva("rounded-full", {
+  variants: {
+    intent: {
+      primary: ["bg-gray-950", "text-white", "border-transparent"],
+      secondary: ["bg-white", "text-gray-800", "border-gray-400"],
+    },
+    size: {
+      small: ["text-sm", "py-1", "px-2"],
+      medium: ["text-base", "py-2", "px-4"],
+      block: ["text-base", "py-2", "px-4", "w-full"],
+    },
+    disabled: {
+      false: null,
+      true: ["opacity-50", "cursor-not-allowed"],
+    },
+  },
+  compoundVariants: [
+    {
+      intent: "primary",
+      disabled: false,
+      class: "hover:bg-gray-800",
+    },
+    {
+      intent: "secondary",
+      disabled: false,
+      class: "hover:bg-gray-100",
+    },
+  ],
+  defaultVariants: {
+    disabled: false,
+    intent: "primary",
+    size: "medium",
+  },
+});
+
+export default function Button({
+  intent,
+  size,
+  disabled,
+  className,
+  ...props
+}) {
   return (
     <button
+      className={button({ intent, size, disabled, className })}
+      disabled={disabled || undefined}
       {...props}
-      className={clsx(
-        "bg-primary-500 border-b-4 border-primary-600 rounded-xl text-white font-semibold px-2 py-1",
-        props.className ?? "",
-      )}
     />
   );
 }

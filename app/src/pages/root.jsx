@@ -6,7 +6,7 @@ export default function Root() {
   return (
     <div className="bg-gray-50 min-h-full flex flex-col">
       <Header></Header>
-      <main className="container mx-auto grow px-4 pb-16">
+      <main className="container mx-auto grow px-5 pb-16">
         <Outlet />
       </main>
       <TabBar></TabBar>
