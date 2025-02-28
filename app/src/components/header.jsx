@@ -34,7 +34,7 @@ export default function Header() {
           />
         </Link>
       </div>
-      <div className="container mx-auto px-5 mb-4">
+      <div className="container mx-auto px-5 mb-3">
         <SearchBar />
       </div>
     </header>

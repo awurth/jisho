@@ -37,7 +37,7 @@ export default function SearchBar(props) {
       <Input
         type="text"
         placeholder="Search..."
-        className={clsx("w-full px-4 py-3 mb-2", props.className ?? "")}
+        className={clsx("w-full px-4 py-3", props.className ?? "")}
         value={query}
         onChange={onChange}
       />

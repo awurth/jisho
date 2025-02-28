@@ -7,7 +7,7 @@ export default function SearchResults({ results }) {
   }
 
   return (
-    <div>
+    <div className="mt-2">
       {results.map((entry, index) => (
         <Fragment key={`search-result-${entry.id}`}>
           <SearchResult entry={entry} />

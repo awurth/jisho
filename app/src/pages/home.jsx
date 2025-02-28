@@ -49,7 +49,7 @@ export default function Home() {
 
   return (
     <>
-      <h1 className="text-xl font-semibold mb-2">Your cards</h1>
+      <h1 className="text-lg font-semibold mb-2">Your cards</h1>
       <div className="flex flex-col">
         {cards.map((card, index) => (
           <Fragment key={card.id}>

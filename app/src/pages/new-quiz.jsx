@@ -28,7 +28,7 @@ export default function NewQuiz() {
 
   return (
     <>
-      <h1 className="text-xl text-white font-semibold mb-2">New quiz</h1>
+      <h1 className="text-xl font-semibold mb-2">New quiz</h1>
       {/*<label className="text-white font-semibold">Tags</label>*/}
       {/*<Tags*/}
       {/*  options={existingTags.map((tag) => tag.name)}*/}

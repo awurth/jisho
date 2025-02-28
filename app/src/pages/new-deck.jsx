@@ -24,11 +24,9 @@ export default function NewDeck() {
 
   return (
     <>
-      <h1 className="text-xl text-white font-semibold mb-2">
-        New deck of cards
-      </h1>
+      <h1 className="text-xl font-semibold mb-2">New deck of cards</h1>
       <div className="flex flex-col mb-3">
-        <label className="text-white font-semibold mb-1">Name</label>
+        <label className="font-semibold mb-1">Name</label>
         <Input value={name} onChange={(e) => setName(e.target.value)} />
       </div>
       <Button onClick={onSubmit} size="block">
