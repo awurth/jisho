@@ -25,7 +25,7 @@ export default function DeckDropdown() {
         <span className="mr-1">{activeDeck?.name}</span>
         <FontAwesomeIcon icon={faCaretDown} />
       </Menu.Button>
-      <Menu.Items className="absolute bg-white px-2 py-3 mt-1 rounded-md shadow-lg">
+      <Menu.Items className="absolute bg-white px-2 py-3 mt-1 rounded-md shadow-lg min-w-40">
         {decks.map(({ id, name }) => (
           <Menu.Item
             key={id}

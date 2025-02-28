@@ -10,8 +10,8 @@ export default function TabBar() {
     ({ isActive }) =>
       clsx({
         "inline-flex flex-col px-4 pt-5 pb-3 text-gray-600": true,
-        "text-primary-500": isActive,
-        "hover:text-primary-500": !isActive,
+        "text-gray-950": isActive,
+        "hover:text-gray-950": !isActive,
       }),
     [],
   );
