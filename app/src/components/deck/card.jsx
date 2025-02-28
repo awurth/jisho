@@ -16,21 +16,21 @@ export default function Card({ entry, ...props }) {
   return (
     <div
       className={clsx(
-        "bg-gray-100 rounded-xl px-5 py-4 flex flex-col text-gray-500",
+        "p-2",
         props.className ?? "",
       )}
       onClick={() => navigate(`/entry/${entry.id}`)}
     >
-      <p className="text-xl font-bold">{main}</p>
+      <p className="text-xl font-semibold mb-1">{main}</p>
       {!!entry.kanji.length && (
-        <p className="text-sm text-gray-300 mb-1">{entry.readings[0].kana}</p>
+        <p className="text-md text-gray-400 mb-1">{entry.readings[0].kana}</p>
       )}
-      <p className="text-xs text-gray-300 mb-1">{entry.readings[0].romaji}</p>
-      <ul className="mb-1">
+      <p className="text-xs text-gray-500 font-semibold mb-1">{entry.readings[0].romaji}</p>
+      <ul className="italic text-sm">
         {entry.senses.map((sense, index) => (
           <li
             key={index}
-            className={clsx("mb-1", { hidden: index > 0 && !sensesShown })}
+            className={clsx({ "mb-1": index < entry.senses.length - 1, hidden: index > 0 && !sensesShown })}
           >
             -{" "}
             {sense.translations.map((translation, index) => (
