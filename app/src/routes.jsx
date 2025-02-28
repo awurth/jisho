@@ -7,7 +7,7 @@ import Entry from "./pages/entry.jsx";
 import Home from "./pages/home.jsx";
 import Login from "./pages/login.jsx";
 import NewDeck from "./pages/new-deck.jsx";
-import QuizForm from "./pages/quiz-form.jsx";
+import NewQuiz from "./pages/new-quiz.jsx";
 import Quiz from "./pages/quiz.jsx";
 import Root from "./pages/root.jsx";
 import Search from "./pages/search.jsx";
@@ -63,7 +63,7 @@ export const router = createBrowserRouter([
       },
       {
         path: "new-quiz",
-        element: <QuizForm />,
+        element: <NewQuiz />,
         loader: mustBeLoggedIn,
       },
       {

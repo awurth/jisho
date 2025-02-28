@@ -6,7 +6,7 @@ import Button from "../components/button.jsx";
 import Tags from "../components/forms/tags.jsx";
 import { useDeckStore } from "../stores/deck.js";
 
-export default function QuizForm() {
+export default function NewQuiz() {
   const navigate = useNavigate();
   // const deck = useDeckStore((state) => state.activeDeck);
   // const [tags, setTags] = useState([]);
