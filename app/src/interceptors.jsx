@@ -1,5 +1,5 @@
 import httpClient from "./api/http-client.js";
-import {router} from './routes.jsx';
+import { router } from "./routes.jsx";
 import { useUserStore } from "./stores/user.js";
 
 httpClient.interceptors.request.use(
@@ -24,7 +24,7 @@ httpClient.interceptors.response.use(
   function (error) {
     if (error.response?.status === 401) {
       useUserStore.setState({ user: null });
-      router.navigate('/login');
+      router.navigate("/login");
     }
 
     return Promise.reject(error);

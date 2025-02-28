@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import {Fragment} from 'react';
+import { Fragment } from "react";
 import { Link } from "react-router";
 import { getCards } from "../api/deck.js";
 import Card from "../components/deck/card.jsx";
@@ -49,6 +49,7 @@ export default function Home() {
 
   return (
     <>
+      <h1 className="text-xl font-semibold mb-2">Your cards</h1>
       <div className="flex flex-col">
         {cards.map((card, index) => (
           <Fragment key={card.id}>
