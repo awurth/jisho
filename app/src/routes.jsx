@@ -40,41 +40,35 @@ export const router = createBrowserRouter([
     path: "/",
     element: <Root />,
     errorElement: <Error />,
+    loader: mustBeLoggedIn,
     children: [
       {
         index: true,
         element: <Home />,
-        loader: mustBeLoggedIn,
       },
       {
         path: "account",
         element: <Account />,
-        loader: mustBeLoggedIn,
       },
       {
         path: "new-deck",
         element: <NewDeck />,
-        loader: mustBeLoggedIn,
       },
       {
         path: "search",
         element: <Search />,
-        loader: mustBeLoggedIn,
       },
       {
         path: "new-quiz",
         element: <QuizForm />,
-        loader: mustBeLoggedIn,
       },
       {
         path: "quiz",
         element: <Quiz />,
-        loader: mustBeLoggedIn,
       },
       {
         path: "entry/:id",
         element: <Entry />,
-        loader: mustBeLoggedIn,
       },
     ],
   },
