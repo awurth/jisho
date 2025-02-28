@@ -20,7 +20,7 @@ class Quiz
 {
     #[Id]
     #[Column(type: 'uuid')]
-    protected(set) Uuid $id;
+    public Uuid $id;
 
     #[ManyToOne]
     #[JoinColumn(nullable: false)]

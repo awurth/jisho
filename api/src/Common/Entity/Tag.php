@@ -49,7 +49,7 @@ class Tag
     #[Id]
     #[Column(type: 'uuid')]
     #[Groups(['tag:read'])]
-    protected(set) Uuid $id;
+    public Uuid $id;
 
     public function __construct(
         #[ManyToOne]

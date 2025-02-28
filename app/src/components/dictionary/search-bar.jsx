@@ -1,12 +1,15 @@
 import clsx from "clsx";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { search } from "../../api/dictionary.js";
+import { useSearchStore } from "../../stores/search.js";
 import Input from "../forms/input.jsx";
 import SearchResults from "./search-results.jsx";
 
 export default function SearchBar(props) {
-  const [query, setQuery] = useState("");
-  const [results, setResults] = useState([]);
+  const query = useSearchStore((state) => state.query);
+  const results = useSearchStore((state) => state.results);
+  const setQuery = useSearchStore((state) => state.setQuery);
+  const setResults = useSearchStore((state) => state.setResults);
 
   useEffect(() => {
     if (!query) {
@@ -24,9 +27,9 @@ export default function SearchBar(props) {
   return (
     <>
       <Input
-        type="search"
+        type="text"
         placeholder="Search..."
-        className={clsx("w-full px-4 py-3", props.className ?? "")}
+        className={clsx("w-full px-4 py-3 mb-2", props.className ?? "")}
         value={query}
         onChange={(e) => setQuery(e.target.value)}
       />

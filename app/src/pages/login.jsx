@@ -18,14 +18,14 @@ export default function Login() {
   });
 
   return (
-    <div className="bg-dark-950 min-h-full flex flex-col items-center justify-center">
+    <div className="bg-gray-100 min-h-full flex flex-col items-center justify-center">
       <img
         src={illustration}
         className="px-16 mb-8"
         alt="two people practicing japanese vocabulary on a couch"
       />
-      <h1 className="text-4xl font-semibold text-white mb-5">Jisho.fr</h1>
-      <p className="text-white font-semibold px-10 mb-5 text-center">
+      <h1 className="text-4xl font-semibold text-gray-900 mb-5">Jisho.fr</h1>
+      <p className="text-gray-700 font-semibold px-10 mb-5 text-center">
         Create your own Japanese dictionary and improve your vocabulary at your
         own pace with personalized quizzes!
       </p>

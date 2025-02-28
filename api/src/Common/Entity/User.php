@@ -19,7 +19,7 @@ class User implements UserInterface
 {
     #[Id]
     #[Column(type: 'uuid')]
-    protected(set) Uuid $id;
+    public Uuid $id;
 
     /**
      * @var non-empty-string

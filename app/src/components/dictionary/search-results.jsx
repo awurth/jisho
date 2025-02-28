@@ -1,3 +1,4 @@
+import { Fragment } from "react";
 import SearchResult from "./search-result.jsx";
 
 export default function SearchResults({ results }) {
@@ -6,9 +7,12 @@ export default function SearchResults({ results }) {
   }
 
   return (
-    <div className="bg-dark-900 rounded-lg p-2">
-      {results.map((entry) => (
-        <SearchResult key={entry.id} entry={entry} />
+    <div>
+      {results.map((entry, index) => (
+        <Fragment key={`search-result-${entry.id}`}>
+          <SearchResult entry={entry} />
+          {index < results.length - 1 && <hr className="my-3" />}
+        </Fragment>
       ))}
     </div>
   );

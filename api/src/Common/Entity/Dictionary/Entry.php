@@ -17,7 +17,7 @@ class Entry
 {
     #[Id]
     #[Column(type: 'uuid')]
-    protected(set) Uuid $id;
+    public Uuid $id;
 
     #[Column(unique: true)]
     public int $sequenceId;
