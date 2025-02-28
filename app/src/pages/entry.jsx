@@ -30,14 +30,14 @@ export default function Entry() {
 
   return (
     <>
-      <p className="text-gray-100 text-3xl font-semibold mb-1">{main}</p>
+      <p className="text-3xl font-semibold mb-1">{main}</p>
       {!!entry.kanji.length && (
-        <p className="text-lg text-gray-300 mb-1">{entry.readings[0].kana}</p>
+        <p className="text-lg text-gray-400 mb-1">{entry.readings[0].kana}</p>
       )}
-      <p className="text-md text-gray-300 mb-1">{entry.readings[0].romaji}</p>
-      <ul className="mb-3">
+      <p className="text-md text-gray-500 mb-1">{entry.readings[0].romaji}</p>
+      <ul className="mb-3 italic">
         {entry.senses.map((sense, index) => (
-          <li key={index} className="text-gray-100">
+          <li key={index}>
             -{" "}
             {sense.translations.map((translation, index) => (
               <span key={index}>

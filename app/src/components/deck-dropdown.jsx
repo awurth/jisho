@@ -29,12 +29,12 @@ export default function DeckDropdown() {
         {decks.map(({ id, name }) => (
           <Menu.Item
             key={id}
-            className="px-4 py-2 hover:bg-gray-100 rounded-md cursor-pointer"
+            className="px-4 py-2 mb-1 hover:bg-gray-100 rounded-md cursor-pointer"
           >
             <div onClick={() => onDeckClick({ id, name })}>{name}</div>
           </Menu.Item>
         ))}
-        <Menu.Item className="px-4 py-2 hover:bg-gray-100 rounded-md cursor-pointer whitespace-nowrap">
+        <Menu.Item className="block px-4 py-2 hover:bg-gray-100 rounded-md cursor-pointer whitespace-nowrap">
           <Link to="/new-deck">
             <FontAwesomeIcon icon={faPlus} className="mr-1" />
             New
