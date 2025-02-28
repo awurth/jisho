@@ -24,6 +24,14 @@ export default function SearchBar(props) {
     };
   }, [query]);
 
+  const onChange = (e) => {
+    setQuery(e.target.value);
+
+    if (!e.target.value) {
+      setResults([]);
+    }
+  };
+
   return (
     <>
       <Input
@@ -31,7 +39,7 @@ export default function SearchBar(props) {
         placeholder="Search..."
         className={clsx("w-full px-4 py-3 mb-2", props.className ?? "")}
         value={query}
-        onChange={(e) => setQuery(e.target.value)}
+        onChange={onChange}
       />
       <SearchResults results={results} />
     </>
