@@ -32,10 +32,11 @@ indent_style = space
 indent_size = 4
 
 [*.{yaml,yml}]
+indent_size = 4
 trim_trailing_whitespace = false
 
 [.github/workflows/*.yml]
-indent_size = 2
+indent_size = 4
 
 [.gitmodules]
 indent_style = tab
