@@ -3,6 +3,7 @@ import { useParams } from "react-router";
 import { postCard } from "../api/deck.js";
 import { getEntry } from "../api/dictionary.js";
 import Button from "../components/button.jsx";
+import PageContainer from "../components/page-container.jsx";
 import { useDeckStore } from "../stores/deck.js";
 
 export default function Entry() {
@@ -29,7 +30,7 @@ export default function Entry() {
   const main = entry.kanji[0]?.value ?? entry.readings[0].kana;
 
   return (
-    <>
+    <PageContainer>
       <p className="text-3xl font-semibold mb-1">{main}</p>
       {!!entry.kanji.length && (
         <p className="text-lg text-gray-400 mb-1">{entry.readings[0].kana}</p>
@@ -53,6 +54,6 @@ export default function Entry() {
       >
         Add to deck
       </Button>
-    </>
+    </PageContainer>
   );
 }

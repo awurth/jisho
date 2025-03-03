@@ -7,7 +7,13 @@ import "./interceptors.jsx";
 import { router } from "./routes.jsx";
 import "./index.scss";
 
-const queryClient = new QueryClient();
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      retry: 1,
+    },
+  },
+});
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>

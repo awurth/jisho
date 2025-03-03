@@ -3,6 +3,7 @@ import { Fragment } from "react";
 import { Link } from "react-router";
 import { getCards } from "../api/deck.js";
 import Card from "../components/deck/card.jsx";
+import PageContainer from "../components/page-container.jsx";
 import { useDeckStore } from "../stores/deck.js";
 
 export default function Home() {
@@ -48,7 +49,7 @@ export default function Home() {
   }
 
   return (
-    <>
+    <PageContainer>
       <h1 className="text-lg font-semibold mb-2">Your cards</h1>
       <div className="flex flex-col">
         {cards.map((card, index) => (
@@ -58,6 +59,6 @@ export default function Home() {
           </Fragment>
         ))}
       </div>
-    </>
+    </PageContainer>
   );
 }

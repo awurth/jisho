@@ -48,8 +48,6 @@ final readonly class QuizDataTransformer
         $entity = new QuizEntity();
         $entity->deck = $deckEntity;
         $entity->maxQuestions = $resource->maxQuestions;
-        $entity->startedAt = $resource->startedAt;
-        $entity->endedAt = $resource->endedAt;
 
         return $entity;
     }
