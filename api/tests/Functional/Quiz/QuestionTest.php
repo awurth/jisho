@@ -69,6 +69,7 @@ final class QuestionTest extends ApiTestCase
         $quiz = QuizFactory::createOne();
         $card = CardFactory::createOne([
             'deck' => $quiz->deck,
+            'entry' => EntryFactory::new()->single()->create(),
         ]);
         $question = QuestionFactory::createOne([
             'quiz' => $quiz,
@@ -85,6 +86,23 @@ final class QuestionTest extends ApiTestCase
         self::assertJsonEquals([
             'id' => (string) $question->id,
             'createdAt' => $question->createdAt->format(DateTimeInterface::ATOM),
+            'card' => [
+                'entry' => [
+                    'kanji' => [
+                        [
+                            'info' => $card->entry->kanjiElements[0]->info,
+                            'value' => $card->entry->kanjiElements[0]->value,
+                        ]
+                    ],
+                    'readings' => [
+                        [
+                            'info' => $card->entry->readingElements[0]->info,
+                            'kana' => $card->entry->readingElements[0]->kana,
+                            'romaji' => $card->entry->readingElements[0]->romaji,
+                        ],
+                    ],
+                ],
+            ],
         ]);
     }
 
@@ -96,6 +114,7 @@ final class QuestionTest extends ApiTestCase
         ]);
         $newQuestionCard = CardFactory::createOne([
             'deck' => $quiz->deck,
+            'entry' => EntryFactory::new()->single()->create(),
         ]);
         $answeredQuestion = QuestionFactory::createOne([
             'quiz' => $quiz,
@@ -118,14 +137,32 @@ final class QuestionTest extends ApiTestCase
         self::assertJsonEquals([
             'id' => (string) $newQuestion->id,
             'createdAt' => $newQuestion->createdAt->format(DateTimeInterface::ATOM),
+            'card' => [
+                'entry' => [
+                    'kanji' => [
+                        [
+                            'info' => $newQuestionCard->entry->kanjiElements[0]->info,
+                            'value' => $newQuestionCard->entry->kanjiElements[0]->value,
+                        ]
+                    ],
+                    'readings' => [
+                        [
+                            'info' => $newQuestionCard->entry->readingElements[0]->info,
+                            'kana' => $newQuestionCard->entry->readingElements[0]->kana,
+                            'romaji' => $newQuestionCard->entry->readingElements[0]->romaji,
+                        ],
+                    ],
+                ],
+            ],
         ]);
     }
 
     public function testPostQuestionCreatesNewQuestionIfNotExists(): void
     {
         $quiz = QuizFactory::createOne();
-        CardFactory::createOne([
+        $card = CardFactory::createOne([
             'deck' => $quiz->deck,
+            'entry' => EntryFactory::new()->single()->create(),
         ]);
 
         $client = $this->createAuthenticatedClient($quiz->deck->owner);
@@ -140,6 +177,23 @@ final class QuestionTest extends ApiTestCase
         self::assertJsonEquals([
             'id' => (string) $question->id,
             'createdAt' => $question->createdAt->format(DateTimeInterface::ATOM),
+            'card' => [
+                'entry' => [
+                    'kanji' => [
+                        [
+                            'info' => $card->entry->kanjiElements[0]->info,
+                            'value' => $card->entry->kanjiElements[0]->value,
+                        ]
+                    ],
+                    'readings' => [
+                        [
+                            'info' => $card->entry->readingElements[0]->info,
+                            'kana' => $card->entry->readingElements[0]->kana,
+                            'romaji' => $card->entry->readingElements[0]->romaji,
+                        ],
+                    ],
+                ],
+            ],
         ]);
     }
 

@@ -103,7 +103,7 @@ final class Card
 
     public ?Deck $deck = null;
 
-    #[Groups(['card:read', 'card:write'])]
+    #[Groups(['card:read', 'card:write', 'question:read'])]
     public Entry $entry;
 
     #[Groups(['card:read'])]

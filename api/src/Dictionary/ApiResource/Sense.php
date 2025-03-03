@@ -13,17 +13,17 @@ final readonly class Sense
      * @param Translation[] $translations
      */
     public function __construct(
-        #[Groups(['card:read', 'entry:read'])]
+        #[Groups(['card:read', 'entry:read', 'question:answered:read'])]
         public array $partsOfSpeech,
-        #[Groups(['card:read', 'entry:read'])]
+        #[Groups(['card:read', 'entry:read', 'question:answered:read'])]
         public string $fieldOfApplication,
-        #[Groups(['card:read', 'entry:read'])]
+        #[Groups(['card:read', 'entry:read', 'question:answered:read'])]
         public string $dialect,
-        #[Groups(['card:read', 'entry:read'])]
+        #[Groups(['card:read', 'entry:read', 'question:answered:read'])]
         public string $misc,
-        #[Groups(['card:read', 'entry:read'])]
+        #[Groups(['card:read', 'entry:read', 'question:answered:read'])]
         public string $info,
-        #[Groups(['card:read', 'entry:read'])]
+        #[Groups(['card:read', 'entry:read', 'question:answered:read'])]
         public array $translations,
     ) {
     }

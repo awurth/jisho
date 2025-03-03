@@ -96,7 +96,7 @@ final class Question
 
     public ?Quiz $quiz = null;
 
-    #[Groups(['question:answered:read'])]
+    #[Groups(['question:read'])]
     public Card $card;
 
     #[Groups(['question:read'])]

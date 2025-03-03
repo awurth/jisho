@@ -54,11 +54,11 @@ final class Entry
     public function __construct(
         #[Groups(['card:read', 'entry:read'])]
         public Uuid $id,
-        #[Groups(['card:read', 'entry:read'])]
+        #[Groups(['card:read', 'entry:read', 'question:read'])]
         public array $kanji,
-        #[Groups(['card:read', 'entry:read'])]
+        #[Groups(['card:read', 'entry:read', 'question:read'])]
         public array $readings,
-        #[Groups(['card:read', 'entry:read'])]
+        #[Groups(['card:read', 'entry:read', 'question:answered:read'])]
         public array $senses,
     ) {
     }
