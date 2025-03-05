@@ -82,6 +82,9 @@ final class Quiz
     public int $maxQuestions = 100;
 
     #[Groups(['quiz:read'])]
+    public int $numberOfQuestions;
+
+    #[Groups(['quiz:read'])]
     public DateTimeImmutable $createdAt;
 
     #[Groups(['quiz:read'])]

@@ -45,7 +45,7 @@ abstract class ApiTestCase extends BaseApiTestCase
         ]);
     }
 
-    public function createAuthenticatedClient(UserInterface $user): Client
+    public static function createAuthenticatedClient(UserInterface $user): Client
     {
         /** @var JWTEncoderInterface $encoder */
         $encoder = self::getContainer()->get(JWTEncoderInterface::class);

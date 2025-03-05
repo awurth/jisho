@@ -36,7 +36,7 @@ final class QuestionTest extends ApiTestCase
         $user = UserFactory::createOne();
         $quiz = QuizFactory::createOne();
 
-        $client = $this->createAuthenticatedClient($user);
+        $client = self::createAuthenticatedClient($user);
         $client->request('POST', "/quizzes/{$quiz->id}/questions", [
             'json' => [],
         ]);
@@ -50,7 +50,7 @@ final class QuestionTest extends ApiTestCase
             'endedAt' => new DateTimeImmutable(),
         ]);
 
-        $client = $this->createAuthenticatedClient($quiz->deck->owner);
+        $client = self::createAuthenticatedClient($quiz->deck->owner);
         $client->request('POST', "/quizzes/{$quiz->id}/questions", [
             'json' => [],
         ]);
@@ -88,7 +88,7 @@ final class QuestionTest extends ApiTestCase
             'position' => 1,
         ]);
 
-        $client = $this->createAuthenticatedClient($quiz->deck->owner);
+        $client = self::createAuthenticatedClient($quiz->deck->owner);
         $client->request('POST', "/quizzes/{$quiz->id}/questions", [
             'json' => [],
         ]);
@@ -133,7 +133,7 @@ final class QuestionTest extends ApiTestCase
             'answeredAt' => null,
         ]);
 
-        $client = $this->createAuthenticatedClient($quiz->deck->owner);
+        $client = self::createAuthenticatedClient($quiz->deck->owner);
         $client->request('POST', "/quizzes/{$quiz->id}/questions", [
             'json' => [],
         ]);
@@ -188,7 +188,7 @@ final class QuestionTest extends ApiTestCase
         $user = UserFactory::createOne();
         $question = QuestionFactory::createOne();
 
-        $client = $this->createAuthenticatedClient($user);
+        $client = self::createAuthenticatedClient($user);
         self::patch($client, "/quizzes/{$question->quiz->id}/questions/{$question->id}", []);
 
         self::assertResponseStatusCodeSame(403);
@@ -203,7 +203,7 @@ final class QuestionTest extends ApiTestCase
             'quiz' => $quiz,
         ]);
 
-        $client = $this->createAuthenticatedClient($quiz->deck->owner);
+        $client = self::createAuthenticatedClient($quiz->deck->owner);
         self::patch($client, "/quizzes/{$question->quiz->id}/questions/{$question->id}", []);
 
         self::assertResponseStatusCodeSame(423);
@@ -220,7 +220,7 @@ final class QuestionTest extends ApiTestCase
             'answeredAt' => new DateTimeImmutable(),
         ]);
 
-        $client = $this->createAuthenticatedClient($question->quiz->deck->owner);
+        $client = self::createAuthenticatedClient($question->quiz->deck->owner);
         self::patch($client, "/quizzes/{$question->quiz->id}/questions/{$question->id}", []);
 
         self::assertResponseStatusCodeSame(423);
@@ -241,7 +241,7 @@ final class QuestionTest extends ApiTestCase
             'card' => $card,
         ]);
 
-        $client = $this->createAuthenticatedClient($question->quiz->deck->owner);
+        $client = self::createAuthenticatedClient($question->quiz->deck->owner);
         self::patch($client, "/quizzes/{$question->quiz->id}/questions/{$question->id}", [
             'json' => [
                 'answer' => 'wrong',
