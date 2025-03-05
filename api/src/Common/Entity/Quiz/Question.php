@@ -21,7 +21,7 @@ class Question
     #[Column(type: 'uuid')]
     public Uuid $id;
 
-    #[ManyToOne]
+    #[ManyToOne(inversedBy: 'questions')]
     #[JoinColumn(nullable: false)]
     public Quiz $quiz;
 
@@ -29,8 +29,8 @@ class Question
     #[JoinColumn(nullable: false)]
     public Card $card;
 
-    #[Column(updatable: false)]
-    public DateTimeImmutable $createdAt;
+    #[Column()]
+    public int $position;
 
     #[Column(nullable: true)]
     public ?DateTimeImmutable $answeredAt = null;
@@ -41,6 +41,5 @@ class Question
     public function __construct()
     {
         $this->id = Uuid::v4();
-        $this->createdAt = new DateTimeImmutable();
     }
 }

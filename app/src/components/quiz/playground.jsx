@@ -1,5 +1,5 @@
 import { useMutation } from "@tanstack/react-query";
-import {useEffect, useState} from 'react';
+import { useEffect, useState } from "react";
 import { postQuestion } from "../../api/quiz.js";
 
 export default function Playground({ quiz }) {
@@ -17,8 +17,5 @@ export default function Playground({ quiz }) {
     postQuestionMutation.mutate();
   }, []);
 
-  return (
-    <>
-    </>
-  );
+  return <></>;
 }

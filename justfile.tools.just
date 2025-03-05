@@ -23,6 +23,7 @@ php-cs-fixer:
 
 # Execute PHPStan
 [group('tools')]
+[no-exit-message]
 phpstan:
     {{ DOCKER_COMPOSE_EXEC_PHP }} vendor/bin/phpstan --memory-limit=1G
 

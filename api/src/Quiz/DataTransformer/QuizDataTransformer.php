@@ -17,7 +17,6 @@ final readonly class QuizDataTransformer
 {
     public function __construct(
         private DeckDataTransformer $deckDataTransformer,
-        private DeckRepository $deckRepository,
     ) {
     }
 
@@ -34,21 +33,21 @@ final readonly class QuizDataTransformer
         return $quiz;
     }
 
-    public function transformApiResourceToEntity(Quiz $resource): QuizEntity
-    {
-        if (!$resource->deck instanceof Deck) {
-            throw new InvalidArgumentException('Deck should be set.');
-        }
-
-        $deckEntity = $this->deckRepository->find($resource->deck->id);
-        if (!$deckEntity instanceof DeckEntity) {
-            throw new RuntimeException('Deck not found.');
-        }
-
-        $entity = new QuizEntity();
-        $entity->deck = $deckEntity;
-        $entity->maxQuestions = $resource->maxQuestions;
-
-        return $entity;
-    }
+    // public function transformApiResourceToEntity(Quiz $resource): QuizEntity
+    // {
+    //     if (!$resource->deck instanceof Deck) {
+    //         throw new InvalidArgumentException('Deck should be set.');
+    //     }
+    //
+    //     $deckEntity = $this->deckRepository->find($resource->deck->id);
+    //     if (!$deckEntity instanceof DeckEntity) {
+    //         throw new RuntimeException('Deck not found.');
+    //     }
+    //
+    //     $entity = new QuizEntity();
+    //     $entity->deck = $deckEntity;
+    //     $entity->maxQuestions = $resource->maxQuestions;
+    //
+    //     return $entity;
+    // }
 }

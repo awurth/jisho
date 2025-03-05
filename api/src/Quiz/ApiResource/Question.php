@@ -11,8 +11,8 @@ use ApiPlatform\Metadata\Post;
 use App\Deck\ApiResource\Card;
 use App\Quiz\Exception\QuestionAlreadyAnsweredException;
 use App\Quiz\Exception\QuizEndedException;
+use App\Quiz\State\PostQuestionProcessor;
 use App\Quiz\State\QuestionAnswerProcessor;
-use App\Quiz\State\QuestionCreateProcessor;
 use App\Quiz\State\QuestionProvider;
 use App\Quiz\Validator\CorrectAnswer;
 use DateTimeImmutable;
@@ -62,7 +62,7 @@ use Symfony\Component\Uid\Uuid;
             ],
             securityPostDenormalize: 'is_granted("QUESTION_CREATE", object.quiz)',
             provider: QuestionProvider::class,
-            processor: QuestionCreateProcessor::class,
+            processor: PostQuestionProcessor::class,
         ),
         new Patch(
             uriTemplate: '/quizzes/{quizId}/questions/{id}',
@@ -100,7 +100,7 @@ final class Question
     public Card $card;
 
     #[Groups(['question:read'])]
-    public DateTimeImmutable $createdAt;
+    public int $position;
 
     #[Groups(['question:read'])]
     public ?DateTimeImmutable $answeredAt = null;

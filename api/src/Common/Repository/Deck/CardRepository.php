@@ -8,7 +8,6 @@ use App\Common\Entity\Deck\Card;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\Query\Expr;
 use Doctrine\Persistence\ManagerRegistry;
-use RuntimeException;
 use Symfony\Component\Uid\Uuid;
 
 /**
@@ -21,29 +20,18 @@ final class CardRepository extends ServiceEntityRepository
         parent::__construct($registry, Card::class);
     }
 
-    public function getRandomCard(Uuid $deckId, Uuid ...$excludedCardsIds): Card
+    /**
+     * @return Card[]
+     */
+    public function getRandomCards(Uuid $deckId, int $max): array
     {
         $expr = new Expr();
         $queryBuilder = $this->createQueryBuilder(alias: 'card')
             ->where($expr->eq('card.deck', ':deck'))
-            ->setParameter('deck', $deckId);
-
-        if ([] !== $excludedCardsIds) {
-            $queryBuilder
-                ->andWhere($expr->notIn('card.id', ':excludedIds'))
-                ->setParameter('excludedIds', $excludedCardsIds);
-        }
-
-        $queryBuilder
+            ->setParameter(key: 'deck', value: $deckId)
             ->orderBy('RANDOM()')
-            ->setMaxResults(1);
+            ->setMaxResults($max);
 
-        $card = $queryBuilder->getQuery()->getOneOrNullResult();
-
-        if (!$card instanceof Card) {
-            throw new RuntimeException('No card found');
-        }
-
-        return $card;
+        return $queryBuilder->getQuery()->getResult();
     }
 }

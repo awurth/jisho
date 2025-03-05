@@ -8,11 +8,16 @@ use ApiPlatform\Metadata\DeleteOperationInterface;
 use ApiPlatform\Metadata\Operation;
 use ApiPlatform\Metadata\Post;
 use ApiPlatform\State\ProcessorInterface;
+use App\Common\Entity\Deck\Deck as DeckEntity;
 use App\Common\Entity\Quiz\Quiz as QuizEntity;
+use App\Common\Repository\Deck\DeckRepository;
 use App\Common\Repository\Quiz\QuizRepository;
+use App\Deck\ApiResource\Deck;
 use App\Quiz\ApiResource\Quiz;
 use App\Quiz\DataTransformer\QuizDataTransformer;
+use App\Quiz\Factory\QuizFactory;
 use Doctrine\ORM\EntityManagerInterface;
+use InvalidArgumentException;
 use LogicException;
 use Override;
 use RuntimeException;
@@ -23,8 +28,10 @@ use RuntimeException;
 final readonly class QuizProcessor implements ProcessorInterface
 {
     public function __construct(
+        private DeckRepository $deckRepository,
         private EntityManagerInterface $entityManager,
         private QuizDataTransformer $quizDataTransformer,
+        private QuizFactory $quizFactory,
         private QuizRepository $quizRepository,
     ) {
     }
@@ -45,12 +52,21 @@ final readonly class QuizProcessor implements ProcessorInterface
         }
 
         if ($operation instanceof Post) {
-            $entity = $this->quizDataTransformer->transformApiResourceToEntity($data);
+            if (!$data->deck instanceof Deck) {
+                throw new InvalidArgumentException('Deck should be set.');
+            }
 
-            $this->entityManager->persist($entity);
+            $deckEntity = $this->deckRepository->find($data->deck->id);
+            if (!$deckEntity instanceof DeckEntity) {
+                throw new RuntimeException('Deck not found.');
+            }
+
+            $quizEntity = $this->quizFactory->create(deck: $deckEntity, maxQuestions: $data->maxQuestions);
+
+            $this->entityManager->persist($quizEntity);
             $this->entityManager->flush();
 
-            return $this->quizDataTransformer->transformEntityToApiResource($entity);
+            return $this->quizDataTransformer->transformEntityToApiResource($quizEntity);
         }
 
         throw new LogicException('Unexpected operation');

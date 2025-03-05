@@ -22,7 +22,7 @@ final readonly class QuestionDataTransformer
         $question->id = $entity->id;
         $question->quiz = $this->quizDataTransformer->transformEntityToApiResource($entity->quiz);
         $question->card = $this->cardDataTransformer->transformEntityToApiResource($entity->card);
-        $question->createdAt = $entity->createdAt;
+        $question->position = $entity->position;
         $question->answeredAt = $entity->answeredAt;
         $question->answer = $entity->answer;
 

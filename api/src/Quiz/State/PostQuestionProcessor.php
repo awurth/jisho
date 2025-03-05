@@ -8,7 +8,6 @@ use ApiPlatform\Metadata\Operation;
 use ApiPlatform\State\ProcessorInterface;
 use App\Common\Entity\Quiz\Question as QuestionEntity;
 use App\Common\Entity\Quiz\Quiz as QuizEntity;
-use App\Common\Repository\Deck\CardRepository;
 use App\Common\Repository\Quiz\QuestionRepository;
 use App\Common\Repository\Quiz\QuizRepository;
 use App\Quiz\ApiResource\Question;
@@ -18,18 +17,16 @@ use App\Quiz\Exception\QuizEndedException;
 use DateTimeImmutable;
 use Doctrine\ORM\EntityManagerInterface;
 use InvalidArgumentException;
+use LogicException;
 use Override;
 use RuntimeException;
-use Symfony\Component\Uid\Uuid;
-use function Functional\map;
 
 /**
  * @implements ProcessorInterface<Question, Question>
  */
-final readonly class QuestionCreateProcessor implements ProcessorInterface
+final readonly class PostQuestionProcessor implements ProcessorInterface
 {
     public function __construct(
-        private CardRepository $cardRepository,
         private EntityManagerInterface $entityManager,
         private QuestionDataTransformer $questionDataTransformer,
         private QuestionRepository $questionRepository,
@@ -53,28 +50,19 @@ final readonly class QuestionCreateProcessor implements ProcessorInterface
             throw new QuizEndedException();
         }
 
-        $lastQuestionEntity = $this->questionRepository->findOneBy(
-            ['quiz' => $quizEntity],
-            ['createdAt' => 'DESC'],
-        );
+        $lastUnansweredQuestionEntity = $this->questionRepository->findLastUnansweredQuestion(quizId: $quizEntity->id);
 
-        if ($lastQuestionEntity instanceof QuestionEntity && !$lastQuestionEntity->answeredAt instanceof DateTimeImmutable) {
-            return $this->questionDataTransformer->transformEntityToApiResource($lastQuestionEntity);
+        if (!$lastUnansweredQuestionEntity instanceof QuestionEntity) {
+            throw new LogicException('The quiz is not marked as ended but no unanswered question was found.');
         }
 
-        $quizQuestions = $this->questionRepository->findBy(['quiz' => $quizEntity]);
-        $quizCardsIds = map($quizQuestions, static fn (QuestionEntity $questionEntity): Uuid => $questionEntity->card->id);
+        if (!$quizEntity->startedAt instanceof DateTimeImmutable) {
+            $quizEntity->startedAt = new DateTimeImmutable();
 
-        $question = new QuestionEntity();
-        $question->quiz = $quizEntity;
-        $question->card = $this->cardRepository->getRandomCard($quizEntity->deck->id, ...$quizCardsIds);
+            $this->entityManager->persist($quizEntity);
+            $this->entityManager->flush();
+        }
 
-        $quizEntity->startedAt = $question->createdAt;
-
-        $this->entityManager->persist($question);
-        $this->entityManager->persist($quizEntity);
-        $this->entityManager->flush();
-
-        return $this->questionDataTransformer->transformEntityToApiResource($question);
+        return $this->questionDataTransformer->transformEntityToApiResource($lastUnansweredQuestionEntity);
     }
 }

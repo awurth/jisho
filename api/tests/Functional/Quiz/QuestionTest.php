@@ -11,7 +11,6 @@ use App\Common\Foundry\Factory\Quiz\QuizFactory;
 use App\Common\Foundry\Factory\UserFactory;
 use App\Tests\Functional\ApiTestCase;
 use DateTimeImmutable;
-use DateTimeInterface;
 use Zenstruck\Foundry\Test\Factories;
 use Zenstruck\Foundry\Test\ResetDatabase;
 
@@ -64,16 +63,73 @@ final class QuestionTest extends ApiTestCase
         ]);
     }
 
-    public function testPostQuestionReturnsCurrentQuestionIfExistsAndIsNotAnswered(): void
+    public function testPostQuestionReturnsLastUnansweredQuestion(): void
     {
         $quiz = QuizFactory::createOne();
-        $card = CardFactory::createOne([
+
+        $answeredQuestionCard = CardFactory::createOne([
+            'deck' => $quiz->deck,
+        ]);
+        QuestionFactory::createOne([
+            'quiz' => $quiz,
+            'card' => $answeredQuestionCard,
+            'answeredAt' => new DateTimeImmutable(),
+            'position' => 0,
+        ]);
+
+        $unansweredQuestionCard = CardFactory::createOne([
             'deck' => $quiz->deck,
             'entry' => EntryFactory::new()->single()->create(),
         ]);
-        $question = QuestionFactory::createOne([
+        $unansweredQuestion = QuestionFactory::createOne([
             'quiz' => $quiz,
-            'card' => $card,
+            'card' => $unansweredQuestionCard,
+            'answeredAt' => null,
+            'position' => 1,
+        ]);
+
+        $client = $this->createAuthenticatedClient($quiz->deck->owner);
+        $client->request('POST', "/quizzes/{$quiz->id}/questions", [
+            'json' => [],
+        ]);
+
+        self::assertResponseStatusCodeSame(201);
+        self::assertJsonEquals([
+            'id' => (string) $unansweredQuestion->id,
+            'position' => 1,
+            'card' => [
+                'entry' => [
+                    'kanji' => [
+                        [
+                            'info' => $unansweredQuestionCard->entry->kanjiElements[0]->info,
+                            'value' => $unansweredQuestionCard->entry->kanjiElements[0]->value,
+                        ],
+                    ],
+                    'readings' => [
+                        [
+                            'info' => $unansweredQuestionCard->entry->readingElements[0]->info,
+                            'kana' => $unansweredQuestionCard->entry->readingElements[0]->kana,
+                            'romaji' => $unansweredQuestionCard->entry->readingElements[0]->romaji,
+                        ],
+                    ],
+                ],
+            ],
+        ]);
+    }
+
+    public function testPostQuestionStartsTheQuizIfNotStarted(): void
+    {
+        $quiz = QuizFactory::createOne([
+            'startedAt' => null,
+        ]);
+
+        $unansweredQuestionCard = CardFactory::createOne([
+            'deck' => $quiz->deck,
+            'entry' => EntryFactory::new()->single()->create(),
+        ]);
+        $unansweredQuestion = QuestionFactory::createOne([
+            'quiz' => $quiz,
+            'card' => $unansweredQuestionCard,
             'answeredAt' => null,
         ]);
 
@@ -83,113 +139,23 @@ final class QuestionTest extends ApiTestCase
         ]);
 
         self::assertResponseStatusCodeSame(201);
+        self::assertNotNull($quiz->startedAt);
         self::assertJsonEquals([
-            'id' => (string) $question->id,
-            'createdAt' => $question->createdAt->format(DateTimeInterface::ATOM),
+            'id' => (string) $unansweredQuestion->id,
+            'position' => 0,
             'card' => [
                 'entry' => [
                     'kanji' => [
                         [
-                            'info' => $card->entry->kanjiElements[0]->info,
-                            'value' => $card->entry->kanjiElements[0]->value,
-                        ]
-                    ],
-                    'readings' => [
-                        [
-                            'info' => $card->entry->readingElements[0]->info,
-                            'kana' => $card->entry->readingElements[0]->kana,
-                            'romaji' => $card->entry->readingElements[0]->romaji,
+                            'info' => $unansweredQuestionCard->entry->kanjiElements[0]->info,
+                            'value' => $unansweredQuestionCard->entry->kanjiElements[0]->value,
                         ],
                     ],
-                ],
-            ],
-        ]);
-    }
-
-    public function testPostQuestionCreatesNewQuestionIfExistsButIsAnswered(): void
-    {
-        $quiz = QuizFactory::createOne();
-        $answeredQuestionCard = CardFactory::createOne([
-            'deck' => $quiz->deck,
-        ]);
-        $newQuestionCard = CardFactory::createOne([
-            'deck' => $quiz->deck,
-            'entry' => EntryFactory::new()->single()->create(),
-        ]);
-        $answeredQuestion = QuestionFactory::createOne([
-            'quiz' => $quiz,
-            'card' => $answeredQuestionCard,
-            'answeredAt' => new DateTimeImmutable(),
-        ]);
-
-        $client = $this->createAuthenticatedClient($quiz->deck->owner);
-        $client->request('POST', "/quizzes/{$quiz->id}/questions", [
-            'json' => [],
-        ]);
-
-        self::assertResponseStatusCodeSame(201);
-
-        $newQuestion = QuestionFactory::find([
-            'card' => $newQuestionCard,
-        ]);
-
-        self::assertNotSame((string) $newQuestion->id, (string) $answeredQuestion->id);
-        self::assertJsonEquals([
-            'id' => (string) $newQuestion->id,
-            'createdAt' => $newQuestion->createdAt->format(DateTimeInterface::ATOM),
-            'card' => [
-                'entry' => [
-                    'kanji' => [
-                        [
-                            'info' => $newQuestionCard->entry->kanjiElements[0]->info,
-                            'value' => $newQuestionCard->entry->kanjiElements[0]->value,
-                        ]
-                    ],
                     'readings' => [
                         [
-                            'info' => $newQuestionCard->entry->readingElements[0]->info,
-                            'kana' => $newQuestionCard->entry->readingElements[0]->kana,
-                            'romaji' => $newQuestionCard->entry->readingElements[0]->romaji,
-                        ],
-                    ],
-                ],
-            ],
-        ]);
-    }
-
-    public function testPostQuestionCreatesNewQuestionIfNotExists(): void
-    {
-        $quiz = QuizFactory::createOne();
-        $card = CardFactory::createOne([
-            'deck' => $quiz->deck,
-            'entry' => EntryFactory::new()->single()->create(),
-        ]);
-
-        $client = $this->createAuthenticatedClient($quiz->deck->owner);
-        $client->request('POST', "/quizzes/{$quiz->id}/questions", [
-            'json' => [],
-        ]);
-
-        self::assertResponseStatusCodeSame(201);
-
-        $question = QuestionFactory::first();
-
-        self::assertJsonEquals([
-            'id' => (string) $question->id,
-            'createdAt' => $question->createdAt->format(DateTimeInterface::ATOM),
-            'card' => [
-                'entry' => [
-                    'kanji' => [
-                        [
-                            'info' => $card->entry->kanjiElements[0]->info,
-                            'value' => $card->entry->kanjiElements[0]->value,
-                        ]
-                    ],
-                    'readings' => [
-                        [
-                            'info' => $card->entry->readingElements[0]->info,
-                            'kana' => $card->entry->readingElements[0]->kana,
-                            'romaji' => $card->entry->readingElements[0]->romaji,
+                            'info' => $unansweredQuestionCard->entry->readingElements[0]->info,
+                            'kana' => $unansweredQuestionCard->entry->readingElements[0]->kana,
+                            'romaji' => $unansweredQuestionCard->entry->readingElements[0]->romaji,
                         ],
                     ],
                 ],
