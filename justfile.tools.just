@@ -3,6 +3,7 @@ alias stan := phpstan
 
 # Execute Rector in dry-run mode
 [group('tools')]
+[no-exit-message]
 rector-dry:
     {{ DOCKER_COMPOSE_EXEC_PHP }} vendor/bin/rector --dry-run
 
@@ -13,6 +14,7 @@ rector:
 
 # Launch PHP-CS-Fixer (dry-run mode)
 [group('tools')]
+[no-exit-message]
 php-cs-fixer-dry:
     {{ DOCKER_COMPOSE_EXEC_PHP }} vendor/bin/php-cs-fixer fix --dry-run --stop-on-violation --show-progress=dots
 
