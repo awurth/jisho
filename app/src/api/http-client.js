@@ -1,5 +1,10 @@
 import axios from "axios";
 
-export default axios.create({
+const httpClient = axios.create({
   baseURL: "https://api.jisho.localhost",
 });
+
+httpClient.defaults.headers.patch["Content-Type"] =
+  "application/merge-patch+json";
+
+export default httpClient;
