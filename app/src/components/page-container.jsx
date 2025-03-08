@@ -6,7 +6,7 @@ export default function PageContainer({ className, ...props }) {
 
   return (
     <main
-      className={clsx("relative container mx-auto grow px-5 pb-16", className, {
+      className={clsx("container mx-auto grow px-5 pb-16", className, {
         hidden: results.length,
       })}
       {...props}
