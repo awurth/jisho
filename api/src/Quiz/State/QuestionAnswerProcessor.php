@@ -47,7 +47,7 @@ final readonly class QuestionAnswerProcessor implements ProcessorInterface
             throw new RuntimeException('Quiz not found.');
         }
 
-        $questionEntity = $quizEntity->questions->findFirst(static fn (int $key, QuestionEntity $question) => $question->id->equals($data->id));
+        $questionEntity = $quizEntity->questions->findFirst(static fn (int $key, QuestionEntity $question): bool => $question->id->equals($data->id));
         if (!$questionEntity instanceof QuestionEntity) {
             throw new RuntimeException('Question not found.');
         }
