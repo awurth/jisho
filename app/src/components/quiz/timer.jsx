@@ -1,8 +1,15 @@
 import { useStopwatch } from "react-timer-hook";
 
-export default function Timer({ running, ...props }) {
-  const { seconds, minutes, isRunning, start, pause } = useStopwatch({
+export default function Timer({ running, startDate, ...props }) {
+  const offset = new Date();
+  const secondsElapsed = Math.floor(
+    (offset.getTime() - startDate.getTime()) / 1000,
+  );
+  offset.setSeconds(offset.getSeconds() + secondsElapsed);
+
+  const { seconds, minutes, hours, isRunning, start, pause } = useStopwatch({
     autoStart: false,
+    offsetTimestamp: offset,
   });
 
   if (running) {
@@ -15,6 +22,8 @@ export default function Timer({ running, ...props }) {
 
   return (
     <span {...props}>
+      {0 !== hours &&
+        `${hours.toLocaleString("en-US", { minimumIntegerDigits: 2 })}:`}
       {minutes.toLocaleString("en-US", { minimumIntegerDigits: 2 })}:
       {seconds.toLocaleString("en-US", { minimumIntegerDigits: 2 })}
     </span>
