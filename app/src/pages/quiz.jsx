@@ -5,10 +5,13 @@ import { getQuiz } from "../api/quiz.js";
 import Button from "../components/button.jsx";
 import PageContainer from "../components/page-container.jsx";
 import Playground from "../components/quiz/playground.jsx";
+import Timer from "../components/quiz/timer.jsx";
+import { useQuizStore } from "../stores/quiz.js";
 
 export default function Quiz() {
   const { id } = useParams();
   const [started, setStarted] = useState(false);
+  const currentQuestion = useQuizStore((state) => state.currentQuestion);
 
   const {
     isPending,
@@ -41,6 +44,26 @@ export default function Quiz() {
           </Button>
         </div>
       )}
+      {started && currentQuestion && (
+        <div className="flex flex-col items-center">
+          <span className="font-bold">
+            {Math.min(currentQuestion.position + 1, quiz.numberOfQuestions)}/
+            {quiz.numberOfQuestions}
+          </span>
+          <Timer
+            className="font-bold text-2xl"
+            running={currentQuestion.position + 1 !== quiz.numberOfQuestions}
+            startDate={new Date(quiz.startedAt)}
+          />
+        </div>
+      )}
+      {started &&
+        currentQuestion &&
+        currentQuestion.position + 1 === quiz.numberOfQuestions && (
+          <p className="grow flex justify-center items-center font-bold text-4xl mb-32">
+            Terminé ! 1 points / {quiz.numberOfQuestions}
+          </p>
+        )}
       {started && <Playground quiz={quiz} />}
     </PageContainer>
   );

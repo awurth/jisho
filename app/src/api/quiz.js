@@ -19,3 +19,11 @@ export async function postQuestion(quizId) {
   const { data } = await httpClient.post(`/quizzes/${quizId}/questions`, {});
   return data;
 }
+
+export async function patchQuestion(quizId, questionId, payload) {
+  const { data } = await httpClient.patch(
+    `/quizzes/${quizId}/questions/${questionId}`,
+    payload,
+  );
+  return data;
+}
