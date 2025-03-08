@@ -9,8 +9,6 @@ use ApiPlatform\State\ProcessorInterface;
 use ApiPlatform\Validator\ValidatorInterface;
 use App\Common\Entity\Quiz\Question as QuestionEntity;
 use App\Common\Entity\Quiz\Quiz as QuizEntity;
-use App\Common\Repository\Deck\CardRepository;
-use App\Common\Repository\Quiz\QuestionRepository;
 use App\Common\Repository\Quiz\QuizRepository;
 use App\Quiz\ApiResource\Question;
 use App\Quiz\ApiResource\Quiz;
@@ -22,6 +20,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use InvalidArgumentException;
 use Override;
 use RuntimeException;
+use function max;
 
 /**
  * @implements ProcessorInterface<Question, Question>
@@ -29,10 +28,8 @@ use RuntimeException;
 final readonly class QuestionAnswerProcessor implements ProcessorInterface
 {
     public function __construct(
-        private CardRepository $cardRepository,
         private EntityManagerInterface $entityManager,
         private QuestionDataTransformer $questionDataTransformer,
-        private QuestionRepository $questionRepository,
         private QuizRepository $quizRepository,
         private ValidatorInterface $validator,
     ) {
@@ -50,7 +47,7 @@ final readonly class QuestionAnswerProcessor implements ProcessorInterface
             throw new RuntimeException('Quiz not found.');
         }
 
-        $questionEntity = $this->questionRepository->find($data->id);
+        $questionEntity = $quizEntity->questions->findFirst(static fn (int $key, QuestionEntity $question) => $question->id->equals($data->id));
         if (!$questionEntity instanceof QuestionEntity) {
             throw new RuntimeException('Question not found.');
         }
@@ -70,10 +67,9 @@ final readonly class QuestionAnswerProcessor implements ProcessorInterface
         $questionEntity->answeredAt = new DateTimeImmutable();
         $questionEntity->answer = $data->answer;
 
-        $deckCardsCount = $this->cardRepository->count(['deck' => $quizEntity->deck]);
-        $questionsCount = $this->questionRepository->count(['quiz' => $quizEntity]);
+        $lastQuestionPosition = max(...$quizEntity->questions->map(static fn (QuestionEntity $question): int => $question->position));
 
-        if ($questionsCount >= $deckCardsCount || ($quizEntity->maxQuestions > 0 && $questionsCount >= $quizEntity->maxQuestions)) {
+        if ($questionEntity->position === $lastQuestionPosition) {
             $quizEntity->endedAt = $questionEntity->answeredAt;
         }
 
