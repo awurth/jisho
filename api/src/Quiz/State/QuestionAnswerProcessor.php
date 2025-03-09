@@ -60,6 +60,13 @@ final readonly class QuestionAnswerProcessor implements ProcessorInterface
             throw new QuestionAlreadyAnsweredException();
         }
 
+        if (!$quizEntity->startedAt instanceof DateTimeImmutable) {
+            $quizEntity->startedAt = new DateTimeImmutable();
+
+            $this->entityManager->persist($quizEntity);
+            $this->entityManager->flush();
+        }
+
         $this->validator->validate($data, [
             'groups' => ['answer'],
         ]);
