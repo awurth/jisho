@@ -26,6 +26,7 @@ final class QuestionRepository extends ServiceEntityRepository
         $queryBuilder = $this->createQueryBuilder(alias: 'question')
             ->where($expr->eq('question.quiz', ':quiz'))
             ->andWhere($expr->isNull('question.answeredAt'))
+            ->andWhere($expr->isNull('question.skippedAt'))
             ->setParameter(key: 'quiz', value: $quizId)
             ->orderBy(sort: 'question.position', order: 'ASC')
             ->setMaxResults(1);
