@@ -53,6 +53,7 @@ final class CorrectAnswerValidator extends ConstraintValidator
 
         if (!$correct) {
             $this->context->buildViolation($constraint->message)
+                ->atPath('answer')
                 ->setInvalidValue($value->answer)
                 ->addViolation();
         }
