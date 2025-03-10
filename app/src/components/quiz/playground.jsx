@@ -89,7 +89,7 @@ export default function Playground({ quiz }) {
         <Input
           ref={answerInputRef}
           className={clsx(
-            "px-5 block w-full h-20 text-2xl text-center mb-3 placeholder:text-gray-300 shadow-sm",
+            "px-5 block w-full h-20 text-2xl text-center mb-3 placeholder:text-gray-300 shadow-xs",
             { shake: wrong },
           )}
           placeholder="Answer"

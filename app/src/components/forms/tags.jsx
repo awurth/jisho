@@ -30,7 +30,7 @@ export default function Tags({ options = [], ...props }) {
             },
           ),
         multiValue: () =>
-          "bg-gray-400 hover:bg-gray-500 rounded text-white text-xs pl-2 pr-1 py-1 mx-0.5 my-0.5",
+          "bg-gray-400 hover:bg-gray-500 rounded-sm text-white text-xs pl-2 pr-1 py-1 mx-0.5 my-0.5",
         multiValueRemove: () => "ml-1",
       }}
       closeMenuOnSelect={false}
