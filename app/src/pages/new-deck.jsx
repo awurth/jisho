@@ -5,16 +5,19 @@ import { postDeck } from "../api/deck.js";
 import Button from "../components/button.jsx";
 import Input from "../components/forms/input.jsx";
 import PageContainer from "../components/page-container.jsx";
+import { useDeckStore } from "../stores/deck.js";
 
 export default function NewDeck() {
   const navigate = useNavigate();
   const [name, setName] = useState("");
+  const setActiveDeck = useDeckStore((state) => state.setActiveDeck);
 
   const queryClient = useQueryClient();
   const mutation = useMutation({
     mutationFn: (deck) => postDeck(deck),
-    onSuccess: () => {
+    onSuccess: (data) => {
       queryClient.invalidateQueries({ queryKey: ["decks"] });
+      setActiveDeck(data);
       navigate("/");
     },
   });
