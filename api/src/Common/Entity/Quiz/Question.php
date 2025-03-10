@@ -38,6 +38,9 @@ class Question
     #[Column]
     public string $answer = '';
 
+    #[Column(nullable: true)]
+    public ?DateTimeImmutable $skippedAt = null;
+
     public function __construct()
     {
         $this->id = Uuid::v4();

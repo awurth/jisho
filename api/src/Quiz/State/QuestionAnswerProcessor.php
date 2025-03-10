@@ -71,8 +71,12 @@ final readonly class QuestionAnswerProcessor implements ProcessorInterface
             'groups' => ['answer'],
         ]);
 
-        $questionEntity->answeredAt = new DateTimeImmutable();
-        $questionEntity->answer = $data->answer;
+        if ($data->skipped) {
+            $questionEntity->skippedAt = new DateTimeImmutable();
+        } else {
+            $questionEntity->answeredAt = new DateTimeImmutable();
+            $questionEntity->answer = $data->answer;
+        }
 
         /** @var non-empty-array<int, int> $questionPositions */
         $questionPositions = $quizEntity->questions->map(static fn (QuestionEntity $question): int => $question->position)->toArray();
@@ -80,7 +84,7 @@ final readonly class QuestionAnswerProcessor implements ProcessorInterface
         $lastQuestionPosition = max($questionPositions);
 
         if ($questionEntity->position === $lastQuestionPosition) {
-            $quizEntity->endedAt = $questionEntity->answeredAt;
+            $quizEntity->endedAt = $questionEntity->answeredAt ?? $questionEntity->skippedAt;
         }
 
         $this->entityManager->persist($quizEntity);

@@ -39,6 +39,10 @@ final class CorrectAnswerValidator extends ConstraintValidator
             throw new RuntimeException('Question not found.');
         }
 
+        if ($value->skipped) {
+            return;
+        }
+
         $correct = some(
             $questionEntity->card->entry->senses,
             static fn (SenseEntity $senseEntity): bool => some(

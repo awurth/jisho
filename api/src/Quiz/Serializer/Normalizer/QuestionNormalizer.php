@@ -23,9 +23,13 @@ final class QuestionNormalizer extends AbstractNormalizer
     #[Override]
     protected function updateContext(mixed $object, ?string $format = null, array $context = []): array
     {
-        $context['groups'][] = $object->answeredAt instanceof DateTimeImmutable
-            ? 'question:answered:read'
-            : 'question:unanswered:read';
+        if ($object->answeredAt instanceof DateTimeImmutable) {
+            $context['groups'][] = 'question:answered:read';
+        }
+
+        if ($object->skippedAt instanceof DateTimeImmutable) {
+            $context['groups'][] = 'question:skipped:read';
+        }
 
         return $context;
     }

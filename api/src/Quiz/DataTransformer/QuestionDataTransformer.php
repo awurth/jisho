@@ -24,6 +24,7 @@ final readonly class QuestionDataTransformer
         $question->card = $this->cardDataTransformer->transformEntityToApiResource($entity->card);
         $question->position = $entity->position;
         $question->answeredAt = $entity->answeredAt;
+        $question->skippedAt = $entity->skippedAt;
         $question->answer = $entity->answer;
 
         return $question;

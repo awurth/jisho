@@ -58,7 +58,7 @@ final class Entry
         public array $kanji,
         #[Groups(['card:read', 'entry:read', 'question:read'])]
         public array $readings,
-        #[Groups(['card:read', 'entry:read', 'question:answered:read'])]
+        #[Groups(['card:read', 'entry:read', 'question:answered:read', 'question:skipped:read'])]
         public array $senses,
     ) {
     }

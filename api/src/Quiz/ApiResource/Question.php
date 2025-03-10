@@ -102,9 +102,15 @@ final class Question
     #[Groups(['question:read'])]
     public int $position;
 
-    #[Groups(['question:read'])]
+    #[Groups(['question:answered:read'])]
     public ?DateTimeImmutable $answeredAt = null;
 
     #[Groups(['question:answered:read', 'question:answer'])]
     public string $answer = '';
+
+    #[Groups(['question:skipped:read'])]
+    public ?DateTimeImmutable $skippedAt = null;
+
+    #[Groups(['question:answer'])]
+    public bool $skipped = false;
 }
