@@ -1,4 +1,5 @@
 import { cva } from "class-variance-authority";
+import { Link } from "react-router";
 
 const button = cva("rounded-full", {
   variants: {
@@ -41,13 +42,18 @@ export default function Button({
   size,
   disabled,
   className,
+  href,
   ...props
 }) {
-  return (
-    <button
-      className={button({ intent, size, disabled, className })}
-      disabled={disabled || undefined}
-      {...props}
-    />
+  const buttonProps = {
+    className: button({ intent, size, disabled, className }),
+    disabled: disabled || undefined,
+    ...props,
+  };
+
+  return !!href ? (
+    <Link to={href} {...buttonProps} />
+  ) : (
+    <button {...buttonProps} />
   );
 }

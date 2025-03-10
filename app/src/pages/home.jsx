@@ -1,7 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 import { Fragment } from "react";
-import { Link } from "react-router";
 import { getCards } from "../api/deck.js";
+import Button from "../components/button.jsx";
 import Card from "../components/deck/card.jsx";
 import PageContainer from "../components/page-container.jsx";
 import { useDeckStore } from "../stores/deck.js";
@@ -11,15 +11,14 @@ export default function Home() {
 
   if (!deck) {
     return (
-      <div className="text-center mt-20">
-        <p className="text-white mb-3">You don't have a deck of cards yet</p>
-        <Link
-          to="/new-deck"
-          className="inline-block bg-primary-500 border-b-4 border-primary-600 rounded-xl text-white font-semibold px-5 py-3"
-        >
+      <PageContainer className="text-center">
+        <p className="mt-20 mb-10 text-sm">
+          You don't have a deck of cards yet
+        </p>
+        <Button href="/new-deck" size="large">
           Create a deck of cards
-        </Link>
-      </div>
+        </Button>
+      </PageContainer>
     );
   }
 
@@ -34,17 +33,13 @@ export default function Home() {
 
   if (!cards.length) {
     return (
-      <div className="text-center mt-20">
-        <p className="text-white mb-3">
-          You haven't added any cards to your deck yet
+      <PageContainer>
+        <p className="mt-20 mb-3 px-5 text-sm text-center">
+          You haven't added any cards to your deck yet.
+          <br />
+          Use the search bar to find a word and add it to your deck.
         </p>
-        <Link
-          to="/search"
-          className="inline-block bg-primary-500 border-b-4 border-primary-600 rounded-xl text-white font-semibold px-5 py-3"
-        >
-          Add cards
-        </Link>
-      </div>
+      </PageContainer>
     );
   }
 

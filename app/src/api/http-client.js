@@ -1,6 +1,6 @@
 import axios from "axios";
-import {router} from '../routes.jsx';
-import {useUserStore} from '../stores/user.js';
+import { router } from "../routes.jsx";
+import { useUserStore } from "../stores/user.js";
 
 const httpClient = axios.create({
   baseURL: "https://api.jisho.localhost",
