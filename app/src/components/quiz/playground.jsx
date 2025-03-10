@@ -1,6 +1,6 @@
 import { useMutation } from "@tanstack/react-query";
 import clsx from "clsx";
-import {useEffect, useRef, useState} from 'react';
+import { useEffect, useRef, useState } from "react";
 import { patchQuestion, postQuestion } from "../../api/quiz.js";
 import { useQuizStore } from "../../stores/quiz.js";
 import Button from "../button.jsx";
@@ -24,12 +24,15 @@ export default function Playground({ quiz }) {
   });
 
   const patchQuestionMutation = useMutation({
-    mutationFn: (payload) => patchQuestion(quiz.id, currentQuestion.id, payload),
+    mutationFn: (payload) =>
+      patchQuestion(quiz.id, currentQuestion.id, payload),
     onSuccess: (data, payload) => {
       if (payload.skipped) {
         setSkipped(true);
       }
-      setCorrectAnswer(payload.skipped ? data.card.entry.senses[0].translations[0].value : "");
+      setCorrectAnswer(
+        payload.skipped ? data.card.entry.senses[0].translations[0].value : "",
+      );
       postQuestionMutation.mutate();
     },
     onError: () => {
@@ -81,11 +84,14 @@ export default function Playground({ quiz }) {
 
   return (
     <>
-      {!skipped && <Question question={currentQuestion}/>}
+      {!skipped && <Question question={currentQuestion} />}
       <div className={clsx({ hidden: skipped })}>
         <Input
           ref={answerInputRef}
-          className={clsx("px-5 block w-full h-20 text-2xl text-center mb-3 placeholder:text-gray-300 shadow-sm", {shake: wrong})}
+          className={clsx(
+            "px-5 block w-full h-20 text-2xl text-center mb-3 placeholder:text-gray-300 shadow-sm",
+            { shake: wrong },
+          )}
           placeholder="Answer"
           value={answer}
           onChange={(e) => setAnswer(e.target.value)}
@@ -93,12 +99,12 @@ export default function Playground({ quiz }) {
           autoFocus
         />
         <div className="flex justify-center">
-          <Button size="large" onClick={onSkipButtonClick}>Skip question</Button>
+          <Button size="large" onClick={onSkipButtonClick}>
+            Skip question
+          </Button>
         </div>
       </div>
-      {skipped && (
-        <p className="mt-56 text-4xl text-center">{correctAnswer}</p>
-      )}
+      {skipped && <p className="mt-56 text-4xl text-center">{correctAnswer}</p>}
     </>
   );
 }

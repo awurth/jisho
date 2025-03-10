@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import {useEffect, useState} from 'react';
+import { useEffect, useState } from "react";
 import { useParams } from "react-router";
 import { getQuiz } from "../api/quiz.js";
 import Button from "../components/button.jsx";
