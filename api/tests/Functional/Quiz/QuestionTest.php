@@ -11,6 +11,7 @@ use App\Common\Foundry\Factory\Quiz\QuizFactory;
 use App\Common\Foundry\Factory\UserFactory;
 use App\Tests\Functional\ApiTestCase;
 use DateTimeImmutable;
+use DateTimeInterface;
 use Zenstruck\Foundry\Test\Factories;
 use Zenstruck\Foundry\Test\ResetDatabase;
 
@@ -233,6 +234,30 @@ final class QuestionTest extends ApiTestCase
 
     public function testPatchQuestionWithWrongAnswer(): void
     {
+        $question = QuestionFactory::createOne([
+            'quiz' => QuizFactory::createOne([
+                'startedAt' => null,
+            ]),
+        ]);
+
+        $client = self::createAuthenticatedClient($question->quiz->deck->owner);
+        self::patch($client, "/quizzes/{$question->quiz->id}/questions/{$question->id}", [
+            'json' => [
+                'answer' => 'wrong',
+            ],
+        ]);
+
+        self::assertResponseStatusCodeSame(422);
+        self::assertNotNull($question->quiz->startedAt);
+        self::assertJsonContains([
+            'title' => 'An error occurred',
+            'detail' => 'Wrong answer.',
+            'status' => 422,
+        ]);
+    }
+
+    public function testPatchQuestionStartsTheQuizIfNotStarted(): void
+    {
         $entry = EntryFactory::createOne();
         $card = CardFactory::createOne([
             'entry' => $entry,
@@ -253,6 +278,124 @@ final class QuestionTest extends ApiTestCase
             'title' => 'An error occurred',
             'detail' => 'Wrong answer.',
             'status' => 422,
+        ]);
+    }
+
+    public function testPatchQuestionWithRightAnswer(): void
+    {
+        $entry = EntryFactory::new()->single()->create();
+        $card = CardFactory::createOne([
+            'entry' => $entry,
+        ]);
+        $question = QuestionFactory::createOne([
+            'card' => $card,
+        ]);
+
+        $client = self::createAuthenticatedClient($question->quiz->deck->owner);
+        self::patch($client, "/quizzes/{$question->quiz->id}/questions/{$question->id}", [
+            'answer' => $entry->senses[0]->translations[0]->value,
+        ]);
+
+        self::assertResponseStatusCodeSame(200);
+        self::assertNotNull($question->answeredAt);
+        self::assertJsonEquals([
+            'id' => (string) $question->id,
+            'position' => 0,
+            'card' => [
+                'entry' => [
+                    'kanji' => [
+                        [
+                            'info' => $card->entry->kanjiElements[0]->info,
+                            'value' => $card->entry->kanjiElements[0]->value,
+                        ],
+                    ],
+                    'readings' => [
+                        [
+                            'info' => $card->entry->readingElements[0]->info,
+                            'kana' => $card->entry->readingElements[0]->kana,
+                            'romaji' => $card->entry->readingElements[0]->romaji,
+                        ],
+                    ],
+                    'senses' => [
+                        [
+                            'dialect' => $card->entry->senses[0]->dialect,
+                            'fieldOfApplication' => $card->entry->senses[0]->fieldOfApplication,
+                            'info' => $card->entry->senses[0]->info,
+                            'misc' => $card->entry->senses[0]->misc,
+                            'partsOfSpeech' => $card->entry->senses[0]->partsOfSpeech,
+                            'translations' => [
+                                [
+                                    'language' => $card->entry->senses[0]->translations[0]->language,
+                                    'value' => $card->entry->senses[0]->translations[0]->value,
+                                ],
+                            ],
+                        ],
+                    ],
+                ],
+            ],
+            'answer' => $entry->senses[0]->translations[0]->value,
+            'answeredAt' => $question->answeredAt->format(DateTimeInterface::ATOM),
+        ]);
+    }
+
+    public function testPatchQuestionEndsTheQuizIfAnswerIsCorrectAndItWasTheLastQuestion(): void
+    {
+        $entry = EntryFactory::new()->single()->create();
+        $card = CardFactory::createOne([
+            'entry' => $entry,
+        ]);
+        $question = QuestionFactory::createOne([
+            'quiz' => QuizFactory::createOne([
+                'endedAt' => null,
+            ]),
+            'card' => $card,
+        ]);
+
+        $client = self::createAuthenticatedClient($question->quiz->deck->owner);
+        self::patch($client, "/quizzes/{$question->quiz->id}/questions/{$question->id}", [
+            'answer' => $entry->senses[0]->translations[0]->value,
+        ]);
+
+        self::assertResponseStatusCodeSame(200);
+        self::assertNotNull($question->quiz->endedAt);
+        self::assertNotNull($question->answeredAt);
+        self::assertJsonEquals([
+            'id' => (string) $question->id,
+            'position' => 0,
+            'card' => [
+                'entry' => [
+                    'kanji' => [
+                        [
+                            'info' => $card->entry->kanjiElements[0]->info,
+                            'value' => $card->entry->kanjiElements[0]->value,
+                        ],
+                    ],
+                    'readings' => [
+                        [
+                            'info' => $card->entry->readingElements[0]->info,
+                            'kana' => $card->entry->readingElements[0]->kana,
+                            'romaji' => $card->entry->readingElements[0]->romaji,
+                        ],
+                    ],
+                    'senses' => [
+                        [
+                            'dialect' => $card->entry->senses[0]->dialect,
+                            'fieldOfApplication' => $card->entry->senses[0]->fieldOfApplication,
+                            'info' => $card->entry->senses[0]->info,
+                            'misc' => $card->entry->senses[0]->misc,
+                            'partsOfSpeech' => $card->entry->senses[0]->partsOfSpeech,
+                            'translations' => [
+                                [
+                                    'language' => $card->entry->senses[0]->translations[0]->language,
+                                    'value' => $card->entry->senses[0]->translations[0]->value,
+                                ],
+                            ],
+                        ],
+                    ],
+                ],
+            ],
+            'answer' => $entry->senses[0]->translations[0]->value,
+            'answeredAt' => $question->answeredAt->format(DateTimeInterface::ATOM),
         ]);
     }
 }

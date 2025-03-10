@@ -74,7 +74,10 @@ final readonly class QuestionAnswerProcessor implements ProcessorInterface
         $questionEntity->answeredAt = new DateTimeImmutable();
         $questionEntity->answer = $data->answer;
 
-        $lastQuestionPosition = max($quizEntity->questions->map(static fn (QuestionEntity $question): int => $question->position)->toArray());
+        /** @var non-empty-array<int, int> $questionPositions */
+        $questionPositions = $quizEntity->questions->map(static fn (QuestionEntity $question): int => $question->position)->toArray();
+
+        $lastQuestionPosition = max($questionPositions);
 
         if ($questionEntity->position === $lastQuestionPosition) {
             $quizEntity->endedAt = $questionEntity->answeredAt;
