@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import { useState } from "react";
+import {useEffect, useState} from 'react';
 import { useParams } from "react-router";
 import { getQuiz } from "../api/quiz.js";
 import Button from "../components/button.jsx";
@@ -21,6 +21,12 @@ export default function Quiz() {
     queryKey: ["quiz", id],
     queryFn: () => getQuiz(id),
   });
+
+  useEffect(() => {
+    if (quiz?.startedAt) {
+      setStarted(true);
+    }
+  }, [quiz]);
 
   if (isPending) {
     return <></>;
