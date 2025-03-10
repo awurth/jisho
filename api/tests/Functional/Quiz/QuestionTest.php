@@ -251,7 +251,7 @@ final class QuestionTest extends ApiTestCase
         self::assertNotNull($question->quiz->startedAt);
         self::assertJsonContains([
             'title' => 'An error occurred',
-            'detail' => 'Wrong answer.',
+            'detail' => 'answer: Wrong answer.',
             'status' => 422,
         ]);
     }
@@ -276,7 +276,7 @@ final class QuestionTest extends ApiTestCase
         self::assertResponseStatusCodeSame(422);
         self::assertJsonContains([
             'title' => 'An error occurred',
-            'detail' => 'Wrong answer.',
+            'detail' => 'answer: Wrong answer.',
             'status' => 422,
         ]);
     }
