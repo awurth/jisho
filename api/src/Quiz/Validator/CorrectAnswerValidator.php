@@ -16,6 +16,7 @@ use Symfony\Component\Validator\ConstraintValidator;
 use Symfony\Component\Validator\Exception\UnexpectedTypeException;
 use Symfony\Component\Validator\Exception\UnexpectedValueException;
 use function Functional\some;
+use function trim;
 
 final class CorrectAnswerValidator extends ConstraintValidator
 {
@@ -43,11 +44,13 @@ final class CorrectAnswerValidator extends ConstraintValidator
             return;
         }
 
+        $answer = trim($value->answer);
+
         $correct = some(
             $questionEntity->card->entry->senses,
             static fn (SenseEntity $senseEntity): bool => some(
                 $senseEntity->translations,
-                static fn (TranslationEntity $translationEntity): bool => $translationEntity->value === $value->answer,
+                static fn (TranslationEntity $translationEntity): bool => $translationEntity->value === $answer,
             ),
         );
 
