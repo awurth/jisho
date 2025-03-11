@@ -11,12 +11,12 @@ use App\Common\Repository\Quiz\QuestionRepository;
 use App\Quiz\ApiResource\Question;
 use Override;
 use RuntimeException;
+use Symfony\Component\String\UnicodeString;
 use Symfony\Component\Validator\Constraint;
 use Symfony\Component\Validator\ConstraintValidator;
 use Symfony\Component\Validator\Exception\UnexpectedTypeException;
 use Symfony\Component\Validator\Exception\UnexpectedValueException;
 use function Functional\some;
-use function trim;
 
 final class CorrectAnswerValidator extends ConstraintValidator
 {
@@ -44,13 +44,13 @@ final class CorrectAnswerValidator extends ConstraintValidator
             return;
         }
 
-        $answer = trim($value->answer);
+        $answer = new UnicodeString($value->answer)->trim()->toString();
 
         $correct = some(
             $questionEntity->card->entry->senses,
             static fn (SenseEntity $senseEntity): bool => some(
                 $senseEntity->translations,
-                static fn (TranslationEntity $translationEntity): bool => $translationEntity->value === $answer,
+                static fn (TranslationEntity $translationEntity): bool => self::compareAnswerToTranslation($translationEntity->value, $answer),
             ),
         );
 
@@ -60,5 +60,14 @@ final class CorrectAnswerValidator extends ConstraintValidator
                 ->setInvalidValue($value->answer)
                 ->addViolation();
         }
+    }
+
+    private static function compareAnswerToTranslation(string $translation, string $answer): bool
+    {
+        return new UnicodeString($translation)
+            ->replaceMatches(fromRegexp: '/\([^()]*\)/', to: '')
+            ->replace(from: '...', to: '')
+            ->trim()
+            ->equalsTo($answer);
     }
 }
