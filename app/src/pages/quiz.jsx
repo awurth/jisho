@@ -5,18 +5,17 @@ import { getQuiz } from "../api/quiz.js";
 import Button from "../components/button.jsx";
 import PageContainer from "../components/page-container.jsx";
 import Playground from "../components/quiz/playground.jsx";
-import Timer from "../components/quiz/timer.jsx";
-import { useQuizStore } from "../stores/quiz.js";
 
 export default function Quiz() {
   const { id } = useParams();
   const [started, setStarted] = useState(false);
-  const currentQuestion = useQuizStore((state) => state.currentQuestion);
+  const [ended, setEnded] = useState(false);
 
   const {
     isPending,
     isError,
     data: quiz = {},
+    refetch,
   } = useQuery({
     queryKey: ["quiz", id],
     queryFn: () => getQuiz(id),
@@ -40,37 +39,31 @@ export default function Quiz() {
     );
   }
 
+  const onFinish = () => {
+    setStarted(false);
+    setEnded(true);
+    refetch();
+  };
+
   return (
     <PageContainer className="flex flex-col">
       <h1 className="text-xl text-gray-950 font-semibold mb-2">Quiz</h1>
-      {!started && (
+      {!started && !ended && (
         <div className="grow flex items-center justify-center p-5">
           <Button size="large" onClick={() => setStarted(true)}>
             Start quiz
           </Button>
         </div>
       )}
-      {started && currentQuestion && (
-        <div className="flex flex-col items-center">
-          <span className="font-bold">
-            {Math.min(currentQuestion.position + 1, quiz.numberOfQuestions)}/
-            {quiz.numberOfQuestions}
-          </span>
-          <Timer
-            className="font-bold text-2xl"
-            running={currentQuestion.position + 1 !== quiz.numberOfQuestions}
-            startDate={new Date(quiz.startedAt)}
-          />
+      {ended && (
+        <div className="grow flex flex-col justify-center items-center font-bold text-4xl">
+          <p className="mb-3">The quiz is over!</p>
+          <p>
+            {quiz.score} / {quiz.numberOfQuestions}
+          </p>
         </div>
       )}
-      {started &&
-        currentQuestion &&
-        currentQuestion.position + 1 === quiz.numberOfQuestions && (
-          <p className="grow flex justify-center items-center font-bold text-4xl mb-32">
-            Terminé ! 1 points / {quiz.numberOfQuestions}
-          </p>
-        )}
-      {started && <Playground quiz={quiz} />}
+      {started && !ended && <Playground quiz={quiz} onFinish={onFinish} />}
     </PageContainer>
   );
 }

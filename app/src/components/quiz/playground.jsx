@@ -2,15 +2,14 @@ import { useMutation } from "@tanstack/react-query";
 import clsx from "clsx";
 import { useEffect, useRef, useState } from "react";
 import { patchQuestion, postQuestion } from "../../api/quiz.js";
-import { useQuizStore } from "../../stores/quiz.js";
 import Button from "../button.jsx";
 import Input from "../forms/input.jsx";
 import Question from "./question.jsx";
+import Timer from "./timer.jsx";
 
-export default function Playground({ quiz }) {
+export default function Playground({ quiz, onFinish }) {
   const answerInputRef = useRef(null);
-  const currentQuestion = useQuizStore((state) => state.currentQuestion);
-  const setCurrentQuestion = useQuizStore((state) => state.setCurrentQuestion);
+  const [currentQuestion, setCurrentQuestion] = useState(null);
   const [answer, setAnswer] = useState("");
   const [correctAnswer, setCorrectAnswer] = useState("");
   const [skipped, setSkipped] = useState(false);
@@ -20,6 +19,9 @@ export default function Playground({ quiz }) {
     mutationFn: () => postQuestion(quiz.id),
     onSuccess: (data) => {
       setCurrentQuestion(data);
+    },
+    onError: () => {
+      onFinish();
     },
   });
 
@@ -84,6 +86,17 @@ export default function Playground({ quiz }) {
 
   return (
     <>
+      <div className="flex flex-col items-center">
+        <span className="font-bold">
+          Question {Math.min(currentQuestion.position + 1, quiz.numberOfQuestions)}/
+          {quiz.numberOfQuestions}
+        </span>
+        <Timer
+          className="font-bold text-2xl"
+          running={currentQuestion.position + 1 !== quiz.numberOfQuestions}
+          startDate={new Date(quiz.startedAt)}
+        />
+      </div>
       {!skipped && <Question question={currentQuestion} />}
       <div className={clsx({ hidden: skipped })}>
         <Input
