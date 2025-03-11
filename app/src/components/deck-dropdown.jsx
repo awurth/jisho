@@ -2,11 +2,12 @@ import { faCaretDown, faPlus } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Menu } from "@headlessui/react";
 import { useQuery } from "@tanstack/react-query";
-import { Link } from "react-router";
+import { Link, useNavigate } from "react-router";
 import { getDecks } from "../api/deck.js";
 import { useDeckStore } from "../stores/deck.js";
 
 export default function DeckDropdown() {
+  const navigate = useNavigate();
   const setActiveDeck = useDeckStore((state) => state.setActiveDeck);
   const activeDeck = useDeckStore((state) => state.activeDeck);
 
@@ -17,6 +18,7 @@ export default function DeckDropdown() {
 
   const onDeckClick = (deck) => {
     setActiveDeck(deck);
+    navigate("/");
   };
 
   return (
