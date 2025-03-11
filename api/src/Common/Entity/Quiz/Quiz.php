@@ -31,6 +31,12 @@ class Quiz
     #[Column]
     public int $maxQuestions = 0;
 
+    #[Column(nullable: true)]
+    public ?int $numberOfQuestions = null;
+
+    #[Column(nullable: true)]
+    public ?int $score = null;
+
     #[Column(updatable: false)]
     public DateTimeImmutable $createdAt;
 

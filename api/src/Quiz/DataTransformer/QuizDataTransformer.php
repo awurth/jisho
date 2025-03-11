@@ -26,7 +26,8 @@ final readonly class QuizDataTransformer
         $quiz->id = $entity->id;
         $quiz->deck = $this->deckDataTransformer->transformEntityToApiResource($entity->deck);
         $quiz->maxQuestions = $entity->maxQuestions;
-        $quiz->numberOfQuestions = $entity->questions->count();
+        $quiz->numberOfQuestions = $entity->numberOfQuestions ?? $entity->questions->count();
+        $quiz->score = $entity->score;
         $quiz->createdAt = $entity->createdAt;
         $quiz->startedAt = $entity->startedAt;
         $quiz->endedAt = $entity->endedAt;

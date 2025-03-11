@@ -85,6 +85,11 @@ final readonly class QuestionAnswerProcessor implements ProcessorInterface
 
         if ($questionEntity->position === $lastQuestionPosition) {
             $quizEntity->endedAt = $questionEntity->answeredAt ?? $questionEntity->skippedAt;
+            $quizEntity->numberOfQuestions = $quizEntity->questions->count();
+            $quizEntity->score = $quizEntity->questions->reduce(
+                func: static fn (int $score, QuestionEntity $question): int => $question->answeredAt instanceof DateTimeImmutable ? $score + 1 : $score,
+                initial: 0,
+            );
         }
 
         $this->entityManager->persist($quizEntity);

@@ -85,6 +85,9 @@ final class Quiz
     public int $numberOfQuestions;
 
     #[Groups(['quiz:read'])]
+    public ?int $score = null;
+
+    #[Groups(['quiz:read'])]
     public DateTimeImmutable $createdAt;
 
     #[Groups(['quiz:read'])]
