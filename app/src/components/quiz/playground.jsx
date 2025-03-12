@@ -86,13 +86,13 @@ export default function Playground({ quiz, onFinish }) {
 
   return (
     <>
-      <div className="flex flex-col items-center">
+      <div className="flex justify-between items-center px-3">
         <span className="font-bold">
           Question {Math.min(currentQuestion.position + 1, quiz.numberOfQuestions)}/
           {quiz.numberOfQuestions}
         </span>
         <Timer
-          className="font-bold text-2xl"
+          className="font-bold"
           running={currentQuestion.position + 1 !== quiz.numberOfQuestions}
           startDate={new Date(quiz.startedAt)}
         />

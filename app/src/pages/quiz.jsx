@@ -47,7 +47,7 @@ export default function Quiz() {
 
   return (
     <PageContainer className="flex flex-col">
-      <h1 className="text-xl text-gray-950 font-semibold mb-2">Quiz</h1>
+      <h1 className="text-xl text-center font-semibold mb-3">Quiz</h1>
       {!started && !ended && (
         <div className="grow flex items-center justify-center p-5">
           <Button size="large" onClick={() => setStarted(true)}>
