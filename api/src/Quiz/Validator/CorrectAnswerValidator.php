@@ -44,7 +44,7 @@ final class CorrectAnswerValidator extends ConstraintValidator
             return;
         }
 
-        $answer = new UnicodeString($value->answer)->trim()->toString();
+        $answer = new UnicodeString($value->answer)->lower()->trim()->toString();
 
         $correct = some(
             $questionEntity->card->entry->senses,
@@ -65,6 +65,7 @@ final class CorrectAnswerValidator extends ConstraintValidator
     private static function compareAnswerToTranslation(string $translation, string $answer): bool
     {
         return new UnicodeString($translation)
+            ->lower()
             ->replaceMatches(fromRegexp: '/\([^()]*\)/', to: '')
             ->replace(from: '...', to: '')
             ->trim()
