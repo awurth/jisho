@@ -5,7 +5,7 @@ const button = cva("rounded-full", {
   variants: {
     intent: {
       primary: ["bg-gray-950", "text-white", "border-transparent"],
-      secondary: ["bg-white", "text-gray-800", "border-gray-400"],
+      secondary: ["bg-gray-200", "text-gray-800", "border-transparent"],
     },
     size: {
       small: ["text-sm", "py-1", "px-2"],

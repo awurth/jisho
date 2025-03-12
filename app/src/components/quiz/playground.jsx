@@ -70,13 +70,12 @@ export default function Playground({ quiz, onFinish }) {
     return null;
   }
 
-  const onKeyUp = (e) => {
+  const onAnswerInputKeyUp = (e) => {
     if (e.code !== "Enter") {
       return;
     }
 
-    patchQuestionMutation.mutate({ answer: e.target.value });
-    setAnswer("");
+    submitAnswer(e.target.value);
   };
 
   const onSkipButtonClick = () => {
@@ -84,39 +83,53 @@ export default function Playground({ quiz, onFinish }) {
     patchQuestionMutation.mutate({ skipped: true });
   };
 
+  const submitAnswer = (answer) => {
+    patchQuestionMutation.mutate({ answer });
+    setAnswer("");
+  };
+
   return (
     <>
       <div className="flex justify-between items-center px-3">
         <span className="font-bold">
-          Question {Math.min(currentQuestion.position + 1, quiz.numberOfQuestions)}/
+          Question{" "}
+          {Math.min(currentQuestion.position + 1, quiz.numberOfQuestions)}/
           {quiz.numberOfQuestions}
         </span>
         <Timer
           className="font-bold"
-          running={currentQuestion.position + 1 !== quiz.numberOfQuestions}
+          running={true}
           startDate={new Date(quiz.startedAt)}
         />
       </div>
-      {!skipped && <Question question={currentQuestion} />}
-      <div className={clsx({ hidden: skipped })}>
-        <Input
-          ref={answerInputRef}
-          className={clsx(
-            "px-5 block w-full h-20 text-2xl text-center mb-3 placeholder:text-gray-300 shadow-xs",
-            { shake: wrong },
-          )}
-          placeholder="Answer"
-          value={answer}
-          onChange={(e) => setAnswer(e.target.value)}
-          onKeyUp={onKeyUp}
-          autoFocus
-        />
-        <div className="flex justify-center">
-          <Button size="large" onClick={onSkipButtonClick}>
-            Skip question
-          </Button>
-        </div>
-      </div>
+      {!skipped && (
+        <>
+          <Question question={currentQuestion} />
+          <Input
+            ref={answerInputRef}
+            className={clsx(
+              "px-5 block w-full h-20 text-2xl text-center mb-3 placeholder:text-gray-300 shadow-xs",
+              { shake: wrong },
+            )}
+            placeholder="Answer"
+            value={answer}
+            onChange={(e) => setAnswer(e.target.value)}
+            onKeyUp={onAnswerInputKeyUp}
+            autoFocus
+          />
+          <div className="flex flex-col items-center">
+            <Button
+              className="mb-3"
+              onClick={(e) => submitAnswer(e.target.value)}
+            >
+              Submit answer
+            </Button>
+            <Button intent="secondary" size="small" onClick={onSkipButtonClick}>
+              Skip question
+            </Button>
+          </div>
+        </>
+      )}
       {skipped && <p className="mt-56 text-4xl text-center">{correctAnswer}</p>}
     </>
   );

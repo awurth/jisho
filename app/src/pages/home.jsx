@@ -50,7 +50,9 @@ export default function Home() {
         {cards.map((card, index) => (
           <Fragment key={card.id}>
             <Card entry={card.entry} />
-            {index < cards.length - 1 && <hr className="my-3 border-gray-300" />}
+            {index < cards.length - 1 && (
+              <hr className="my-3 border-gray-300" />
+            )}
           </Fragment>
         ))}
       </div>
