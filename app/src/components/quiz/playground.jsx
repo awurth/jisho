@@ -12,7 +12,6 @@ export default function Playground({ quiz, onFinish }) {
   const [currentQuestion, setCurrentQuestion] = useState(null);
   const [answer, setAnswer] = useState("");
   const [correctAnswer, setCorrectAnswer] = useState("");
-  const [skipped, setSkipped] = useState(false);
   const [wrong, setWrong] = useState(false);
 
   const postQuestionMutation = useMutation({
@@ -29,9 +28,6 @@ export default function Playground({ quiz, onFinish }) {
     mutationFn: (payload) =>
       patchQuestion(quiz.id, currentQuestion.id, payload),
     onSuccess: (data, payload) => {
-      if (payload.skipped) {
-        setSkipped(true);
-      }
       setCorrectAnswer(
         payload.skipped ? data.card.entry.senses[0].translations[0].value : "",
       );
@@ -40,7 +36,14 @@ export default function Playground({ quiz, onFinish }) {
     onError: () => {
       setWrong(true);
     },
+    onSettled: () => {
+      setAnswer("");
+    },
   });
+
+  const fetchingQuestion = postQuestionMutation.isPending;
+  const pending =
+    postQuestionMutation.isPending || patchQuestionMutation.isPending;
 
   useEffect(() => {
     postQuestionMutation.mutate();
@@ -48,20 +51,24 @@ export default function Playground({ quiz, onFinish }) {
 
   useEffect(() => {
     let timeoutId;
-    if (skipped) {
-      timeoutId = setTimeout(() => setSkipped(false), 1000);
+    if (correctAnswer) {
+      timeoutId = setTimeout(() => {
+        setCorrectAnswer("");
+      }, 1000);
     }
 
     answerInputRef.current?.focus();
 
     return () => clearTimeout(timeoutId);
-  }, [skipped]);
+  }, [correctAnswer]);
 
   useEffect(() => {
     let timeoutId;
     if (wrong) {
       timeoutId = setTimeout(() => setWrong(false), 500);
     }
+
+    answerInputRef.current?.focus();
 
     return () => clearTimeout(timeoutId);
   }, [wrong]);
@@ -85,7 +92,6 @@ export default function Playground({ quiz, onFinish }) {
 
   const submitAnswer = (answer) => {
     patchQuestionMutation.mutate({ answer });
-    setAnswer("");
   };
 
   return (
@@ -102,7 +108,7 @@ export default function Playground({ quiz, onFinish }) {
           startDate={new Date(quiz.startedAt)}
         />
       </div>
-      {!skipped && (
+      {!correctAnswer && !fetchingQuestion && (
         <>
           <Question question={currentQuestion} />
           <Input
@@ -115,22 +121,36 @@ export default function Playground({ quiz, onFinish }) {
             value={answer}
             onChange={(e) => setAnswer(e.target.value)}
             onKeyUp={onAnswerInputKeyUp}
+            disabled={pending}
             autoFocus
           />
           <div className="flex flex-col items-center">
             <Button
               className="mb-3"
               onClick={(e) => submitAnswer(e.target.value)}
+              disabled={pending}
             >
               Submit answer
             </Button>
-            <Button intent="secondary" size="small" onClick={onSkipButtonClick}>
+            <Button
+              intent="secondary"
+              size="small"
+              onClick={onSkipButtonClick}
+              disabled={pending}
+            >
               Skip question
             </Button>
           </div>
         </>
       )}
-      {skipped && <p className="mt-56 text-4xl text-center">{correctAnswer}</p>}
+      {!!correctAnswer && (
+        <p className="mt-56 text-4xl text-center">{correctAnswer}</p>
+      )}
+      {!correctAnswer && fetchingQuestion && (
+        <p className="mt-56 text-xl text-center text-gray-600">
+          Loading next question...
+        </p>
+      )}
     </>
   );
 }
