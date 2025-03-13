@@ -24,7 +24,7 @@ export default function Login() {
         className="px-16 mb-8"
         alt="two people practicing japanese vocabulary on a couch"
       />
-      <h1 className="text-4xl font-semibold text-gray-900 mb-5">Jisho.fr</h1>
+      <h1 className="text-4xl font-semibold text-gray-900 mb-5">Jiish.io</h1>
       <p className="text-gray-700 font-semibold px-10 mb-5 text-center">
         Create your own Japanese dictionary and improve your vocabulary at your
         own pace with personalized quizzes!

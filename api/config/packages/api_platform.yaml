@@ -1,5 +1,5 @@
 api_platform:
-    title: Jisho.fr API
+    title: Jiish.io API
     version: 1.0.0
     formats:
         json: ['application/json']
