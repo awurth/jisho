@@ -7,8 +7,7 @@ import DeckDropdown from "./deck-dropdown.jsx";
 import SearchBar from "./dictionary/search-bar.jsx";
 
 export default function Header() {
-  const { avatarUrl } = useUserStore((state) => state.user);
-
+  const user = useUserStore((state) => state.user);
   const activeDeck = useDeckStore((state) => state.activeDeck);
 
   return (
@@ -30,7 +29,7 @@ export default function Header() {
           <img
             alt="avatar"
             className="w-10 h-10 object-cover object-center rounded-full shadow-md inline-block"
-            src={avatarUrl}
+            src={user.avatarUrl}
           />
         </Link>
       </div>

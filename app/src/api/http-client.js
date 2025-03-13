@@ -10,7 +10,7 @@ httpClient.defaults.headers.patch["Content-Type"] =
   "application/merge-patch+json";
 
 httpClient.interceptors.request.use(
-  function (config) {
+  (config) => {
     const token = localStorage.getItem("token");
 
     if (token && !config.headers.Authorization) {
@@ -19,19 +19,14 @@ httpClient.interceptors.request.use(
 
     return config;
   },
-  function (error) {
-    return Promise.reject(error);
-  },
+  (error) => Promise.reject(error),
 );
 
 httpClient.interceptors.response.use(
-  function (response) {
-    return response;
-  },
-  function (error) {
+  (response) => response,
+  (error) => {
     if (error.response?.status === 401) {
-      useUserStore.setState({ user: null });
-      router.navigate("/login");
+      router.navigate("/logout");
     }
 
     return Promise.reject(error);

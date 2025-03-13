@@ -6,6 +6,7 @@ import Account from "./pages/account.jsx";
 import Entry from "./pages/entry.jsx";
 import Home from "./pages/home.jsx";
 import Login from "./pages/login.jsx";
+import Logout from "./pages/logout.jsx";
 import NewDeck from "./pages/new-deck.jsx";
 import NewQuiz from "./pages/new-quiz.jsx";
 import Quiz from "./pages/quiz.jsx";
@@ -75,5 +76,9 @@ export const router = createBrowserRouter([
   {
     path: "/login",
     element: <Login />,
+  },
+  {
+    path: "/logout",
+    element: <Logout />,
   },
 ]);
