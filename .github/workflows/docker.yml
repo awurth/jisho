@@ -4,7 +4,9 @@ on:
     push:
         paths:
             - .docker/**/*
+            - compose.yaml
             - compose.ci.yaml
+            - compose.prod.yaml
             - .github/workflows/docker.yml
             - justfile*
 
