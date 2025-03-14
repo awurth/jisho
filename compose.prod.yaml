@@ -1,0 +1,8 @@
+services:
+    php:
+        build:
+            target: prod
+
+    search:
+        build:
+            target: search_prod

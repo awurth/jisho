@@ -1,4 +1,5 @@
-/.docker/postgres/dump/
+/.docker/postgres/dump/*
 !/.docker/postgres/dump/.gitignore
-/.docker/search/dumps/
+/.docker/search/dumps/*
 !/.docker/search/dumps/.gitignore
+!/.docker/search/dumps/latest.dump

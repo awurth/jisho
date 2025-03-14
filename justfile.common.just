@@ -1,5 +1,5 @@
 DOCKER := 'docker'
-DOCKER_COMPOSE := if env('GITHUB_ACTIONS', '') != '' { DOCKER + ' compose -f compose.yaml -f compose.ci.yaml' } else { DOCKER + ' compose' }
+DOCKER_COMPOSE := if env('GITHUB_ACTIONS', '') != '' { DOCKER + ' compose -f compose.yaml -f compose.ci.yaml -f compose.prod.yaml' } else { DOCKER + ' compose' }
 DOCKER_COMPOSE_EXEC := if env('GITHUB_ACTIONS', '') != '' { DOCKER_COMPOSE + ' exec -T' } else { DOCKER_COMPOSE + ' exec' }
 DOCKER_COMPOSE_EXEC_PHP := DOCKER_COMPOSE_EXEC + ' php'
 DOCKER_COMPOSE_EXEC_POSTGRES := DOCKER_COMPOSE_EXEC + ' postgres'
