@@ -12,10 +12,10 @@ services:
                 - ghcr.io/awurth/jisho_postgres:1.0.0
 
     search:
-        image: ghcr.io/awurth/jisho_search:1.0.0
+        image: ghcr.io/awurth/jisho_search:1.0.1
         build:
             cache_from:
-                - ghcr.io/awurth/jisho_search:1.0.0
+                - ghcr.io/awurth/jisho_search:1.0.1
 
     node:
         image: ghcr.io/awurth/jisho_node:1.0.0
