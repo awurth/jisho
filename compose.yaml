@@ -41,8 +41,6 @@ services:
             target: search_dev
         environment:
             MEILI_MASTER_KEY: "${SEARCH_MASTER_KEY:-N2Q3YzE0MzgzMTY4ZjZlNDkxOTExNDQzNzZkYTk2MGI4NzI1MmQ4ZWQxZmJmYmE1M2Ql}"
-        volumes:
-            - search_data:/meili_data
     
     node:
         build: .docker/node
@@ -54,4 +52,3 @@ volumes:
     caddy_data:
     caddy_config:
     database_data:
-    search_data:
