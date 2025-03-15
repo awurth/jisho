@@ -6,4 +6,6 @@ FROM search_base AS search_dev
 
 FROM search_base AS search_prod
 
-COPY --link dumps/latest.dump /meili_data/dumps/latest.dump
+COPY --link dumps/dictionary.dump /dumps/dictionary.dump
+
+CMD ["/bin/sh", "-c", "/bin/meilisearch", "--import-dump", "/dumps/dictionary.dump", "--ignore-dump-if-db-exists"]
