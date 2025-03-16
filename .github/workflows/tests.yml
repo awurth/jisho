@@ -21,7 +21,7 @@ jobs:
                 run: just pull-ci
 
             -   name: Up the stack
-                run: just up
+                run: just up postgres php
 
             -   name: Cache Composer dependencies
                 id: composer-cache
