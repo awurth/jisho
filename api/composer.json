@@ -11,7 +11,7 @@
         "ext-dom": "*",
         "ext-iconv": "*",
         "ext-xmlreader": "*",
-        "api-platform/core": "^4.1.0",
+        "api-platform/core": "^4.1.1",
         "awurth/functional-php": "^0.1.0",
         "doctrine/dbal": "^4.2.3",
         "doctrine/doctrine-bundle": "^2.13.2",
@@ -62,7 +62,7 @@
         "symfony/http-client": "7.2.*",
         "symfony/maker-bundle": "^1.62.1",
         "symfony/web-profiler-bundle": "7.2.*",
-        "zenstruck/foundry": "^2.3.7"
+        "zenstruck/foundry": "^2.3.8"
     },
     "config": {
         "allow-plugins": {

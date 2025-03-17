@@ -4,20 +4,20 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "996ea74ccd9e161f1395294456c9d87f",
+    "content-hash": "d0b8552e5f2ceb468201e056ecd43245",
     "packages": [
         {
             "name": "api-platform/core",
-            "version": "v4.1.0",
+            "version": "v4.1.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/api-platform/core.git",
-                "reference": "ee0ce442f263206256762b11404d7b7e13e4e977"
+                "reference": "ba5cea729eb8f80be4e56857c80c7f94ca210ade"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/api-platform/core/zipball/ee0ce442f263206256762b11404d7b7e13e4e977",
-                "reference": "ee0ce442f263206256762b11404d7b7e13e4e977",
+                "url": "https://api.github.com/repos/api-platform/core/zipball/ba5cea729eb8f80be4e56857c80c7f94ca210ade",
+                "reference": "ba5cea729eb8f80be4e56857c80c7f94ca210ade",
                 "shasum": ""
             },
             "require": {
@@ -32,7 +32,7 @@
                 "symfony/property-info": "^6.4 || ^7.1",
                 "symfony/serializer": "^6.4 || ^7.0",
                 "symfony/translation-contracts": "^3.3",
-                "symfony/web-link": "^6.4 || ^7.0",
+                "symfony/web-link": "^6.4 || ^7.1",
                 "willdurand/negotiation": "^3.1"
             },
             "conflict": {
@@ -84,16 +84,16 @@
                 "friends-of-behat/mink-extension": "^2.2",
                 "friends-of-behat/symfony-extension": "^2.1",
                 "guzzlehttp/guzzle": "^6.0 || ^7.0",
-                "illuminate/config": "^11.0",
-                "illuminate/contracts": "^11.0",
-                "illuminate/database": "^11.0",
-                "illuminate/http": "^11.0",
-                "illuminate/pagination": "^11.0",
-                "illuminate/routing": "^11.0",
-                "illuminate/support": "^11.0",
+                "illuminate/config": "^11.0 || ^12.0",
+                "illuminate/contracts": "^11.0 || ^12.0",
+                "illuminate/database": "^11.0 || ^12.0",
+                "illuminate/http": "^11.0 || ^12.0",
+                "illuminate/pagination": "^11.0 || ^12.0",
+                "illuminate/routing": "^11.0 || ^12.0",
+                "illuminate/support": "^11.0 || ^12.0",
                 "jangregor/phpstan-prophecy": "^1.0",
                 "justinrainbow/json-schema": "^5.2.11",
-                "laravel/framework": "^11.0",
+                "laravel/framework": "^11.0 || ^12.0",
                 "orchestra/testbench": "^9.1",
                 "phpspec/prophecy-phpunit": "^2.2",
                 "phpstan/extension-installer": "^1.1",
@@ -216,9 +216,9 @@
             ],
             "support": {
                 "issues": "https://github.com/api-platform/core/issues",
-                "source": "https://github.com/api-platform/core/tree/v4.1.0"
+                "source": "https://github.com/api-platform/core/tree/v4.1.1"
             },
-            "time": "2025-02-28T10:10:15+00:00"
+            "time": "2025-03-14T15:06:05+00:00"
         },
         {
             "name": "awurth/functional-php",
@@ -12102,16 +12102,16 @@
         },
         {
             "name": "zenstruck/foundry",
-            "version": "v2.3.7",
+            "version": "v2.3.8",
             "source": {
                 "type": "git",
                 "url": "https://github.com/zenstruck/foundry.git",
-                "reference": "2f523dfb812d4bde5d35f26993c29b6c61aaef01"
+                "reference": "8356b539f11af8786339a952fd71e6e15b40fb14"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/zenstruck/foundry/zipball/2f523dfb812d4bde5d35f26993c29b6c61aaef01",
-                "reference": "2f523dfb812d4bde5d35f26993c29b6c61aaef01",
+                "url": "https://api.github.com/repos/zenstruck/foundry/zipball/8356b539f11af8786339a952fd71e6e15b40fb14",
+                "reference": "8356b539f11af8786339a952fd71e6e15b40fb14",
                 "shasum": ""
             },
             "require": {
@@ -12195,7 +12195,7 @@
             ],
             "support": {
                 "issues": "https://github.com/zenstruck/foundry/issues",
-                "source": "https://github.com/zenstruck/foundry/tree/v2.3.7"
+                "source": "https://github.com/zenstruck/foundry/tree/v2.3.8"
             },
             "funding": [
                 {
@@ -12203,7 +12203,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2025-03-07T17:56:53+00:00"
+            "time": "2025-03-14T13:49:16+00:00"
         }
     ],
     "aliases": [],
