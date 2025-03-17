@@ -81,4 +81,6 @@ export const router = createBrowserRouter([
     path: "/logout",
     element: <Logout />,
   },
-]);
+], {
+  basename: "/jisho",
+});
