@@ -7,7 +7,7 @@ namespace DoctrineMigrations;
 use Doctrine\DBAL\Schema\Schema;
 use Doctrine\Migrations\AbstractMigration;
 
-final class Version20241111185129 extends AbstractMigration
+final class Version20250317111058 extends AbstractMigration
 {
     public function getDescription(): string
     {
@@ -46,9 +46,10 @@ final class Version20241111185129 extends AbstractMigration
         $this->addSql('CREATE UNIQUE INDEX UNIQ_CAC9222098FB19AE ON dictionary_entry (sequence_id)');
         $this->addSql('CREATE TABLE question (
           id UUID NOT NULL,
-          created_at TIMESTAMP(0) WITHOUT TIME ZONE NOT NULL,
+          position INT NOT NULL,
           answered_at TIMESTAMP(0) WITHOUT TIME ZONE DEFAULT NULL,
           answer VARCHAR(255) NOT NULL,
+          skipped_at TIMESTAMP(0) WITHOUT TIME ZONE DEFAULT NULL,
           quiz_id UUID NOT NULL,
           card_id UUID NOT NULL,
           PRIMARY KEY(id)
@@ -58,6 +59,8 @@ final class Version20241111185129 extends AbstractMigration
         $this->addSql('CREATE TABLE quiz (
           id UUID NOT NULL,
           max_questions INT NOT NULL,
+          number_of_questions INT DEFAULT NULL,
+          score INT DEFAULT NULL,
           created_at TIMESTAMP(0) WITHOUT TIME ZONE NOT NULL,
           started_at TIMESTAMP(0) WITHOUT TIME ZONE DEFAULT NULL,
           ended_at TIMESTAMP(0) WITHOUT TIME ZONE DEFAULT NULL,
