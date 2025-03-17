@@ -19,11 +19,11 @@ const mustBeLoggedIn = async () => {
   const token = localStorage.getItem("token");
 
   if (!token) {
-    return redirect("/login");
+    return redirect("/jisho/login");
   }
 
   if (!useUserStore.getState().user) {
-    return redirect("/login");
+    return redirect("/jisho/login");
   }
 
   if (!useDeckStore.getState().activeDeck) {
