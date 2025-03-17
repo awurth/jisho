@@ -51,6 +51,11 @@ fixtures:
     {{ DOCKER_COMPOSE_EXEC_CONSOLE }} doctrine:fixtures:load -n --append
     @echo "{{ GREEN }}Database fixtures loaded{{ NORMAL }}"
 
+# Creates a new migration file
+[group('database')]
+make-migration:
+    {{ DOCKER_COMPOSE_EXEC_CONSOLE }} make:migration --formatted
+
 # Import the JMDict XML file
 [group('database')]
 import-dictionary:
