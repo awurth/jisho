@@ -38,7 +38,7 @@ const mustBeLoggedIn = async () => {
 
 export const router = createBrowserRouter([
   {
-    path: "/",
+    path: "/jisho/",
     element: <Root />,
     errorElement: <Error />,
     loader: mustBeLoggedIn,
@@ -74,11 +74,11 @@ export const router = createBrowserRouter([
     ],
   },
   {
-    path: "/login",
+    path: "/jisho/login",
     element: <Login />,
   },
   {
-    path: "/logout",
+    path: "/jisho/logout",
     element: <Logout />,
   },
 ]);

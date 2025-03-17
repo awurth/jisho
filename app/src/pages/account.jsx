@@ -6,7 +6,7 @@ export default function Account() {
   const navigate = useNavigate();
 
   const logout = () => {
-    navigate("/logout");
+    navigate("/jisho/logout");
   };
 
   return (

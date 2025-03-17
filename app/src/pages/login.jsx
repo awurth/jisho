@@ -13,7 +13,7 @@ export default function Login() {
     onSuccess: ({ token, name, avatarUrl }) => {
       localStorage.setItem("token", token);
       setUser({ name, avatarUrl });
-      navigate("/");
+      navigate("/jisho");
     },
   });
 
