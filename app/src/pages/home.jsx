@@ -15,7 +15,7 @@ export default function Home() {
         <p className="mt-20 mb-10 text-sm">
           You don't have a deck of cards yet
         </p>
-        <Button href="/jisho/new-deck" size="large">
+        <Button href="/new-deck" size="large">
           Create a deck of cards
         </Button>
       </PageContainer>

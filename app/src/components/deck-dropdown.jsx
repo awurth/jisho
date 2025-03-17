@@ -18,7 +18,7 @@ export default function DeckDropdown() {
 
   const onDeckClick = (deck) => {
     setActiveDeck(deck);
-    navigate("/jisho");
+    navigate("/");
   };
 
   return (
@@ -37,7 +37,7 @@ export default function DeckDropdown() {
           </Menu.Item>
         ))}
         <Menu.Item className="block px-4 py-2 hover:bg-gray-100 rounded-md cursor-pointer whitespace-nowrap">
-          <Link to="/jisho/new-deck">
+          <Link to="/new-deck">
             <FontAwesomeIcon icon={faPlus} className="mr-1" />
             New
           </Link>

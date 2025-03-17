@@ -20,25 +20,25 @@ export default function TabBar() {
     <footer className="fixed bottom-0 left-0 right-0 bg-white rounded-t-3xl">
       <ul className="grid grid-cols-3 text-center">
         <li>
-          <NavLink to="/jisho" className={itemClassName}>
+          <NavLink to="/" className={itemClassName}>
             <FontAwesomeIcon icon={faHome} className="mb-1" />
             <span className="text-xs">Home</span>
           </NavLink>
         </li>
         {/*<li>*/}
-        {/*  <NavLink to="/jisho/search" className={itemClassName}>*/}
+        {/*  <NavLink to="/search" className={itemClassName}>*/}
         {/*    <FontAwesomeIcon icon={faSearch} className="mb-1" />*/}
         {/*    <span className="text-xs">Search</span>*/}
         {/*  </NavLink>*/}
         {/*</li>*/}
         <li>
-          <NavLink to="/jisho/new-quiz" className={itemClassName}>
+          <NavLink to="/new-quiz" className={itemClassName}>
             <FontAwesomeIcon icon={faCircleQuestion} className="mb-1" />
             <span className="text-xs">Quiz</span>
           </NavLink>
         </li>
         <li>
-          <NavLink to="/jisho/account" className={itemClassName}>
+          <NavLink to="/account" className={itemClassName}>
             <FontAwesomeIcon icon={faUser} className="mb-1" />
             <span className="text-xs">Account</span>
           </NavLink>

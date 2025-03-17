@@ -26,7 +26,7 @@ httpClient.interceptors.response.use(
   (response) => response,
   (error) => {
     if (error.response?.status === 401) {
-      router.navigate("/jisho/logout");
+      router.navigate("/logout");
     }
 
     return Promise.reject(error);

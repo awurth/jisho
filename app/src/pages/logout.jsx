@@ -13,7 +13,7 @@ export default function Logout() {
 
     setActiveDeck(null);
     setUser(null);
-    navigate("/jisho/login");
+    navigate("/login");
   });
 
   return <></>;

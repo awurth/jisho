@@ -18,7 +18,7 @@ export default function NewDeck() {
     onSuccess: (data) => {
       queryClient.invalidateQueries({ queryKey: ["decks"] });
       setActiveDeck(data);
-      navigate("/jisho");
+      navigate("/");
     },
   });
 
