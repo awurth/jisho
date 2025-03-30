@@ -63,6 +63,8 @@ COPY --link api/composer.* api/symfony.* ./
 RUN set -eux; \
 	composer install --no-cache --prefer-dist --no-dev --no-autoloader --no-scripts --no-progress
 
+RUN php bin/console lexik:jwt:generate-keypair --skip-if-exists
+
 # copy sources
 COPY --link api ./
 
