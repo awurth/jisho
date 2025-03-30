@@ -2,7 +2,9 @@ import axios from "axios";
 import { router } from "../routes.jsx";
 
 const httpClient = axios.create({
-  baseURL: import.meta.env.DEV ? "https://api.jisho.localhost" : "https://jiish-api.koyeb.app",
+  baseURL: import.meta.env.DEV
+    ? "https://api.jisho.localhost"
+    : "https://jiish-api.koyeb.app",
 });
 
 httpClient.defaults.headers.patch["Content-Type"] =
