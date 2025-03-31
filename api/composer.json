@@ -1,7 +1,7 @@
 {
     "name": "awurth/jiish",
     "type": "project",
-    "license": "MIT",
+    "license": "AGPL-3.0-or-later",
     "description": "Japanese dictionary",
     "minimum-stability": "stable",
     "prefer-stable": true,
