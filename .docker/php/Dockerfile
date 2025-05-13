@@ -1,13 +1,15 @@
 #syntax=docker/dockerfile:1
 
-FROM dunglas/frankenphp:php8.4 AS base
+FROM dunglas/frankenphp:1-php8.4 AS base
 
-WORKDIR /jisho/api
+WORKDIR /app
 
-VOLUME /jisho/api/var/
+VOLUME /app/var/
 
 # persistent / runtime deps
+# hadolint ignore=DL3008
 RUN apt-get update && apt-get install -y --no-install-recommends \
+	acl \
 	file \
 	gettext \
 	git \
@@ -34,9 +36,13 @@ COPY --link --chmod=755 .docker/php/entrypoint.sh /usr/local/bin/docker-entrypoi
 COPY --link .docker/php/Caddyfile /etc/caddy/Caddyfile
 
 ENTRYPOINT ["docker-entrypoint"]
+
+HEALTHCHECK --start-period=60s CMD curl -f http://localhost:2019/metrics || exit 1
 CMD [ "frankenphp", "run", "--config", "/etc/caddy/Caddyfile" ]
 
 FROM base AS dev
+
+ENV FRANKENPHP_WORKER_CONFIG=watch
 
 RUN mv "$PHP_INI_DIR/php.ini-development" "$PHP_INI_DIR/php.ini"
 
@@ -56,14 +62,11 @@ ENV APP_ENV=prod
 RUN mv "$PHP_INI_DIR/php.ini-production" "$PHP_INI_DIR/php.ini"
 
 COPY --link .docker/php/conf.d/20-app.prod.ini $PHP_INI_DIR/app.conf.d/
-COPY --link .docker/php/worker.Caddyfile /etc/caddy/worker.Caddyfile
 
 # prevent the reinstallation of vendors at every changes in the source code
 COPY --link api/composer.* api/symfony.* ./
 RUN set -eux; \
 	composer install --no-cache --prefer-dist --no-dev --no-autoloader --no-scripts --no-progress
-
-RUN php bin/console lexik:jwt:generate-keypair --skip-if-exists
 
 # copy sources
 COPY --link api ./
@@ -74,6 +77,3 @@ RUN set -eux; \
 	composer dump-env prod; \
 	composer run-script --no-dev post-install-cmd; \
 	chmod +x bin/console; sync;
-
-EXPOSE 80
-EXPOSE 443

@@ -22,8 +22,8 @@ build:
 
 # Up the containers
 [group('docker')]
-up *command='':
-    {{ DOCKER_COMPOSE }} up -d --force-recreate --remove-orphans {{ command }}
+up *containers='':
+    {{ DOCKER_COMPOSE }} up --detach --force-recreate --remove-orphans --wait {{ containers }}
     @echo "{{ GREEN }}Project started{{ NORMAL }}"
 
 # Down the containers
