@@ -2,9 +2,9 @@
 
 FROM dunglas/frankenphp:1-php8.4 AS base
 
-WORKDIR /app
+WORKDIR /jiish/api
 
-VOLUME /app/var/
+VOLUME /jiish/api/var/
 
 # persistent / runtime deps
 # hadolint ignore=DL3008
