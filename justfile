@@ -96,3 +96,12 @@ console *command='':
 [group('common')]
 composer *command='':
     {{ DOCKER_COMPOSE_EXEC_COMPOSER }} {{ command }}
+
+# Update the composer dependencies
+[group('common')]
+[private]
+composer-update: (composer 'update')
+
+# Update all dependencies
+[group('common')]
+update: composer-update yarn-upgrade
