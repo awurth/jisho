@@ -1,5 +1,4 @@
 /data/*
-!/data/JMdict.xml.gz
 
 ###> symfony/framework-bundle ###
 /.env.local

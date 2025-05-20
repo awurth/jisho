@@ -26,7 +26,7 @@ services:
             - "7700:7700"
         volumes:
             - search_data:/meili_data
-            - .docker/search/dumps:/dumps
+            - .docker/search/dumps:/meili_data/dumps
 
 volumes:
     search_data:

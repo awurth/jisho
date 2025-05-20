@@ -2,4 +2,3 @@
 !/.docker/postgres/dump/.gitignore
 /.docker/search/dumps/*
 !/.docker/search/dumps/.gitignore
-!/.docker/search/dumps/dictionary.dump
