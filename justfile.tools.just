@@ -29,6 +29,12 @@ php-cs-fixer:
 phpstan:
     {{ DOCKER_COMPOSE_EXEC_PHP }} vendor/bin/phpstan --memory-limit=1G
 
+# Execute Composer Dependency Analyser
+[group('tools')]
+[no-exit-message]
+composer-dependency-analyser:
+    {{ DOCKER_COMPOSE_EXEC_PHP }} vendor/bin/composer-dependency-analyser
+
 # Execute Prettier
 [group('tools')]
 prettier:
