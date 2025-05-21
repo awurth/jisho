@@ -36,51 +36,49 @@ const mustBeLoggedIn = async () => {
   return null;
 };
 
-export const router = createBrowserRouter(
-  [
-    {
-      path: "/",
-      element: <Root />,
-      errorElement: <Error />,
-      loader: mustBeLoggedIn,
-      children: [
-        {
-          index: true,
-          element: <Home />,
-        },
-        {
-          path: "account",
-          element: <Account />,
-        },
-        {
-          path: "new-deck",
-          element: <NewDeck />,
-        },
-        {
-          path: "search",
-          element: <Search />,
-        },
-        {
-          path: "new-quiz",
-          element: <NewQuiz />,
-        },
-        {
-          path: "quiz/:id",
-          element: <Quiz />,
-        },
-        {
-          path: "entry/:id",
-          element: <Entry />,
-        },
-      ],
-    },
-    {
-      path: "/login",
-      element: <Login />,
-    },
-    {
-      path: "/logout",
-      element: <Logout />,
-    },
-  ],
-);
+export const router = createBrowserRouter([
+  {
+    path: "/",
+    element: <Root />,
+    errorElement: <Error />,
+    loader: mustBeLoggedIn,
+    children: [
+      {
+        index: true,
+        element: <Home />,
+      },
+      {
+        path: "account",
+        element: <Account />,
+      },
+      {
+        path: "new-deck",
+        element: <NewDeck />,
+      },
+      {
+        path: "search",
+        element: <Search />,
+      },
+      {
+        path: "new-quiz",
+        element: <NewQuiz />,
+      },
+      {
+        path: "quiz/:id",
+        element: <Quiz />,
+      },
+      {
+        path: "entry/:id",
+        element: <Entry />,
+      },
+    ],
+  },
+  {
+    path: "/login",
+    element: <Login />,
+  },
+  {
+    path: "/logout",
+    element: <Logout />,
+  },
+]);
