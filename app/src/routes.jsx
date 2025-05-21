@@ -83,7 +83,4 @@ export const router = createBrowserRouter(
       element: <Logout />,
     },
   ],
-  {
-    basename: "/jisho",
-  },
 );
