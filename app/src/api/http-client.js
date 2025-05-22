@@ -3,7 +3,7 @@ import { router } from "../routes.jsx";
 
 const httpClient = axios.create({
   baseURL: import.meta.env.DEV
-    ? "https://api.jisho.localhost"
+    ? "https://api.jiish.localhost"
     : "https://api.jiish.io",
 });
 
