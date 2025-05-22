@@ -139,6 +139,8 @@ final class QuestionTest extends ApiTestCase
             'json' => [],
         ]);
 
+        $quiz->_refresh();
+
         self::assertResponseStatusCodeSame(201);
         self::assertNotNull($quiz->startedAt);
         self::assertJsonEquals([
@@ -247,6 +249,8 @@ final class QuestionTest extends ApiTestCase
             ],
         ]);
 
+        $question->_refresh();
+
         self::assertResponseStatusCodeSame(422);
         self::assertNotNull($question->quiz->startedAt);
         self::assertJsonContains([
@@ -295,6 +299,8 @@ final class QuestionTest extends ApiTestCase
         self::patch($client, "/quizzes/{$question->quiz->id}/questions/{$question->id}", [
             'answer' => $entry->senses[0]->translations[0]->value,
         ]);
+
+        $question->_refresh();
 
         self::assertResponseStatusCodeSame(200);
         self::assertNotNull($question->answeredAt);
@@ -357,6 +363,8 @@ final class QuestionTest extends ApiTestCase
             'answer' => $entry->senses[0]->translations[0]->value,
         ]);
 
+        $question->_refresh();
+
         self::assertResponseStatusCodeSame(200);
         self::assertNotNull($question->quiz->endedAt);
         self::assertNotNull($question->answeredAt);
@@ -418,6 +426,8 @@ final class QuestionTest extends ApiTestCase
         self::patch($client, "/quizzes/{$question->quiz->id}/questions/{$question->id}", [
             'skipped' => true,
         ]);
+
+        $question->_refresh();
 
         self::assertResponseStatusCodeSame(200);
         self::assertNotNull($question->quiz->endedAt);
