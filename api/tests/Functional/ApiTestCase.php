@@ -14,6 +14,8 @@ use function array_replace_recursive;
 
 abstract class ApiTestCase extends BaseApiTestCase
 {
+    protected static ?bool $alwaysBootKernel = false;
+
     /**
      * @phpstan-ignore-next-line
      */
