@@ -4,4 +4,4 @@ alias test := phpunit
 [group('testing')]
 [no-exit-message]
 phpunit *command='': env-test create-database migrate-database cache-clear && env-dev
-    {{ DOCKER_COMPOSE_EXEC_PHPUNIT }}
+    {{ DOCKER_COMPOSE_EXEC_PHPUNIT }} {{ command }}
