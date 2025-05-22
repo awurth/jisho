@@ -11,7 +11,7 @@
         "ext-dom": "*",
         "ext-iconv": "*",
         "ext-xmlreader": "*",
-        "api-platform/core": "^4.1.9",
+        "api-platform/core": "^4.1.12",
         "awurth/functional-php": "^0.1.0",
         "doctrine/dbal": "^4.2.3",
         "doctrine/doctrine-bundle": "^2.14.0",
@@ -49,7 +49,7 @@
         "dama/doctrine-test-bundle": "^8.3.0",
         "doctrine/doctrine-fixtures-bundle": "^4.1",
         "friendsofphp/php-cs-fixer": "^3.75.0",
-        "phpstan/phpstan": "^2.1.16",
+        "phpstan/phpstan": "^2.1.17",
         "phpstan/phpstan-deprecation-rules": "^2.0.3",
         "phpstan/phpstan-doctrine": "^2.0.3",
         "phpstan/phpstan-phpunit": "^2.0.6",
@@ -63,7 +63,7 @@
         "symfony/http-client": "7.2.*",
         "symfony/maker-bundle": "^1.63.0",
         "symfony/web-profiler-bundle": "7.2.*",
-        "zenstruck/foundry": "^2.5.0"
+        "zenstruck/foundry": "^2.5.1"
     },
     "config": {
         "allow-plugins": {
