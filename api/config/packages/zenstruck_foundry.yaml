@@ -6,7 +6,7 @@ when@dev: &dev
         make_story:
             default_namespace: 'App\Common\Foundry\Story'
         persistence:
-            # Flush only once per call of `PersistentObjectFactory::create()` in userland
+            # Flush only once per call of `PersistentObjectFactory::create()`
             flush_once: true
 
 when@test: *dev
