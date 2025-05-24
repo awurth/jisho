@@ -105,3 +105,8 @@ composer-update: (composer 'update')
 # Update all dependencies
 [group('common')]
 update: composer-update yarn-upgrade
+
+# Update flex recipes
+[group('common')]
+update-recipes:
+    {{ DOCKER_COMPOSE_EXEC_COMPOSER }} recipes:update
