@@ -70,6 +70,9 @@ cache-clear:
 
 # Common
 
+alias require := composer-require
+alias req := composer-require
+
 # Change the current environment
 [group('common')]
 env environment='dev':
@@ -105,6 +108,11 @@ composer-update: (composer 'update')
 # Update all dependencies
 [group('common')]
 update: composer-update yarn-upgrade
+
+# Require a composer dependency
+[group('common')]
+composer-require *command='':
+    {{ DOCKER_COMPOSE_EXEC_COMPOSER }} require {{ command }}
 
 # Update flex recipes
 [group('common')]
