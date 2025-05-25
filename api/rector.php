@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 use Rector\Config\RectorConfig;
 use Rector\PHPUnit\Set\PHPUnitSetList;
-use Rector\Set\ValueObject\SetList;
 
 return RectorConfig::configure()
     ->withPaths([
@@ -13,7 +12,7 @@ return RectorConfig::configure()
     ])
     ->withSymfonyContainerXml(__DIR__.'/var/cache/dev/App_KernelDevDebugContainer.xml')
     ->withImportNames()
-    ->withAttributesSets(all: true)
+    ->withAttributesSets()
     ->withPreparedSets(
         deadCode: true,
         codeQuality: true,
@@ -33,13 +32,8 @@ return RectorConfig::configure()
         phpunit: true,
         symfony: true,
     )
+    ->withPhpSets()
     ->withSets([
-        SetList::PHP_84,
-        SetList::PHP_83,
-        SetList::PHP_82,
-        SetList::PHP_81,
-        SetList::PHP_80,
-        SetList::PHP_74,
         PHPUnitSetList::PHPUNIT_110,
     ])
 ;
