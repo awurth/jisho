@@ -13,5 +13,3 @@ parameters:
         - tests/
     excludePaths:
         - tests/bootstrap.php
-    ignoreErrors:
-        - '#Using nullsafe property access "\?->nodeValue" on left side of \?\? is unnecessary. Use -> instead#'
