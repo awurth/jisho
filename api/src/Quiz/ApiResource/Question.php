@@ -60,7 +60,7 @@ use Symfony\Component\Uid\Uuid;
                 'groups' => ['question:write'],
                 'openapi_definition_name' => 'Write',
             ],
-            securityPostDenormalize: 'is_granted("QUESTION_CREATE", object.quiz)',
+            security: 'is_granted("QUESTION_CREATE", object.quiz)',
             provider: QuestionProvider::class,
             processor: PostQuestionProcessor::class,
         ),
