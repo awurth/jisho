@@ -34,6 +34,6 @@ final class QuestionVoter extends Voter
             return false;
         }
 
-        return $user === $subject->quiz?->deck?->owner;
+        return $user === $subject->quiz->deck?->owner;
     }
 }

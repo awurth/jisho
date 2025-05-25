@@ -16,6 +16,7 @@ use App\Quiz\ApiResource\Question;
 use App\Quiz\DataTransformer\QuestionDataTransformer;
 use App\Quiz\DataTransformer\QuizDataTransformer;
 use Override;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use function Functional\map;
 
 /**
@@ -36,11 +37,13 @@ final readonly class QuestionProvider implements ProviderInterface
     {
         $quizEntity = $this->quizRepository->find($uriVariables['quizId']);
 
+        if (!$quizEntity instanceof QuizEntity) {
+            throw new NotFoundHttpException();
+        }
+
         if ($operation instanceof Post) {
             $question = new Question();
-            $question->quiz = $quizEntity instanceof QuizEntity
-                ? $this->quizDataTransformer->transformEntityToApiResource($quizEntity)
-                : null;
+            $question->quiz = $this->quizDataTransformer->transformEntityToApiResource($quizEntity);
 
             return $question;
         }

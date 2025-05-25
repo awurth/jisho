@@ -94,7 +94,7 @@ final class Question
     #[Groups(['question:read'])]
     public Uuid $id;
 
-    public ?Quiz $quiz = null;
+    public Quiz $quiz;
 
     #[Groups(['question:read'])]
     public Card $card;

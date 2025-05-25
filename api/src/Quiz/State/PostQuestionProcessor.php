@@ -11,12 +11,10 @@ use App\Common\Entity\Quiz\Quiz as QuizEntity;
 use App\Common\Repository\Quiz\QuestionRepository;
 use App\Common\Repository\Quiz\QuizRepository;
 use App\Quiz\ApiResource\Question;
-use App\Quiz\ApiResource\Quiz;
 use App\Quiz\DataTransformer\QuestionDataTransformer;
 use App\Quiz\Exception\QuizEndedException;
 use DateTimeImmutable;
 use Doctrine\ORM\EntityManagerInterface;
-use InvalidArgumentException;
 use LogicException;
 use Override;
 use RuntimeException;
@@ -37,10 +35,6 @@ final readonly class PostQuestionProcessor implements ProcessorInterface
     #[Override]
     public function process(mixed $data, Operation $operation, array $uriVariables = [], array $context = []): Question
     {
-        if (!$data->quiz instanceof Quiz) {
-            throw new InvalidArgumentException('Quiz should be set.');
-        }
-
         $quizEntity = $this->quizRepository->find($data->quiz->id);
         if (!$quizEntity instanceof QuizEntity) {
             throw new RuntimeException('Quiz not found.');

@@ -12,6 +12,7 @@ use App\Common\Foundry\Factory\UserFactory;
 use App\Tests\Functional\ApiTestCase;
 use DateTimeImmutable;
 use DateTimeInterface;
+use Symfony\Component\Uid\Uuid;
 use Zenstruck\Foundry\Test\Factories;
 use Zenstruck\Foundry\Test\ResetDatabase;
 
@@ -30,6 +31,19 @@ final class QuestionTest extends ApiTestCase
         ]);
 
         self::assertResponseStatusCodeSame(401);
+    }
+
+    public function testPostQuestionOnNonexistentQuiz(): void
+    {
+        $quizId = Uuid::v4();
+        $user = UserFactory::createOne();
+
+        $client = self::createAuthenticatedClient($user);
+        $client->request('POST', "/quizzes/{$quizId}/questions", [
+            'json' => [],
+        ]);
+
+        self::assertResponseStatusCodeSame(404);
     }
 
     public function testPostQuestionOnAnotherUserQuiz(): void
