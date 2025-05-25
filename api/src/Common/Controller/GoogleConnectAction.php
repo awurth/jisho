@@ -17,6 +17,7 @@ use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Security\Core\Exception\BadCredentialsException;
 use UnexpectedValueException;
 use function is_array;
+use function is_string;
 use function json_decode;
 
 #[AsController]
@@ -43,7 +44,7 @@ final readonly class GoogleConnectAction
 
         $token = $json['token'] ?? '';
 
-        if ('' === $token) {
+        if (!is_string($token) || '' === $token) {
             throw new BadCredentialsException();
         }
 
