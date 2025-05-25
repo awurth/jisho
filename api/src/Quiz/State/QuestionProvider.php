@@ -42,10 +42,7 @@ final readonly class QuestionProvider implements ProviderInterface
         }
 
         if ($operation instanceof Post) {
-            $question = new Question();
-            $question->quiz = $this->quizDataTransformer->transformEntityToApiResource($quizEntity);
-
-            return $question;
+            return new Question(quiz: $this->quizDataTransformer->transformEntityToApiResource($quizEntity));
         }
 
         if ($operation instanceof CollectionOperationInterface) {

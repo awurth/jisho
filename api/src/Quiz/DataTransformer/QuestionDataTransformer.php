@@ -18,9 +18,8 @@ final readonly class QuestionDataTransformer
 
     public function transformEntityToApiResource(QuestionEntity $entity): Question
     {
-        $question = new Question();
+        $question = new Question(quiz: $this->quizDataTransformer->transformEntityToApiResource($entity->quiz));
         $question->id = $entity->id;
-        $question->quiz = $this->quizDataTransformer->transformEntityToApiResource($entity->quiz);
         $question->card = $this->cardDataTransformer->transformEntityToApiResource($entity->card);
         $question->position = $entity->position;
         $question->answeredAt = $entity->answeredAt;

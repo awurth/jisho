@@ -94,8 +94,6 @@ final class Question
     #[Groups(['question:read'])]
     public Uuid $id;
 
-    public Quiz $quiz;
-
     #[Groups(['question:read'])]
     public Card $card;
 
@@ -113,4 +111,8 @@ final class Question
 
     #[Groups(['question:answer'])]
     public bool $skipped = false;
+
+    public function __construct(public readonly Quiz $quiz)
+    {
+    }
 }
