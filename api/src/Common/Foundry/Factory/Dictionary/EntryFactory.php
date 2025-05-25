@@ -26,7 +26,7 @@ final class EntryFactory extends PersistentProxyObjectFactory
     protected function defaults(): array
     {
         return [
-            'sequenceId' => self::faker()->randomNumber(),
+            'sequenceId' => self::faker()->unique()->randomNumber(),
             'kanjiElements' => KanjiElementFactory::createRange(1, 4),
             'readingElements' => ReadingElementFactory::createRange(1, 4),
             'senses' => SenseFactory::createRange(1, 4),
