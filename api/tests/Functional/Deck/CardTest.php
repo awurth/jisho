@@ -10,6 +10,7 @@ use App\Common\Foundry\Factory\Dictionary\EntryFactory;
 use App\Common\Foundry\Factory\UserFactory;
 use App\Tests\Functional\ApiTestCase;
 use DateTimeInterface;
+use Symfony\Component\Uid\Uuid;
 use Zenstruck\Foundry\Test\Factories;
 use Zenstruck\Foundry\Test\ResetDatabase;
 
@@ -26,6 +27,17 @@ final class CardTest extends ApiTestCase
         $client->request('GET', "/decks/{$deck->id}/cards");
 
         self::assertResponseStatusCodeSame(401);
+    }
+
+    public function testGetCardCollectionOnNonexistentDeck(): void
+    {
+        $deckId = Uuid::v4();
+        $user = UserFactory::createOne();
+
+        $client = self::createAuthenticatedClient($user);
+        $client->request('GET', "/decks/{$deckId}/cards");
+
+        self::assertResponseStatusCodeSame(404);
     }
 
     public function testGetCardCollectionResult(): void
@@ -54,6 +66,20 @@ final class CardTest extends ApiTestCase
         ]);
     }
 
+    public function testGetCardItemOnNonexistentDeck(): void
+    {
+        $deckId = Uuid::v4();
+        $cardId = Uuid::v4();
+
+        $client = self::createClient();
+        $client->request('GET', "/decks/{$deckId}/cards/{$cardId}");
+
+        self::assertResponseStatusCodeSame(404);
+        self::assertJsonContains([
+            'detail' => 'Deck not found.',
+        ]);
+    }
+
     public function testGetCardItemWithInvalidId(): void
     {
         $deck = DeckFactory::createOne();
@@ -62,6 +88,23 @@ final class CardTest extends ApiTestCase
         $client->request('GET', "/decks/{$deck->id}/cards/1");
 
         self::assertResponseStatusCodeSame(404);
+        self::assertJsonContains([
+            'detail' => 'Invalid uri variables.',
+        ]);
+    }
+
+    public function testGetCardItemWithNonexistentCard(): void
+    {
+        $deck = DeckFactory::createOne();
+        $cardId = Uuid::v4();
+
+        $client = self::createClient();
+        $client->request('GET', "/decks/{$deck->id}/cards/{$cardId}");
+
+        self::assertResponseStatusCodeSame(404);
+        self::assertJsonContains([
+            'detail' => 'Not Found',
+        ]);
     }
 
     public function testGetCardItemWhenNotAuthenticated(): void
@@ -117,6 +160,22 @@ final class CardTest extends ApiTestCase
         ]);
 
         self::assertResponseStatusCodeSame(401);
+    }
+
+    public function testPostCardOnNonexistentDeck(): void
+    {
+        $user = UserFactory::createOne();
+        $deckId = Uuid::v4();
+
+        $client = self::createAuthenticatedClient($user);
+        $client->request('POST', "/decks/{$deckId}/cards", [
+            'json' => [],
+        ]);
+
+        self::assertResponseStatusCodeSame(404);
+        self::assertJsonContains([
+            'detail' => 'Deck not found.',
+        ]);
     }
 
     public function testPostCardOnAnotherUserDeck(): void
@@ -182,6 +241,18 @@ final class CardTest extends ApiTestCase
         ]);
     }
 
+    public function testDeleteCardOnNonexistentDeck(): void
+    {
+        $user = UserFactory::createOne();
+        $deckId = Uuid::v4();
+        $cardId = Uuid::v4();
+
+        $client = self::createAuthenticatedClient($user);
+        $client->request('DELETE', "/decks/{$deckId}/cards/{$cardId}");
+
+        self::assertResponseStatusCodeSame(404);
+    }
+
     public function testDeleteCardWhenNotAuthenticated(): void
     {
         $card = CardFactory::createOne();
@@ -191,6 +262,20 @@ final class CardTest extends ApiTestCase
 
         self::assertResponseStatusCodeSame(401);
         CardFactory::assert()->exists($card->id);
+    }
+
+    public function testDeleteCardWithNonexistentCard(): void
+    {
+        $deck = DeckFactory::createOne();
+        $cardId = Uuid::v4();
+
+        $client = self::createClient();
+        $client->request('DELETE', "/decks/{$deck->id}/cards/{$cardId}");
+
+        self::assertResponseStatusCodeSame(404);
+        self::assertJsonContains([
+            'detail' => 'Not Found',
+        ]);
     }
 
     public function testDeleteCardOfAnotherUserDeck(): void

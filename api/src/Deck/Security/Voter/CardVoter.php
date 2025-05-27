@@ -35,6 +35,6 @@ final class CardVoter extends Voter
             return false;
         }
 
-        return $user === $subject->deck?->owner;
+        return $user === $subject->deck->owner;
     }
 }

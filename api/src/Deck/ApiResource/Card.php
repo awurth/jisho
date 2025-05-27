@@ -10,8 +10,9 @@ use ApiPlatform\Metadata\Get;
 use ApiPlatform\Metadata\GetCollection;
 use ApiPlatform\Metadata\Link;
 use ApiPlatform\Metadata\Post;
-use App\Deck\State\CardProcessor;
 use App\Deck\State\CardProvider;
+use App\Deck\State\DeleteCardProcessor;
+use App\Deck\State\PostCardProcessor;
 use App\Deck\Validator\UniqueCardEntry;
 use App\Dictionary\ApiResource\Entry;
 use DateTimeImmutable;
@@ -60,7 +61,7 @@ use Symfony\Component\Uid\Uuid;
             ],
             security: 'is_granted("CARD_CREATE", object.deck)',
             provider: CardProvider::class,
-            processor: CardProcessor::class,
+            processor: PostCardProcessor::class,
         ),
         // new Patch(
         //     uriTemplate: '/decks/{id}',
@@ -91,7 +92,7 @@ use Symfony\Component\Uid\Uuid;
             ],
             security: 'is_granted("CARD_DELETE", object)',
             provider: CardProvider::class,
-            processor: CardProcessor::class,
+            processor: DeleteCardProcessor::class,
         ),
     ],
 )]
@@ -101,11 +102,13 @@ final class Card
     #[Groups('card:read')]
     public Uuid $id;
 
-    public ?Deck $deck = null;
-
     #[Groups(['card:read', 'card:write', 'question:read'])]
     public Entry $entry;
 
     #[Groups(['card:read'])]
     public DateTimeImmutable $addedAt;
+
+    public function __construct(public readonly Deck $deck)
+    {
+    }
 }

@@ -10,9 +10,7 @@ use App\Common\Entity\Dictionary\Entry as EntryEntity;
 use App\Common\Repository\Deck\DeckRepository;
 use App\Common\Repository\Dictionary\EntryRepository;
 use App\Deck\ApiResource\Card;
-use App\Deck\ApiResource\Deck;
 use App\Dictionary\DataTransformer\EntryDataTransformer;
-use InvalidArgumentException;
 use RuntimeException;
 
 final readonly class CardDataTransformer
@@ -27,9 +25,8 @@ final readonly class CardDataTransformer
 
     public function transformEntityToApiResource(CardEntity $entity): Card
     {
-        $card = new Card();
+        $card = new Card(deck: $this->deckDataTransformer->transformEntityToApiResource($entity->deck));
         $card->id = $entity->id;
-        $card->deck = $this->deckDataTransformer->transformEntityToApiResource($entity->deck);
         $card->entry = $this->entryDataTransformer->transformEntityToApiResource($entity->entry);
         $card->addedAt = $entity->addedAt;
 
@@ -38,10 +35,6 @@ final readonly class CardDataTransformer
 
     public function transformApiResourceToEntity(Card $resource): CardEntity
     {
-        if (!$resource->deck instanceof Deck) {
-            throw new InvalidArgumentException('Deck should be set.');
-        }
-
         $deckEntity = $this->deckRepository->find($resource->deck->id);
         if (!$deckEntity instanceof DeckEntity) {
             throw new RuntimeException('Deck not found.');
