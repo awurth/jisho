@@ -6,6 +6,7 @@ use Rector\Config\RectorConfig;
 use Rector\PHPUnit\Set\PHPUnitSetList;
 
 return RectorConfig::configure()
+    ->withParallel()
     ->withPaths([
         __DIR__.'/src',
         __DIR__.'/tests',
