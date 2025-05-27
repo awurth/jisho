@@ -43,3 +43,7 @@ prettier:
 # Execute all linters
 [group('tools')]
 lint: rector php-cs-fixer prettier phpstan
+
+# Execute code style linters
+[group('tools')]
+cs: rector php-cs-fixer prettier
