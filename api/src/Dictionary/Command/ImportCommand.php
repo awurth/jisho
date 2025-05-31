@@ -5,29 +5,24 @@ declare(strict_types=1);
 namespace App\Dictionary\Command;
 
 use App\Dictionary\JMDict\JMDictImporter;
-use Override;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
-use Symfony\Component\Console\Input\InputInterface;
-use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\DependencyInjection\Attribute\Autowire;
 
 #[AsCommand(
     name: 'app:import',
     description: 'Import JMDict file',
 )]
-final class ImportCommand extends Command
+final readonly class ImportCommand
 {
     public function __construct(
-        private readonly JMDictImporter $importer,
+        private JMDictImporter $importer,
         #[Autowire(param: 'kernel.project_dir')]
-        private readonly string $projectDir,
+        private string $projectDir,
     ) {
-        parent::__construct();
     }
 
-    #[Override]
-    protected function execute(InputInterface $input, OutputInterface $output): int
+    public function __invoke(): int
     {
         $this->importer->import("$this->projectDir/data/JMdict.xml");
 

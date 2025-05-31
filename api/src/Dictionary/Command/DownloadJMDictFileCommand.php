@@ -4,12 +4,9 @@ declare(strict_types=1);
 
 namespace App\Dictionary\Command;
 
-use Override;
 use RuntimeException;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
-use Symfony\Component\Console\Input\InputInterface;
-use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 use Symfony\Component\DependencyInjection\Attribute\Autowire;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
@@ -21,20 +18,17 @@ use function fwrite;
     name: 'app:download-jmdict-file',
     description: 'Index dictionary entries',
 )]
-final class DownloadJMDictFileCommand extends Command
+final readonly class DownloadJMDictFileCommand
 {
     public function __construct(
-        private readonly HttpClientInterface $httpClient,
+        private HttpClientInterface $httpClient,
         #[Autowire(param: 'kernel.project_dir')]
-        private readonly string $projectDir,
+        private string $projectDir,
     ) {
-        parent::__construct();
     }
 
-    #[Override]
-    protected function execute(InputInterface $input, OutputInterface $output): int
+    public function __invoke(SymfonyStyle $io): int
     {
-        $io = new SymfonyStyle($input, $output);
         $progressBar = $io->createProgressBar(100);
         $progressBar->start();
 
